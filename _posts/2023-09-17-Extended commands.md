@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Extended commands
-subtitle: Each post also has a subtitle
+title: 扩展命令
+subtitle: 意外发现的命令
 categories: markdown
 tags: [ Linux ]
 ---
