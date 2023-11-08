@@ -76,6 +76,11 @@ yat:
 # lang: "en"  # default lang is en
 lang: zh-CN
 
+translate_langs:
+  - lang: zh-CN
+    img: https://cdn.countryflags.com/thumbs/china/flag-400.png
+    text: Chinese(Simple)
+    
 # Translate languges
 # langs refer to https://cloud.google.com/translate/docs/languages
 # translate_langs:
