@@ -24,7 +24,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: My personal blog
+title: Fattt blog
 email: 1522544392@qq.com
 author: FAtGuy101
 
@@ -48,7 +48,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Google search results) and in your feed.xml site description.
 
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. https://example.com
+url: "https://fattt.org.edu.kg/" # the base hostname & protocol for your site, e.g. https://example.com
 favicon: "" # the favicon for your site
 
 # Yat date format
@@ -74,6 +74,7 @@ yat:
 
 # If you want to change site language, you can set lang option
 # lang: "en"  # default lang is en
+lang: zh-CN
 
 # Translate languges
 # langs refer to https://cloud.google.com/translate/docs/languages
