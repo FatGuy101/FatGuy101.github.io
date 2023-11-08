@@ -3,6 +3,7 @@ layout: post
 title: Docker搭建MySQL主从
 subtitle: 一主两从
 categories: Linux
+author: fattt
 tags: [Docker]
 ---
 
