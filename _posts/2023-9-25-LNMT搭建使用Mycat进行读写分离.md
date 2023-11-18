@@ -1,3 +1,11 @@
+---
+layout: post
+title: LNMT搭建使用Mycat进行读写分离
+subtitle: 小项目
+categories: markdown
+tags: [Linux,LNMT]
+---
+
 ### 架构图
 
 ![架构图](https://picss.sunbangyan.cn/2023/11/14/712967c1d1f73a270dd89ef777846d4b.png)
