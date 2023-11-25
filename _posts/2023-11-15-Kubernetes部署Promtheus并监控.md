@@ -866,4 +866,6 @@ grafana使用配置好的账号密码登录
 
 监控模板
 
+Dashboards -> Manage -> Import -> 输入仪表盘ID -> Load
+
 ![](https://picss.sunbangyan.cn/2023/11/25/a1d7e7ad82a4b8d67a39208f10c976cd.jpeg)
