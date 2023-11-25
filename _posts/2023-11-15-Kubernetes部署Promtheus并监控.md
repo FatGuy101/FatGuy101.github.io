@@ -10,7 +10,9 @@ tags: [Kubernetes]
 
 ### 集群搭建
 
-[Kubernetes集群搭建]: https://fattt.org.edu.kg/markdown/2023/11/05/K8s%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA.html	"Kubernetes集群搭建"
+参考之前写的Kubernetes集群搭建
+
+https://fattt.org.edu.kg/markdown/2023/11/05/K8s%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA.html#h-kubernetes%E5%A4%9Amaster%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA
 
 这里使用多master的k8s集群
 
