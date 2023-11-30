@@ -2,7 +2,9 @@
 layout: post
 title: CICD
 subtitle: 使用Jenkins+Gitlab
-categories: markdown
+categories: Linux
+author: FatGuy010
+permalink: /2023/05/15/CICD
 tags: [Linux]
 ---
 
