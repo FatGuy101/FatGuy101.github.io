@@ -3,7 +3,8 @@ layout: post
 title: Docker搭建MySQL主从
 subtitle: 一主两从
 categories: Linux
-author: fattt
+author: FatGuy010
+permalink: /2023/07/1/DockerBuildsMySQLMaster&Slave
 tags: [Docker]
 ---
 

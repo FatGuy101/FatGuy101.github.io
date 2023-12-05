@@ -2,7 +2,9 @@
 layout: post
 title: LNMT搭建使用Mycat进行读写分离
 subtitle: 小项目
-categories: markdown
+categories: Linux
+author: FatGuy010
+permalink: /2023/02/25/LNMTRead&WriteSplitting
 tags: [Linux,LNMT]
 ---
 
