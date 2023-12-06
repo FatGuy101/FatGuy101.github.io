@@ -14,7 +14,7 @@ tags: [Kubernetes]
 
 参考之前写的Kubernetes集群搭建
 
-https://fattt.org.edu.kg/2023/09/25/DeployKubernetesCluster
+[https://fattt.org.edu.kg/2023/09/25/DeployKubernetesCluster](https://fattt.org.edu.kg/2023/09/25/DeployKubernetesCluster)
 
 这里使用多master的k8s集群
 
