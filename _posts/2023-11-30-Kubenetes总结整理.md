@@ -52,9 +52,9 @@ tags: [ 面试 ]
 
 1. 一个pod中可以部署多个容器，多个容器之间共享网络，通过localhost就可以通信,共享文件资源。每个pod中除了运行的应用容器外，每个pod内部都存在一个特殊的Pause容器。
 
-   [![pi2AgpD.png](https://z1.ax1x.com/2023/12/08/pi2AgpD.png)](https://imgse.com/i/pi2AgpD)
+   [![pi4AzWt.png](https://s11.ax1x.com/2023/12/15/pi4AzWt.png)](https://imgse.com/i/pi4AzWt)
 
-2. Pasu 容器通过 `kubectl  get pods` 是看不到的，需要在 对应节点的下通过 `docker ps | grep` "pod名称"才可看到
+2. Pasu 容器通过 `kubectl get pods` 是看不到的，需要在 对应节点的下通过 `docker ps | grep` "pod名称"才可看到
 
 3. 每个pod内部都会部署一个Pause特殊容器,pod在启动容器时会优先启动这个特殊容器,可以将这个特殊容器看成用来管理同一pod下的其它应用容器的,它负责了: **创建和占用pod的NetworkNamespace网络命名空间和PID命名空间:**
 
@@ -116,20 +116,19 @@ tags: [ 面试 ]
 
    - 未知Unknown：apiserver无法正常获取到pod对象的状态信息，通常由网络通信失败所致
 
-3. **Pod的创建过程详解:**
-
+3. Pod的创建过程详解:
    - 用户通过kubectl或其他api客户端提交需要创建的pod信息给apiServer
-
+   
    - apiServer开始生成pod对象的信息，并将信息存入etcd，然后返回确认信息至客户端
-
+   
    - apiServer开始反映etcd中的pod对象的变化，其他组件使用watch机制来跟踪检查apiServer上的变动
-
+   
    - scheduler发现有新的pod对象要创建，开始为pod分配足迹并将结果更新只apiServer
-
+   
    - node节点上的kubectl发现有pod调度过来，尝试调用docker启动容器，并将结果回送至apiServer
-
+   
    - apiServer将接收到的pod状态信息存入etcd中
-
+   
 4. Pod的终止过程详解:
 
    - 用户向apiServer发送删除pod对象的命令,执行`kubectl delete {pod_id}`删除老pod
@@ -150,7 +149,7 @@ tags: [ 面试 ]
 
 ## 静态Pod
 
-kl8s中pod分为静态pod与动态pod,我们使用k8s指定部署的应用pod称为动态pod,而k8s这个服务中的基础设施启动需要的pod称为静态pod, 在/etc/kubernetes/manifests位置放了创建这些静态pod的Pod.yaml文件，机器启动kubelet自己就把他启动起来。静态Pod一直守护在他的这个机器上
+kl8s中pod分为静态pod与动态pod,我们使用k8s指定部署的应用pod称为动态pod,而k8s这个服务中的基础设施启动需要的pod称为静态pod, 在`/etc/kubernetes/manifests`位置放了创建这些静态pod的Pod.yaml文件，机器启动kubelet自己就把他启动起来。静态Pod一直守护在他的这个机器上
 
 
 
@@ -338,7 +337,7 @@ spec:
 
 ## K8s 面试题整理:
 
-**1、 k8s是什么？请说出你的了解**？**
+**1、 k8s是什么？请说出你的了解**？
 
 答：Kubernetes是一个针对容器应用，进行自动部署，弹性伸缩和管理的开源系统。主要功能是生产环境中的容器编排。
 
@@ -712,7 +711,7 @@ container-runtime：是负责管理运行容器的软件，比如docker
 
 
 
-**52、怎样进行水平自动扩展（Horizontal Autoscaling）？**
+**52、怎样进行水平自动扩展（Horizontal Pod Autoscaling）？**
 
 答：可以使用Horizontal Pod Autoscaler（HPA）对象来自动根据CPU或其他指标水平扩展Pod副本的数量。
 
