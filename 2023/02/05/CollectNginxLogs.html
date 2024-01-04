@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>收集nginx日志 | Fattt blog</title>
+<meta name="generator" content="Jekyll v4.3.3">
+<meta property="og:title" content="收集nginx日志">
+<meta name="author" content="FatGuy010">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="使用filebeat+kafka+logstash收集nginx日志">
+<meta property="og:description" content="使用filebeat+kafka+logstash收集nginx日志">
+<link rel="canonical" href="https://fattt.org.edu.kg//jekyll-theme-yat/2023/02/05/CollectNginxLogs">
+<meta property="og:url" content="https://fattt.org.edu.kg//jekyll-theme-yat/2023/02/05/CollectNginxLogs">
+<meta property="og:site_name" content="Fattt blog">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-02-05T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="收集nginx日志">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"FatGuy010"},"dateModified":"2023-02-05T00:00:00+00:00","datePublished":"2023-02-05T00:00:00+00:00","description":"使用filebeat+kafka+logstash收集nginx日志","headline":"收集nginx日志","mainEntityOfPage":{"@type":"WebPage","@id":"https://fattt.org.edu.kg//jekyll-theme-yat/2023/02/05/CollectNginxLogs"},"url":"https://fattt.org.edu.kg//jekyll-theme-yat/2023/02/05/CollectNginxLogs"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="">
+  <link rel="canonical" href="https://fattt.org.edu.kg/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://fattt.org.edu.kg//jekyll-theme-yat/feed.xml" title="Fattt blog">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js" async></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js" async></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css" rel="stylesheet">
+<style>
+  .pswp .pswp__container .pswp__img {
+    background-color: white;
+  }
+</style>
+
+<script>
+  function initPhotoSwipe() {
+    let customOptions = {};
+
+    try {
+      const data = ``.replaceAll("=>", ":");
+      customOptions = JSON.parse(data);
+    } catch (e) {
+      console.info("Invalid custom photo previewer options! " + e.message);
+    }
+
+    // Define object and gallery options
+    const options = Object.assign(
+      {
+        gallery: "section.main",
+        children: "a.photo-swipe",
+        photo_scale: 2,
+        // dynamic import is not supported in UMD version
+        pswpModule: PhotoSwipe,
+      },
+      customOptions
+    );
+
+    const galleryEl = document.querySelector(options.gallery);
+    if (!galleryEl) {
+      return;
+    }
+
+    const imgEls = [];
+    const els = galleryEl.querySelectorAll("img:not(.emoji)");
+    els.forEach((el) => {
+      if (el.src.trim() == "") {
+        return;
+      }
+      if (!imgEls.includes(el)) {
+        imgEls.push(el);
+      }
+    });
+
+    if (imgEls.length === 0) {
+      return;
+    }
+
+    imgEls.forEach((imgEl) => {
+      imgEl.outerHTML = `
+      <a class="photo-swipe"
+        href="${imgEl.src}"
+        data-pswp-width="${
+          Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
+        }"
+        data-pswp-height="${
+          Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
+        }"
+        data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
+        target="_blank">
+        ${imgEl.outerHTML}
+      </a>`;
+    });
+
+    // Initialize PhotoSwipe 5
+    var lightbox = new PhotoSwipeLightbox(options);
+
+    lightbox.init();
+  }
+
+  window.addEventListener("load", initPhotoSwipe);
+</script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Fattt blog" src="" onerror="this.style.display='none'">
+  Fattt blog
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">ABOUT</a><a class="page-link" href="/jekyll-theme-yat/archives.html">ARCHIVES</a><a class="page-link" href="/jekyll-theme-yat/categories.html">CATEGORIES</a><a class="page-link" href="/jekyll-theme-yat/">HOME</a><a class="page-link" href="/jekyll-theme-yat/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">收集nginx日志</h1>
+  <h2 class="post-subtitle">使用filebeat+kafka+logstash</h2>
+
+  <div class="post-meta">
+    <time class="dt-published" datetime="2023-02-05T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Feb 05, 2023
+    </time><span class="post-author left-vsplit"><i class="fa fa-pencil"></i> FatGuy010</span>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 5 mins</span>
+  </div>
+<div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#Linux">#Linux</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h2 id="使用filebeatkafkalogstash收集nginx日志">使用filebeat+kafka+logstash收集nginx日志</h2>
+
+<h3 id="图示">图示</h3>
+
+<p><img src="https://i.postimg.cc/8zsz6HFw/lkf.jpg" alt=""></p>
+
+<h3 id="环境">环境</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>host</th>
+      <th>ip</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>nginx-filebeat</td>
+      <td>192.168.25.139</td>
+    </tr>
+    <tr>
+      <td>nginx-filebeat</td>
+      <td>192.168.25.140</td>
+    </tr>
+    <tr>
+      <td>kafka</td>
+      <td>192.168.25.151</td>
+    </tr>
+    <tr>
+      <td>kafka</td>
+      <td>192.168.25.152</td>
+    </tr>
+    <tr>
+      <td>kafka</td>
+      <td>192.168.25.153</td>
+    </tr>
+    <tr>
+      <td>logstash</td>
+      <td>192.168.25.150</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="a记录解析">A记录解析</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> /etc/hosts <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.25.139 mysql139
+192.168.25.140 server140
+192.168.25.150 server150
+192.168.25.151 server151
+192.168.25.152 jumpserver152
+192.168.25.153 server153
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<h3 id="nginx-filebeat">nginx-filebeat</h3>
+
+<p>配置nginx源</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/yum.repos.d/nginx.repo
+
+<span class="o">[</span>nginx-stable]
+<span class="nv">name</span><span class="o">=</span>nginx stable repo
+<span class="nv">baseurl</span><span class="o">=</span>http://nginx.org/packages/centos/<span class="nv">$releasever</span>/<span class="nv">$basearch</span>/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
+<span class="nv">gpgkey</span><span class="o">=</span>https://nginx.org/keys/nginx_signing.key
+<span class="nv">module_hotfixes</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div></div>
+
+<p>安装nginx</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> nginx
+</code></pre></div></div>
+
+<p>安装filebeat</p>
+
+<p>附上官方地址：https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.8.0-x86_64.rpm</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum localinstall <span class="nt">-y</span> /tmp/filebeat-6.8.22-x86_64.rpm
+</code></pre></div></div>
+
+<p>nginx主配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/nginx/nginx.conf
+
+user  nginx<span class="p">;</span>
+worker_processes  auto<span class="p">;</span>
+error_log  /var/log/nginx/error.log notice<span class="p">;</span>
+pid        /var/run/nginx.pid<span class="p">;</span>
+
+events <span class="o">{</span>
+    worker_connections  1024<span class="p">;</span>
+<span class="o">}</span>
+
+http <span class="o">{</span>
+    include       /etc/nginx/mime.types<span class="p">;</span>
+    default_type  application/octet-stream<span class="p">;</span>
+
+log_format  main   <span class="s1">'{"remote_addr":"$remote_addr","remote_user":"$remote_user",'</span>
+                   <span class="s1">'"time_local":"$time_local","request":"$request","status":"$status",'</span>
+                   <span class="s1">'"body_size":"$body_bytes_sent","referer":"$http_referer","agent":"$http_user_agent",'</span>
+                   <span class="s1">'"x_forwarded":"$http_x_forwarded_for"}'</span><span class="p">;</span>
+
+    access_log  /var/log/nginx/access.log  main<span class="p">;</span>
+    sendfile        on<span class="p">;</span>
+    keepalive_timeout  65<span class="p">;</span>
+    include /etc/nginx/conf.d/<span class="k">*</span>.conf<span class="p">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>nginx子配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/nginx/conf.d/default.conf
+
+server <span class="o">{</span>
+    listen       80<span class="p">;</span>
+    server_name  localhost<span class="p">;</span>
+    access_log  /var/log/nginx/web.access.log  main<span class="p">;</span>
+
+    location / <span class="o">{</span>
+        root   /usr/share/nginx/html<span class="p">;</span>
+        index  index.html index.htm<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>启动nginx</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart nginx
+</code></pre></div></div>
+
+<p>filebeat配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>filebeat.inputs:
+- <span class="nb">type</span>: log
+  enabled: <span class="nb">true
+  </span>paths:
+    - /var/log/nginx/<span class="k">*</span>access.log<span class="k">*</span>
+  tags: <span class="o">[</span><span class="s2">"nginx_access"</span><span class="o">]</span>
+  exclude_files: <span class="o">[</span><span class="s1">'.gz$'</span>,<span class="s1">'.zip'</span>,<span class="s1">'.bz2'</span><span class="o">]</span>
+  json.keys_under_root: <span class="nb">true
+  </span>json.overwrite_keys: <span class="nb">true
+
+</span>output.kafka:
+  hosts:
+    - 192.168.25.151:9092
+    - 192.168.25.152:9092
+    - 192.168.25.153:9092
+  topic: nginx
+  required_acks: 1
+  broker_timeout: 3
+  max_message_bytes: 102400000
+  compression: <span class="s2">"gzip"</span>
+  max_retries: 3
+  worker: 3
+  partition.round_robin:
+    reachable_only: <span class="nb">false</span>
+
+</code></pre></div></div>
+
+<p>启动filebeat</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart filebeat.service
+</code></pre></div></div>
+
+<h3 id="kafka集群">kafka集群</h3>
+
+<p>配置jdk</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xf</span> /tmp/jdk-8u201-linux-x64.tar.gz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /usr/local/jdk1.8.0_201/ /usr/local/jdk1.8
+</code></pre></div></div>
+
+<p>配置jdk环境变量</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/profile.d/jdk1.8.sh
+
+<span class="c">#! /bin/bash</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/local/jdk1.8
+<span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/lib/tools.jar:<span class="nv">$JAVA_HOME</span>/lib/dt.jar:<span class="nv">$JAVA_HOME</span>/lib
+<span class="nv">PATH</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$PATH</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">.</span> /etc/profile
+</code></pre></div></div>
+
+<p>安装kafka</p>
+
+<p>附上官方地址：https://archive.apache.org/dist/kafka/2.5.0/kafka_2.13-2.5.0.tgz</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xf</span> /tmp/kafka_2.13-2.5.0.tgz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /usr/local/kafka_2.13-2.5.0 /usr/local/kafka
+</code></pre></div></div>
+
+<p>配置kafka环境变量</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/profile.d/kafka.sh
+
+<span class="c">#! /bin/bash</span>
+<span class="nv">PATH</span><span class="o">=</span>/usr/local/kafka/bin/:<span class="k">${</span><span class="nv">PATH</span><span class="k">}</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> /etc/profile
+</code></pre></div></div>
+
+<p>修改zookeeper配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /usr/local/kafka/config/zookeeper.properties
+
+<span class="nv">dataDir</span><span class="o">=</span>/tmp/zookeeper
+<span class="nv">clientPort</span><span class="o">=</span>2181
+<span class="nv">maxClientCnxns</span><span class="o">=</span>0
+conflicts.
+admin.enableServer<span class="o">=</span><span class="nb">false
+</span><span class="nv">tickTime</span><span class="o">=</span>2000
+<span class="nv">initLimit</span><span class="o">=</span>5
+<span class="nv">syncLimit</span><span class="o">=</span>5
+server.1<span class="o">=</span>192.168.25.151:2888:3888
+server.2<span class="o">=</span>192.168.25.152:2888:3888
+server.3<span class="o">=</span>192.168.25.153:2888:3888
+</code></pre></div></div>
+
+<p>根据zookeeper配置文件的“server.1/2/3” 写入myid</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> /tmp/zookeeper
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">echo </span>1 <span class="o">&gt;</span> /tmp/zookeeper/myid
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo </span>2 <span class="o">&gt;</span> /tmp/zookeeper/myid
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo </span>3 <span class="o">&gt;</span> /tmp/zookeeper/myid
+</code></pre></div></div>
+
+<p>启动zookeeper</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zookeeper-server-start.sh <span class="nt">-daemon</span> /usr/local/kafka/config/zookeeper.properties
+</code></pre></div></div>
+
+<p>kadka配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /usr/local/kafka/config/server.properties
+
+<span class="c">#id唯一</span>
+broker.id<span class="o">=</span>151
+<span class="c">#修改成对应的host</span>
+<span class="nv">listeners</span><span class="o">=</span>PLAINTEXT://192.168.25.151:9092
+num.network.threads<span class="o">=</span>3
+num.io.threads<span class="o">=</span>8
+socket.send.buffer.bytes<span class="o">=</span>102400
+socket.receive.buffer.bytes<span class="o">=</span>102400
+socket.request.max.bytes<span class="o">=</span>104857600
+log.dirs<span class="o">=</span>/tmp/kafka-logs
+num.partitions<span class="o">=</span>1
+num.recovery.threads.per.data.dir<span class="o">=</span>1
+offsets.topic.replication.factor<span class="o">=</span>1
+transaction.state.log.replication.factor<span class="o">=</span>1
+transaction.state.log.min.isr<span class="o">=</span>1
+log.retention.hours<span class="o">=</span>168
+log.segment.bytes<span class="o">=</span>1073741824
+log.retention.check.interval.ms<span class="o">=</span>300000
+<span class="c">#添加集群</span>
+zookeeper.connect<span class="o">=</span>192.168.25.151:2181,192.168.25.152:2181,192.168.25.153:2181
+zookeeper.connection.timeout.ms<span class="o">=</span>18000
+group.initial.rebalance.delay.ms<span class="o">=</span>0
+</code></pre></div></div>
+
+<p>启动kafka</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">nohup</span> /usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties &amp;&gt;&gt; /usr/local/kafka/logs/kafka.log &amp;
+</code></pre></div></div>
+
+<p>创建kafka的topic主题</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kafka-topics.sh <span class="nt">--bootstrap-server</span> server151:9092,server153:9092,jumpserver152:9092 <span class="nt">--create</span> <span class="nt">--topic</span> nginx <span class="nt">--partitions</span> 3 <span class="nt">--replication-factor</span> 3 <span class="nt">--config</span>  cleanup.policy<span class="o">=</span>delete <span class="nt">--config</span> retention.ms<span class="o">=</span>36000000
+</code></pre></div></div>
+
+<p>查看创建的topic详细信息</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kafka-topics.sh <span class="nt">--bootstrap-server</span> server151:9092,server153:9092,jumpserver152:9092 <span class="nt">--describe</span>
+</code></pre></div></div>
+
+<p>查看传来的数据</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kafka-console-consumer.sh <span class="nt">--bootstrap-server</span> 192.168.25.141:9092 <span class="nt">--topic</span> nginx <span class="nt">--from-beginning</span>
+</code></pre></div></div>
+
+<h3 id="logstash">logstash</h3>
+
+<p>配置jdk环境</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xf</span> /tmp/jdk-8u201-linux-x64.tar.gz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /usr/local/jdk1.8.0_201 /usr/local/jdk1.8
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/profile.d/jdk.sh
+
+<span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/local/jdk1.8
+<span class="nv">JRE_HOME</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/jre
+<span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$JRE_HOME</span>/bin
+<span class="nv">CLASSPATH</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/lib/dt.jar:<span class="nv">$JAVA_HOME</span>/lib/tools.jar:<span class="nv">$JRE_HOME</span>/lib
+<span class="nb">export </span>JAVA_HOME JRE_HOME CLASSPATH
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">.</span> /etc/profile
+</code></pre></div></div>
+
+<p>安装logstash</p>
+
+<p>附上官方地址：https://artifacts.elastic.co/downloads/logstash/logstash-6.8.0.rpm</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> /tmp/logstash-6.8.22.rpm
+</code></pre></div></div>
+
+<p>配置环境变量</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/profile.d/logstash.sh
+
+<span class="c">#! /bin/bash</span>
+<span class="nv">PATH</span><span class="o">=</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span>:/usr/share/logstash/bin/
+</code></pre></div></div>
+
+<p>制作软链接</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ln</span> <span class="nt">-s</span> /usr/share/logstash/bin/logstash /usr/bin/
+</code></pre></div></div>
+
+<p>编写logstash配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input <span class="o">{</span>
+  kafka <span class="o">{</span>
+    bootstrap_servers <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"192.168.25.151:9092,192.168.25.152:9092,192.168.25.153:9092"</span><span class="o">]</span>
+    group_id <span class="o">=&gt;</span> <span class="s2">"nginx"</span>
+    topics <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"nginx"</span><span class="o">]</span>
+    codec <span class="o">=&gt;</span> json
+    consumer_threads <span class="o">=&gt;</span> 3
+    decorate_events <span class="o">=&gt;</span> <span class="nb">false</span>
+ <span class="o">}</span>
+<span class="o">}</span>
+
+filter <span class="o">{</span>
+   geoip <span class="o">{</span>
+       <span class="nb">source</span> <span class="o">=&gt;</span> <span class="s2">"cip"</span>
+       target <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"geoip"</span><span class="o">]</span>
+       fields <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"location"</span>,<span class="s2">"country_name"</span>,<span class="s2">"city_name"</span><span class="o">]</span>
+   <span class="o">}</span>
+
+   mutate <span class="o">{</span>
+      remove_field <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"input"</span>,<span class="s2">"beat"</span>,<span class="s2">"log"</span>,<span class="s2">"@version"</span>,<span class="s2">"prospector"</span>,<span class="s2">"offset"</span>,<span class="s2">"method"</span><span class="o">]</span>
+   <span class="o">}</span>
+   <span class="nb">date</span> <span class="o">{</span>
+      match <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">"timestamp"</span>,<span class="s2">"dd/MMM/yyyy:HH:mm:ss Z"</span><span class="o">]</span>
+      <span class="nv">target</span><span class="o">=&gt;</span> <span class="s2">"@timestamp"</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+
+output <span class="o">{</span>
+    stdout <span class="o">{}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>启动logstash在前台显示</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logstash <span class="nt">-f</span> /etc/logstash/conf.d/lkf.conf
+</code></pre></div></div>
+
+<p>多实例</p>
+
+<p>创建数据目录</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> /var/lib/logstash/data<span class="o">{</span>1..10<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">chown</span> <span class="nt">-R</span> logstash:logstash /var/lib/logstash/
+</code></pre></div></div>
+
+<p>指定不同的数据目录启动多实例</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logstash <span class="nt">-f</span> /etc/logstash/conf.d/lkf.conf <span class="nt">--path</span>.data /var/lib/logstash/data1
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logstash <span class="nt">-f</span> /etc/logstash/conf.d/lkf.conf <span class="nt">--path</span>.data /var/lib/logstash/data2
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logstash <span class="nt">-f</span> /etc/logstash/conf.d/lkf.conf <span class="nt">--path</span>.data /var/lib/logstash/data3
+</code></pre></div></div>
+
+<p>以此类推</p>
+
+<p>后续可以在继续加上elasticsearch集群和kibana可视化界面，这里暂时直接输出到控制台</p>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/MySQL" title="MySQL基础">MySQL基础</a><a class="next" href="/jekyll-theme-yat/2023/02/25/LNMTRead&amp;WriteSplitting" title="LNMT搭建使用Mycat进行读写分离">LNMT搭建使用Mycat进行读写分离</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li class="">
+          <a class="post-link" href="/jekyll-theme-yat/InterviewQuestions" title="面试题">
+            面试题<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2022/09/17/ExtensionCommand" title="扩展命令">
+            扩展命令<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/MySQL" title="MySQL基础">
+            MySQL基础<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/07/1/DockerBuildsMySQLMaster&amp;Slave" title="Docker搭建MySQL主从">
+            Docker搭建MySQL主从<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2022-2024 FatGuy101</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

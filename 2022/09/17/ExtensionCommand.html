@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>扩展命令 | Fattt blog</title>
+<meta name="generator" content="Jekyll v4.3.3">
+<meta property="og:title" content="扩展命令">
+<meta name="author" content="FatGuy010">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="mkpasswd 命令生成随机复杂密码">
+<meta property="og:description" content="mkpasswd 命令生成随机复杂密码">
+<link rel="canonical" href="https://fattt.org.edu.kg//jekyll-theme-yat/2022/09/17/ExtensionCommand">
+<meta property="og:url" content="https://fattt.org.edu.kg//jekyll-theme-yat/2022/09/17/ExtensionCommand">
+<meta property="og:site_name" content="Fattt blog">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-09-17T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="扩展命令">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"FatGuy010"},"dateModified":"2023-09-17T00:00:00+00:00","datePublished":"2023-09-17T00:00:00+00:00","description":"mkpasswd 命令生成随机复杂密码","headline":"扩展命令","mainEntityOfPage":{"@type":"WebPage","@id":"https://fattt.org.edu.kg//jekyll-theme-yat/2022/09/17/ExtensionCommand"},"url":"https://fattt.org.edu.kg//jekyll-theme-yat/2022/09/17/ExtensionCommand"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="">
+  <link rel="canonical" href="https://fattt.org.edu.kg/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://fattt.org.edu.kg//jekyll-theme-yat/feed.xml" title="Fattt blog">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js" async></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js" async></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css" rel="stylesheet">
+<style>
+  .pswp .pswp__container .pswp__img {
+    background-color: white;
+  }
+</style>
+
+<script>
+  function initPhotoSwipe() {
+    let customOptions = {};
+
+    try {
+      const data = ``.replaceAll("=>", ":");
+      customOptions = JSON.parse(data);
+    } catch (e) {
+      console.info("Invalid custom photo previewer options! " + e.message);
+    }
+
+    // Define object and gallery options
+    const options = Object.assign(
+      {
+        gallery: "section.main",
+        children: "a.photo-swipe",
+        photo_scale: 2,
+        // dynamic import is not supported in UMD version
+        pswpModule: PhotoSwipe,
+      },
+      customOptions
+    );
+
+    const galleryEl = document.querySelector(options.gallery);
+    if (!galleryEl) {
+      return;
+    }
+
+    const imgEls = [];
+    const els = galleryEl.querySelectorAll("img:not(.emoji)");
+    els.forEach((el) => {
+      if (el.src.trim() == "") {
+        return;
+      }
+      if (!imgEls.includes(el)) {
+        imgEls.push(el);
+      }
+    });
+
+    if (imgEls.length === 0) {
+      return;
+    }
+
+    imgEls.forEach((imgEl) => {
+      imgEl.outerHTML = `
+      <a class="photo-swipe"
+        href="${imgEl.src}"
+        data-pswp-width="${
+          Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
+        }"
+        data-pswp-height="${
+          Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
+        }"
+        data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
+        target="_blank">
+        ${imgEl.outerHTML}
+      </a>`;
+    });
+
+    // Initialize PhotoSwipe 5
+    var lightbox = new PhotoSwipeLightbox(options);
+
+    lightbox.init();
+  }
+
+  window.addEventListener("load", initPhotoSwipe);
+</script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Fattt blog" src="" onerror="this.style.display='none'">
+  Fattt blog
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">ABOUT</a><a class="page-link" href="/jekyll-theme-yat/archives.html">ARCHIVES</a><a class="page-link" href="/jekyll-theme-yat/categories.html">CATEGORIES</a><a class="page-link" href="/jekyll-theme-yat/">HOME</a><a class="page-link" href="/jekyll-theme-yat/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">扩展命令</h1>
+  <h2 class="post-subtitle">意外发现的命令</h2>
+
+  <div class="post-meta">
+    <time class="dt-published" datetime="2023-09-17T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Sep 17, 2023
+    </time><span class="post-author left-vsplit"><i class="fa fa-pencil"></i> FatGuy010</span>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 7 mins</span>
+  </div>
+<div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#Linux">#Linux</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h2 id="mkpasswd-命令生成随机复杂密码">mkpasswd 命令生成随机复杂密码</h2>
+
+<p>mkpasswd命令生成随机复杂密码，前提安装expect，然后执行mkpasswd命令即可生成随机的密码。</p>
+
+<p>一、基本的命令安装
+安装expect：   yum install -y expect</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-l #      (密码的长度定义, 默认是 9)
+-d #      (数字个数, 默认是 2)
+-c #      (小写字符, 默认是 3)
+-C #      (大写字符, 默认是 2)
+-s #      (特殊字符, 默认是  1)
+-v        (详细。。。)
+-p prog   (程序设置密码, 默认是 passwd)
+</code></pre></div></div>
+
+<p>详细参数，用如下命令查看：</p>
+
+<p>创建了一个长度为20位,包括数字个数5个，包含小写字母个数5个，包含大写字母个数5个，包含特殊符号个数5个。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkpasswd  -l 20 -d 5 -c 5 -C 5 -s 5 
+Z}K7hp0UPJ6v@&amp;,c5{d3
+</code></pre></div></div>
+
+<p>随机密码最短只能7位（两个数字，两个小写字母，两个大写字母，一个特殊符号）</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkpasswd -l 5
+impossible to generate 5-character password with 2 numbers, 2 lowercase letters, 2 uppercase letters and 1 special characters.
+
+</code></pre></div></div>
+
+<h2 id="bc-计算器">bc 计算器</h2>
+
+<p>bc 命令是任意精度计算器语言，通常在linux下当计算器用。它类似基本的计算器, 使用这个计算器可以做基本的数学运算。</p>
+
+<ul>
+  <li>-i：强制进入交互式模式；</li>
+  <li>-l：定义使用的标准数学库</li>
+  <li>； -w：对POSIX bc的扩展给出警告信息；</li>
+  <li>-q：不打印正常的GNU bc环境信息；</li>
+  <li>-v：显示指令版本信息；</li>
+  <li>
+    <p>-h：显示指令的帮助信息。</p>
+  </li>
+  <li>quit： 退出</li>
+</ul>
+
+<p><strong>通过管道符</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo "15+5" | bc
+20
+</code></pre></div></div>
+
+<p>scale=2 设小数位，2 代表保留两位:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo 'scale=2; (2.777 - 1.4744)/1' | bc
+1.30
+</code></pre></div></div>
+
+<p>bc 除了 scale 来设定小数位之外，还有 ibase 和 obase 来其它进制的运算:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo "ibase=2;111" |bc
+7
+</code></pre></div></div>
+
+<p><strong>进制转换</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+
+abc=192 
+echo "obase=2;$abc" | bc
+</code></pre></div></div>
+
+<p>执行结果为：11000000，这是用bc将十进制转换成二进制。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash 
+
+abc=11000000 
+echo "obase=10;ibase=2;$abc" | bc
+</code></pre></div></div>
+
+<p>执行结果为：192，这是用bc将二进制转换为十进制。</p>
+
+<p>计算平方和平方根：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo "10^10" | bc 
+10000000000
+$ echo "sqrt(100)" | bc
+10
+</code></pre></div></div>
+
+<h2 id="ack-文本搜索工具">ack 文本搜索工具</h2>
+
+<p>比grep好用的文本搜索工具</p>
+
+<p><a href="https://jaywcjlove.gitee.io/linux-command/c/ack.html">原链接</a></p>
+
+<p><a href="https://beyondgrep.com/">官网</a></p>
+
+<p><strong>安装</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ubuntu下要安装ack-grep，因为在debian系中，ack这个名字被其他的软件占用了。</span>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>ack-grep
+
+<span class="c"># alpine Linux-apk软件包管理器 安装 ack</span>
+apk <span class="nb">install </span>ack
+
+<span class="c"># Centos7 要准备好epel源</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> ack.noarch
+</code></pre></div></div>
+
+<p><strong>参数</strong></p>
+
+<p>这些参数在linux上的适用频率是相当高的，尤其是你用vim做为IDE的话</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-n</span>, 显示行号
+<span class="nt">-l</span>, 显示匹配的文件名
+<span class="nt">-L</span>, 显示不匹配的文件名
+<span class="nt">-c</span>, 统计次数
+<span class="nt">-w</span>, 词匹配
+<span class="nt">-i</span>, 忽略大小写
+<span class="nt">-f</span>, 只显示文件名,不进行搜索.
+<span class="nt">-h</span>, 不显示名称
+<span class="nt">-v</span>, 显示不匹配
+</code></pre></div></div>
+
+<p><strong>特点</strong></p>
+
+<p>ack官网列出了这工具的5大卖点：</p>
+
+<ol>
+  <li>速度非常快,因为它只搜索有意义的东西。</li>
+  <li>更友好的搜索，忽略那些不是你源码的东西。</li>
+  <li>为源代码搜索而设计，用更少的击键完成任务。</li>
+  <li>非常轻便，移植性好。</li>
+  <li>免费且开源</li>
+</ol>
+
+<p><strong>实例</strong></p>
+
+<p>grep常用操作</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">grep</span> <span class="nt">-r</span> <span class="s1">'hello_world'</span> <span class="c"># 简单用法</span>
+<span class="nb">grep</span> <span class="s1">'^hello_world'</span> <span class="nb">.</span> <span class="c"># 简单正则</span>
+<span class="nb">ls</span> <span class="nt">-l</span> | <span class="nb">grep</span> .py <span class="c"># 管道用法</span>
+</code></pre></div></div>
+
+<p><strong>搜索</strong></p>
+
+<p>简单的文本搜索，默认是递归的。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ack hello
+ack -i hello
+ack -v hello
+ack -w hello
+ack -Q 'hello*'
+</code></pre></div></div>
+
+<p><strong>搜索文件</strong></p>
+
+<p>对搜索结果进行处理，比如只显示一个文件的一个匹配项，或者xxx</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ack <span class="nt">--line</span><span class="o">=</span>1       <span class="c"># 输出当前目录下所有文件第一行</span>
+ack <span class="nt">-l</span> <span class="s1">'hello'</span>     <span class="c"># 包含查询内容的文件名</span>
+ack <span class="nt">-L</span> <span class="s1">'hello'</span>     <span class="c"># 非包含查询内容的文件名</span>
+</code></pre></div></div>
+
+<p><strong>文件演示</strong></p>
+
+<p>输出的结果是以什么方式展示呢，这个部分有几个参数可以练习下</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ack hello <span class="nt">--pager</span><span class="o">=</span><span class="s1">'less -R'</span>    <span class="c"># 以less形式展示</span>
+ack hello <span class="nt">--noheading</span>      <span class="c"># 不在头上显示文件</span>
+ack hello <span class="nt">--nocolor</span>        <span class="c"># 不对匹配字符着色</span>
+</code></pre></div></div>
+
+<p><strong>文件查找</strong></p>
+
+<p>没错，它可以查找文件，以省去你要不断的结合find和grep的麻烦，虽然在linux的思想是一个工具做好一件事。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ack <span class="nt">-f</span> hello.py     <span class="c"># 查找全匹配文件</span>
+ack <span class="nt">-g</span> hello.py<span class="nv">$ </span>   <span class="c"># 查找正则匹配文件</span>
+ack <span class="nt">-g</span> hello  <span class="nt">--sort-files</span>     <span class="c"># 查找然后排序</span>
+</code></pre></div></div>
+
+<p><strong>文件包含/排除</strong></p>
+
+<p>文件过滤，个人觉得这是一个很不错的功能。如果你曾经在搜索项目源码是不小心命中日志中的某个关键字的话，你会觉得这个有用。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ack <span class="nt">--python</span> hello       <span class="c"># 查找所有python文件</span>
+ack <span class="nt">-G</span> hello.py<span class="nv">$ </span>hello   <span class="c"># 查找匹配正则的文件</span>
+</code></pre></div></div>
+
+<p><strong>ack支持的文件类型</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ack <span class="nt">--help-types</span>
+</code></pre></div></div>
+
+<p><strong>更多扩搜索展</strong></p>
+
+<p>[知乎上找的]</p>
+
+<h2 id="pigz--解压缩文件">pigz  解压缩文件</h2>
+
+<p>可以用来解压缩文件，gzip的并行实现升级版</p>
+
+<p><strong>补充说明</strong></p>
+
+<p><strong>pigz命令</strong>可以用来解压缩文件，最重要的是支持多线程并行处理，解压缩比gzip快。</p>
+
+<p><a href="http://zlib.net/pigz/">主页</a></p>
+
+<p><strong>语法</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pigz <span class="o">[</span> <span class="nt">-cdfhikKlLmMnNqrRtz0</span>..9,11 <span class="o">]</span> <span class="o">[</span> <span class="nt">-b</span> blocksize <span class="o">]</span> <span class="o">[</span> <span class="nt">-p</span> threads <span class="o">]</span> <span class="o">[</span> <span class="nt">-S</span> suffix <span class="o">]</span> <span class="o">[</span> name ...  <span class="o">]</span>
+unpigz <span class="o">[</span> <span class="nt">-cfhikKlLmMnNqrRtz</span> <span class="o">]</span> <span class="o">[</span> <span class="nt">-b</span> blocksize <span class="o">]</span> <span class="o">[</span> <span class="nt">-p</span> threads <span class="o">]</span> <span class="o">[</span> <span class="nt">-S</span> suffix <span class="o">]</span> <span class="o">[</span> name ...  <span class="o">]</span>
+</code></pre></div></div>
+
+<p><strong>参数</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-0</span> to <span class="nt">-9</span>, <span class="nt">-11</span>       <span class="c"># Compression level (level 11, zopfli, is much slower)</span>
+<span class="nt">--fast</span>, <span class="nt">--best</span>      <span class="c"># Compression levels 1 and 9 respectively</span>
+<span class="nt">-b</span>, <span class="nt">--blocksize</span> mmm <span class="c"># Set compression block size to mmmK (default 128K)</span>
+<span class="nt">-c</span>, <span class="nt">--stdout</span>        <span class="c"># Write all processed output to stdout (won't delete)</span>
+<span class="nt">-d</span>, <span class="nt">--decompress</span>    <span class="c"># Decompress the compressed input</span>
+<span class="nt">-f</span>, <span class="nt">--force</span>         <span class="c"># Force overwrite, compress .gz, links, and to terminal</span>
+<span class="nt">-F</span>  <span class="nt">--first</span>         <span class="c"># Do iterations first, before block split for -11</span>
+<span class="nt">-h</span>, <span class="nt">--help</span>          <span class="c"># Display a help screen and quit</span>
+<span class="nt">-i</span>, <span class="nt">--independent</span>   <span class="c"># Compress blocks independently for damage recovery</span>
+<span class="nt">-I</span>, <span class="nt">--iterations</span> n  <span class="c"># Number of iterations for -11 optimization</span>
+<span class="nt">-J</span>, <span class="nt">--maxsplits</span> n   <span class="c"># Maximum number of split blocks for -11</span>
+<span class="nt">-k</span>, <span class="nt">--keep</span>          <span class="c"># Do not delete original file after processing</span>
+<span class="nt">-K</span>, <span class="nt">--zip</span>           <span class="c"># Compress to PKWare zip (.zip) single entry format</span>
+<span class="nt">-l</span>, <span class="nt">--list</span>          <span class="c"># List the contents of the compressed input</span>
+<span class="nt">-L</span>, <span class="nt">--license</span>       <span class="c"># Display the pigz license and quit</span>
+<span class="nt">-m</span>, <span class="nt">--no-time</span>       <span class="c"># Do not store or restore mod time</span>
+<span class="nt">-M</span>, <span class="nt">--time</span>          <span class="c"># Store or restore mod time</span>
+<span class="nt">-n</span>, <span class="nt">--no-name</span>       <span class="c"># Do not store or restore file name or mod time</span>
+<span class="nt">-N</span>, <span class="nt">--name</span>          <span class="c"># Store or restore file name and mod time</span>
+<span class="nt">-O</span>  <span class="nt">--oneblock</span>      <span class="c"># Do not split into smaller blocks for -11</span>
+<span class="nt">-p</span>, <span class="nt">--processes</span> n   <span class="c"># Allow up to n compression threads (default is the number of online processors, or 8 if unknown)</span>
+<span class="nt">-q</span>, <span class="nt">--quiet</span>         <span class="c"># Print no messages, even on error</span>
+<span class="nt">-r</span>, <span class="nt">--recursive</span>     <span class="c"># Process the contents of all subdirectories</span>
+<span class="nt">-R</span>, <span class="nt">--rsyncable</span>     <span class="c"># Input-determined block locations for rsync</span>
+<span class="nt">-S</span>, <span class="nt">--suffix</span> .sss   <span class="c"># Use suffix .sss instead of .gz (for compression)</span>
+<span class="nt">-t</span>, <span class="nt">--test</span>          <span class="c"># Test the integrity of the compressed input</span>
+<span class="nt">-v</span>, <span class="nt">--verbose</span>       <span class="c"># Provide more verbose output</span>
+<span class="nt">-V</span>  <span class="nt">--version</span>       <span class="c"># Show the version of pigz</span>
+<span class="nt">-Y</span>  <span class="nt">--synchronous</span>   <span class="c"># Force output file write to permanent storage</span>
+<span class="nt">-z</span>, <span class="nt">--zlib</span>          <span class="c"># Compress to zlib (.zz) instead of gzip format</span>
+<span class="nt">--</span>                  <span class="c"># All arguments after "--" are treated as files</span>
+</code></pre></div></div>
+
+<p><strong>实例</strong></p>
+
+<p>可以结合<code class="language-plaintext highlighter-rouge">tar</code>使用, 压缩命令</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-cvf</span> - dir1 dir2 dir3 | pigz <span class="nt">-p</span> 8 <span class="o">&gt;</span> output.tgz
+</code></pre></div></div>
+
+<p>解压命令</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pigz <span class="nt">-p</span> 8 <span class="nt">-d</span> output.tgz
+</code></pre></div></div>
+
+<p>如果是gzip格式，也支持用tar解压</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xzvf</span> output.tgz
+</code></pre></div></div>
+
+<h2 id="tgpt--命令行的人工智能">tgpt  命令行的人工智能</h2>
+
+<p><a href="https://github.com/aandrew-me/tgpt">命令的GitHub地址</a></p>
+
+<p>安装命令</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-sSL</span> https://raw.githubusercontent.com/aandrew-me/tgpt/main/install | bash <span class="nt">-s</span> /usr/local/bin
+</code></pre></div></div>
+
+<p>-h 查看帮助</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Usage: tgpt <span class="o">[</span>Flag] <span class="o">[</span>Prompt]
+
+Flags:
+<span class="nt">-s</span>, <span class="nt">--shell</span>                                        Generate and Execute shell commands. <span class="o">(</span>Experimental<span class="o">)</span> 
+<span class="nt">-c</span>, <span class="nt">--code</span>                                         Generate Code. <span class="o">(</span>Experimental<span class="o">)</span>
+<span class="nt">-q</span>, <span class="nt">--quiet</span>                                        Gives response back without loading animation
+<span class="nt">-w</span>, <span class="nt">--whole</span>                                        Gives response back as a whole text
+<span class="nt">-img</span>, <span class="nt">--image</span>                                      Generate images from text
+
+Options:
+<span class="nt">-f</span>, <span class="nt">--forget</span>                                       Forget Chat ID 
+<span class="nt">-v</span>, <span class="nt">--version</span>                                      Print version 
+<span class="nt">-h</span>, <span class="nt">--help</span>                                         Print <span class="nb">help </span>message 
+<span class="nt">-i</span>, <span class="nt">--interactive</span>                                  Start normal interactive mode 
+<span class="nt">-m</span>, <span class="nt">--multiline</span>                                    Start multi-line interactive mode 
+<span class="nt">-cl</span>, <span class="nt">--changelog</span>                                   See changelog of versions 
+<span class="nt">-u</span>, <span class="nt">--update</span>                                       Update program 
+
+Examples:
+tgpt <span class="s2">"What is internet?"</span>
+tgpt <span class="nt">-f</span>
+tgpt <span class="nt">-m</span>
+tgpt <span class="nt">-s</span> <span class="s2">"How to update my system?"</span>
+</code></pre></div></div>
+
+<p>tgpt命令是基于3.5模型开发的，有些问题也是回答不上来的，不过有总比没有好</p>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/2023/09/10/InstallRedis" title="源码安装redis">源码安装redis</a><a class="next" href="/jekyll-theme-yat/2023/09/19/InstallPHP" title="源码安装php">源码安装php</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/09/03/CephCluster" title="ceph集群搭建与监控">
+            ceph集群搭建与监控<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2022/07/19/NewMachineUse" title="新机器使用">
+            新机器使用<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2022/09/17/ExtensionCommand" title="扩展命令">
+            扩展命令<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/K8sInterviewQuestions" title="有关Kubernetes的面试题">
+            有关Kubernetes的面试题<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2022-2024 FatGuy101</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

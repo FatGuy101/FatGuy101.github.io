@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>LNMT搭建使用Mycat进行读写分离 | Fattt blog</title>
+<meta name="generator" content="Jekyll v4.3.3">
+<meta property="og:title" content="LNMT搭建使用Mycat进行读写分离">
+<meta name="author" content="FatGuy010">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="架构图">
+<meta property="og:description" content="架构图">
+<link rel="canonical" href="https://fattt.org.edu.kg//jekyll-theme-yat/2023/02/25/LNMTRead&amp;WriteSplitting">
+<meta property="og:url" content="https://fattt.org.edu.kg//jekyll-theme-yat/2023/02/25/LNMTRead&amp;WriteSplitting">
+<meta property="og:site_name" content="Fattt blog">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-02-25T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="LNMT搭建使用Mycat进行读写分离">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"FatGuy010"},"dateModified":"2023-02-25T00:00:00+00:00","datePublished":"2023-02-25T00:00:00+00:00","description":"架构图","headline":"LNMT搭建使用Mycat进行读写分离","mainEntityOfPage":{"@type":"WebPage","@id":"https://fattt.org.edu.kg//jekyll-theme-yat/2023/02/25/LNMTRead&WriteSplitting"},"url":"https://fattt.org.edu.kg//jekyll-theme-yat/2023/02/25/LNMTRead&WriteSplitting"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="">
+  <link rel="canonical" href="https://fattt.org.edu.kg/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://fattt.org.edu.kg//jekyll-theme-yat/feed.xml" title="Fattt blog">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js" async></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js" async></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css" rel="stylesheet">
+<style>
+  .pswp .pswp__container .pswp__img {
+    background-color: white;
+  }
+</style>
+
+<script>
+  function initPhotoSwipe() {
+    let customOptions = {};
+
+    try {
+      const data = ``.replaceAll("=>", ":");
+      customOptions = JSON.parse(data);
+    } catch (e) {
+      console.info("Invalid custom photo previewer options! " + e.message);
+    }
+
+    // Define object and gallery options
+    const options = Object.assign(
+      {
+        gallery: "section.main",
+        children: "a.photo-swipe",
+        photo_scale: 2,
+        // dynamic import is not supported in UMD version
+        pswpModule: PhotoSwipe,
+      },
+      customOptions
+    );
+
+    const galleryEl = document.querySelector(options.gallery);
+    if (!galleryEl) {
+      return;
+    }
+
+    const imgEls = [];
+    const els = galleryEl.querySelectorAll("img:not(.emoji)");
+    els.forEach((el) => {
+      if (el.src.trim() == "") {
+        return;
+      }
+      if (!imgEls.includes(el)) {
+        imgEls.push(el);
+      }
+    });
+
+    if (imgEls.length === 0) {
+      return;
+    }
+
+    imgEls.forEach((imgEl) => {
+      imgEl.outerHTML = `
+      <a class="photo-swipe"
+        href="${imgEl.src}"
+        data-pswp-width="${
+          Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
+        }"
+        data-pswp-height="${
+          Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
+        }"
+        data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
+        target="_blank">
+        ${imgEl.outerHTML}
+      </a>`;
+    });
+
+    // Initialize PhotoSwipe 5
+    var lightbox = new PhotoSwipeLightbox(options);
+
+    lightbox.init();
+  }
+
+  window.addEventListener("load", initPhotoSwipe);
+</script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Fattt blog" src="" onerror="this.style.display='none'">
+  Fattt blog
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">ABOUT</a><a class="page-link" href="/jekyll-theme-yat/archives.html">ARCHIVES</a><a class="page-link" href="/jekyll-theme-yat/categories.html">CATEGORIES</a><a class="page-link" href="/jekyll-theme-yat/">HOME</a><a class="page-link" href="/jekyll-theme-yat/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">LNMT搭建使用Mycat进行读写分离</h1>
+  <h2 class="post-subtitle">小项目</h2>
+
+  <div class="post-meta">
+    <time class="dt-published" datetime="2023-02-25T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Feb 25, 2023
+    </time><span class="post-author left-vsplit"><i class="fa fa-pencil"></i> FatGuy010</span>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 9 mins</span>
+  </div>
+<div class="post-tags">
+<a class="post-tag" href="/jekyll-theme-yat/tags.html#Linux">#Linux</a><a class="post-tag" href="/jekyll-theme-yat/tags.html#LNMT">#LNMT</a>
+</div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h3 id="架构图">架构图</h3>
+
+<p><img src="https://picss.sunbangyan.cn/2023/11/14/712967c1d1f73a270dd89ef777846d4b.png" alt="架构图"></p>
+
+<h3 id="环境配置">环境配置</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">host</th>
+      <th>ip</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">nginx</td>
+      <td>192.168.25.150</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">tomcat+maven</td>
+      <td>192.168.25.151</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">myact+mysqlslave</td>
+      <td>192.168.25.152</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">mysqlmaster</td>
+      <td>192.168.25.153</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>使用到的源码包，上传到对应主机的/tmp目录下</p>
+
+<p><strong>jdk</strong>：jdk-8u201-linux-x64.tar.gz</p>
+
+<p>下载：https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html</p>
+
+<p>别人的地址(速度快)：https://mirrors.huaweicloud.com/java/jdk/8u201-b09/jdk-8u201-linux-x64.tar.gz</p>
+
+<p><strong>mycat</strong>：Mycat-server-1.6.5-release-20180122220033-linux.tar.gz</p>
+
+<p>下载：http://dl.mycat.org.cn/1.6.5/Mycat-server-1.6.5-release-20180122220033-linux.tar.gz</p>
+
+<p><strong>tomcat</strong>：apache-tomcat-8.5.93.tar.gz</p>
+
+<p>下载：https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.93/bin/apache-tomcat-8.5.93.tar.gz</p>
+
+<p><strong>maven</strong>：apache-maven-3.9.4-bin.tar.gz</p>
+
+<p>下载：http://archive.apache.org/dist/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.tar.gz</p>
+
+<h3 id="nginx安装与配置">nginx安装与配置</h3>
+
+<p>nginx安装</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#配置nginx源</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /etc/yum.repos.d/nginx.repo <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+[nginx-stable]
+name=nginx stable repo
+baseurl=http://nginx.org/packages/centos/</span><span class="nv">$releasever</span><span class="sh">/</span><span class="nv">$basearch</span><span class="sh">/
+gpgcheck=1
+enabled=1
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+</span><span class="no">EOF
+</span><span class="c">#安装nginx</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> nginx
+</code></pre></div></div>
+
+<h4 id="nginx配置">nginx配置</h4>
+
+<h5 id="nginxconf">nginx.conf</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#nginx主配置文件</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /etc/nginx/nginx.conf <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+user  nginx;
+worker_processes  auto;
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+events {
+    use epoll;
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+    log_format  main  '</span><span class="nv">$remote_addr</span><span class="sh"> - </span><span class="nv">$remote_user</span><span class="sh"> [</span><span class="nv">$time_local</span><span class="sh">] "</span><span class="nv">$request</span><span class="sh">" '
+                      '</span><span class="nv">$status</span><span class="sh"> </span><span class="nv">$body_bytes_sent</span><span class="sh"> "</span><span class="nv">$http_referer</span><span class="sh">" '
+                      '"</span><span class="nv">$http_user_agent</span><span class="sh">" "</span><span class="nv">$http_x_forwarded_for</span><span class="sh">"';
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    tcp_nopush     on;
+    keepalive_timeout  65;
+    gzip  on;
+    include /etc/nginx/conf.d/*.conf;
+
+    upstream tomcatServer {
+       server 192.168.25.151:8080 weight=1  max_fails=3  fail_timeout=10;
+    }
+}
+</span></code></pre></div></div>
+
+<h5 id="defaultconf">default.conf</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#nginx子配置文件</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /etc/nginx/conf.d/test.conf <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+proxy_cache_path /etc/nginx/zrlog_cache levels=1:2 keys_zone=zrlog_cache:100m max_size=10g inactive=1d use_temp_path=off;
+proxy_headers_hash_max_size  2048;
+proxy_headers_hash_bucket_size  512;
+
+server {
+    listen      8888;
+    server_name  www.test.com;
+    access_log  /var/log/nginx/zrlog.access.log  main;
+
+    charset utf-8;
+
+    proxy_buffering on;
+    proxy_buffer_size  128k;
+    proxy_buffers      32  16k;
+    proxy_send_timeout  30s;
+    proxy_read_timeout  30s;
+    proxy_connect_timeout   5s;
+
+    location / {
+        proxy_pass   http://tomcatServer;
+        proxy_set_header Host    </span><span class="nv">$host</span><span class="sh">;
+        proxy_set_header X-Real-IP </span><span class="nv">$remote_addr</span><span class="sh">;
+    }
+
+    location ~ </span><span class="se">\.\(</span><span class="sh">html|htm)</span><span class="se">\$</span><span class="sh"> {
+        proxy_pass   http://tomcatServer;
+    }
+}
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#设置开机自启并启动nginx</span>
+systemctl <span class="nb">enable</span> <span class="nt">--now</span> nginx
+</code></pre></div></div>
+
+<h3 id="jdk配置">jdk配置</h3>
+
+<p>分别在tomcat和mycat主机上配置jdk</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#解压jdk</span>
+<span class="nb">tar</span> <span class="nt">-xf</span> /tmp/jdk-8u201-linux-x64.tar.gz <span class="nt">-C</span> /usr/local/
+<span class="c">#给jdk文件更名</span>
+<span class="nb">mv</span> /usr/local/jdk1.8.0_201 /usr/local/jdk1.8
+<span class="c">#jdk环境配置</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /etc/profile.d/jdk.sh <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+JAVA_HOME=/usr/local/jdk1.8
+JRE_HOME=</span><span class="nv">$JAVA_HOME</span><span class="sh">/jre
+PATH=</span><span class="nv">$PATH</span><span class="sh">:</span><span class="nv">$JAVA_HOME</span><span class="sh">/bin:</span><span class="nv">$JRE_HOME</span><span class="sh">/bin
+CLASSPATH=</span><span class="nv">$JAVA_HOME</span><span class="sh">/lib/dt.jar:</span><span class="nv">$JAVA_HOME</span><span class="sh">/lib/tools.jar:</span><span class="nv">$JRE_HOME</span><span class="sh">/lib
+export JAVA_HOME JRE_HOME CLASSPATH
+</span><span class="no">EOF
+</span><span class="c">#使jdk环境变量生效</span>
+<span class="nb">.</span> /etc/profile
+</code></pre></div></div>
+
+<h3 id="tomcat安装与配置">tomcat安装与配置</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#解压tomcat</span>
+<span class="nb">tar</span> <span class="nt">-xf</span> /tmp/apache-tomcat-8.5.93.tar.gz <span class="nt">-C</span> /opt/
+<span class="c">#给tomcat文件名更名</span>
+<span class="nb">mv</span> /opt/apache-tomcat-8.5.93 /opt/tomcat-8.5
+<span class="c">#编写一个tomcat命令，方便启动，重启和关闭</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /usr/bin/tomcat <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+#! /bin/bash
+if [ </span><span class="nv">$# </span><span class="sh">-ne 1 ]
+then
+    echo "use error.  use : tomcat  start/stop/restart" &gt;&amp;2;
+    exit 1
+fi
+case </span><span class="nv">$1</span><span class="sh"> in
+    start)
+        /opt/tomcat-8.5/bin/startup.sh
+        ;;
+    stop)
+        /opt/tomcat-8.5/bin/shutdown.sh 
+        ;;
+    restart)
+        /opt/tomcat-8.5/bin/shutdown.sh
+        sleep  0.2
+        /opt/tomcat-8.5/bin/startup.sh
+        ;;
+    *)
+        echo   "tomcat  start/stop/restart"
+        exit 2
+        ;;
+esac
+exit 0
+</span><span class="no">EOF
+</span><span class="c">#给tomcat命令执行权限</span>
+<span class="nb">chmod </span>a+x /usr/bin/tomcat
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#启动tomcat</span>
+tomcat start
+</code></pre></div></div>
+
+<h3 id="关于war包">关于war包</h3>
+
+<p>一般由开发者提供war包</p>
+
+<p>有整个源代码也可以自行打包成war包,使用maven打包</p>
+
+<h4 id="maven安装与配置">maven安装与配置</h4>
+
+<h5 id="maven安装">maven安装</h5>
+
+<p>这里我安装在tomcat机器上，一方面是要jdk环境，另一方面是方便代码发布</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#解压maven</span>
+<span class="nb">tar</span> <span class="nt">-xf</span> /tmp/apache-maven-3.9.4-bin.tar.gz <span class="nt">-C</span> /usr/local
+<span class="c">#给maven更名</span>
+<span class="nb">mv</span> /usr/local/apache-maven-3.9.4 /usr/local/maven
+<span class="c">#编写maven环境配置</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /etc/profile.d/maven.sh <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+#! /bin/bash
+
+export MAVEN_HOME=/usr/local/maven
+export PATH=</span><span class="nv">$MAVEN_HOME</span><span class="sh">/bin:</span><span class="nv">$PATH</span><span class="sh">
+</span><span class="no">EOF
+</span><span class="c">#使maven环境变量生效</span>
+<span class="nb">source</span> /etc/profile
+</code></pre></div></div>
+
+<h5 id="maven配置">maven配置</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#修改镜像</span>
+vim /usr/local/maven/conf/settings.xml 
+<span class="c">#源镜像在文件约160行</span>
+<span class="c">#注释掉或删掉原来的镜像并改成下面阿里的镜像</span>
+&lt;mirror&gt;
+    &lt;<span class="nb">id</span><span class="o">&gt;</span>aliyunmaven&lt;/id&gt;
+    &lt;mirrorOf&gt;<span class="k">*</span>&lt;/mirrorOf&gt;
+    &lt;name&gt;阿里云公共仓库&lt;/name&gt;
+    &lt;url&gt;https://maven.aliyun.com/repository/public&lt;/url&gt;
+&lt;/mirror&gt;
+</code></pre></div></div>
+
+<p>java项目连接数据库文件 application.properties</p>
+
+<p>这里指定mycat的工作ip:8066，数据库为mycat逻辑库</p>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">spring.datasource.driver-class-name</span><span class="p">=</span><span class="s">com.mysql.jdbc.Driver</span>
+<span class="py">spring.datasource.url</span><span class="p">=</span><span class="s">jdbc:mysql://192.168.25.152:8066/TESTDB?characterEncoding=UTF-8</span>
+<span class="py">spring.datasource.username</span><span class="p">=</span><span class="s">root</span>
+<span class="py">spring.datasource.password</span><span class="p">=</span><span class="s">Ckc_123123</span>
+
+<span class="py">spring.jpa.hibernate.ddl-auto</span><span class="p">=</span><span class="s">update</span>
+<span class="py">spring.jpa.show-sql</span><span class="p">=</span><span class="s">true</span>
+</code></pre></div></div>
+
+<p>修改pom.xml, 添加打包方式为war包,即：</p>
+
+<packaging>war</packaging>
+
+<p>然后<strong>在有pom.xml文件</strong>的地方 进行maven打war包</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean package <span class="nt">-DskipTests</span>
+</code></pre></div></div>
+
+<p>把war包丢到tomcat的webapps目录下，tomcat会自动进行解压</p>
+
+<p>我这里的java项目名字叫 myweb</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#移除tomcat原本的主页</span>
+<span class="nb">mv</span> /opt/tomcat-8.5/webapps/ROOT /tmp
+<span class="c">#把打包好的war丢到tomcat的webapps目录下</span>
+<span class="nb">cp</span> /tmp/myweb/target/myweb-0.0.1-SNAPSHOT.war /opt/tomcat-8.5/webapps/ROOT.war
+</code></pre></div></div>
+
+<h3 id="mycat安装与配置">mycat安装与配置</h3>
+
+<h4 id="mycat安装">mycat安装</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#解压mycat源码包</span>
+<span class="nb">tar</span> <span class="nt">-xf</span> /tmp/Mycat-server-1.6.5-release-20180122220033-linux.tar.gz <span class="nt">-C</span> /usr/local/
+<span class="c">#创建mycat组</span>
+groupadd mycat
+<span class="c">#创建mycat用户</span>
+useradd <span class="nt">-g</span> mycat mycat 
+<span class="c">#设置mycat用户密码</span>
+<span class="nb">echo</span> <span class="se">\"</span>Ckc<span class="se">\_</span>123123<span class="se">\"</span> | passwd <span class="nt">--stdin</span> mycat
+<span class="c">#更改mycat目录的权限</span>
+<span class="nb">chown</span> <span class="nt">-Rf</span> mycat:mycat /usr/local/mycat
+<span class="c">#编写mycat的systemd来管理mycat</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /usr/lib/systemd/system/mycat.service <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+[Unit]
+Description=mycat Database Proxy
+Description=mycat
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+Restart=on-abort
+PIDFile=/usr/local/mycat/logs/mycat.pid
+ExecStart=/usr/local/mycat/bin/mycat start
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+</span><span class="no">EOF
+</span><span class="c">#修改mycat的wrapper.cnf里的java命令，设置成据对路径，可能会更稳定吧 </span>
+<span class="nb">sed</span> <span class="nt">-e</span> <span class="s1">'5s#wrapper.java.command=java#wrapper.java.command=/usr/local/jdk1.8/bin/java#'</span> /usr/local/mycat/conf/wrapper.conf
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#使编写mycat的systemd文件生效</span>
+systemctl daemon-reload
+<span class="c">#查看mycat状态，检查是否可以使用systemd进行管理</span>
+systemctl status mycat.service
+</code></pre></div></div>
+
+<h4 id="mycat配置">mycat配置</h4>
+
+<h5 id="serverxml">server.xml</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#mycat的server.xml文件</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /usr/local/mycat/conf/server.xml <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!-- - - Licensed under the Apache License, Version 2.0 (the "License");
+	- you may not use this file except in compliance with the License. - You
+	may obtain a copy of the License at - - http://www.apache.org/licenses/LICENSE-2.0
+	- - Unless required by applicable law or agreed to in writing, software -
+	distributed under the License is distributed on an "AS IS" BASIS, - WITHOUT
+	WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. - See the
+	License for the specific language governing permissions and - limitations
+	under the License. --&gt;
+&lt;!DOCTYPE mycat:server SYSTEM "server.dtd"&gt;
+&lt;mycat:server xmlns:mycat="http://io.mycat/"&gt;
+	&lt;system&gt;
+	&lt;property name="nonePasswordLogin"&gt;0&lt;/property&gt; &lt;!-- 0为需要密码登陆、1为不需要密码登陆 ,默认为0，设置为1则需要指定默认账户--&gt;
+	&lt;property name="useHandshakeV10"&gt;1&lt;/property&gt;
+	&lt;property name="useSqlStat"&gt;0&lt;/property&gt;  &lt;!-- 1为开启实时统计、0为关闭 --&gt;
+	&lt;property name="useGlobleTableCheck"&gt;0&lt;/property&gt;  &lt;!-- 1为开启全加班一致性检测、0为关闭 --&gt;
+
+		&lt;property name="sequnceHandlerType"&gt;2&lt;/property&gt;
+	&lt;property name="subqueryRelationshipCheck"&gt;false&lt;/property&gt; &lt;!-- 子查询中存在关联查询的情况下,检查关联字段中是否有分片字段 .默认 false --&gt;
+      &lt;!--  &lt;property name="useCompression"&gt;1&lt;/property&gt;--&gt; &lt;!--1为开启mysql压缩协议--&gt;
+        &lt;!--  &lt;property name="fakeMySQLVersion"&gt;5.6.20&lt;/property&gt;--&gt; &lt;!--设置模拟的MySQL版本号--&gt;
+	&lt;!-- &lt;property name="processorBufferChunk"&gt;40960&lt;/property&gt; --&gt;
+	&lt;!--
+	&lt;property name="processors"&gt;1&lt;/property&gt;
+	&lt;property name="processorExecutor"&gt;32&lt;/property&gt;
+	 --&gt;
+        &lt;!--默认为type 0: DirectByteBufferPool | type 1 ByteBufferArena| type 2 NettyBufferPool --&gt;
+		&lt;property name="processorBufferPoolType"&gt;0&lt;/property&gt;
+		&lt;!--默认是65535 64K 用于sql解析时最大文本长度 --&gt;
+		&lt;!--&lt;property name="maxStringLiteralLength"&gt;65535&lt;/property&gt;--&gt;
+		&lt;!--&lt;property name="sequnceHandlerType"&gt;0&lt;/property&gt;--&gt;
+		&lt;!--&lt;property name="backSocketNoDelay"&gt;1&lt;/property&gt;--&gt;
+		&lt;!--&lt;property name="frontSocketNoDelay"&gt;1&lt;/property&gt;--&gt;
+		&lt;!--&lt;property name="processorExecutor"&gt;16&lt;/property&gt;--&gt;
+		&lt;!--
+			&lt;property name="serverPort"&gt;8066&lt;/property&gt; &lt;property name="managerPort"&gt;9066&lt;/property&gt;
+			&lt;property name="idleTimeout"&gt;300000&lt;/property&gt; &lt;property name="bindIp"&gt;0.0.0.0&lt;/property&gt;
+			&lt;property name="frontWriteQueueSize"&gt;4096&lt;/property&gt; &lt;property name="processors"&gt;32&lt;/property&gt; --&gt;
+		&lt;!--分布式事务开关，0为不过滤分布式事务，1为过滤分布式事务（如果分布式事务内只涉及全局表，则不过滤），2为不过滤分布式事务,但是记录分布式事务日志--&gt;
+		&lt;property name="handleDistributedTransactions"&gt;0&lt;/property&gt;
+
+			&lt;!--
+			off heap for merge/order/group/limit      1开启  0关闭
+		--&gt;
+		&lt;property name="useOffHeapForMerge"&gt;1&lt;/property&gt;
+
+		&lt;!--
+			单位为m
+		--&gt;
+        &lt;property name="memoryPageSize"&gt;64k&lt;/property&gt;
+
+		&lt;!--
+			单位为k
+		--&gt;
+		&lt;property name="spillsFileBufferSize"&gt;1k&lt;/property&gt;
+
+		&lt;property name="useStreamOutput"&gt;0&lt;/property&gt;
+
+		&lt;!--
+			单位为m
+		--&gt;
+		&lt;property name="systemReserveMemorySize"&gt;384m&lt;/property&gt;
+
+
+		&lt;!--是否采用zookeeper协调切换  --&gt;
+		&lt;property name="useZKSwitch"&gt;false&lt;/property&gt;
+
+		&lt;!-- XA Recovery Log日志路径 --&gt;
+		&lt;!--&lt;property name="XARecoveryLogBaseDir"&gt;./&lt;/property&gt;--&gt;
+
+		&lt;!-- XA Recovery Log日志名称 --&gt;
+		&lt;!--&lt;property name="XARecoveryLogBaseName"&gt;tmlog&lt;/property&gt;--&gt;
+
+	&lt;/system&gt;
+
+	&lt;!-- 全局SQL防火墙设置 --&gt;
+	&lt;!--白名单可以使用通配符%或着*--&gt;
+	&lt;!--例如&lt;host host="127.0.0.*" user="root"/&gt;--&gt;
+	&lt;!--例如&lt;host host="127.0.*" user="root"/&gt;--&gt;
+	&lt;!--例如&lt;host host="127.*" user="root"/&gt;--&gt;
+	&lt;!--例如&lt;host host="1*7.*" user="root"/&gt;--&gt;
+	&lt;!--这些配置情况下对于127.0.0.1都能以root账户登录--&gt;
+	&lt;!--
+	&lt;firewall&gt;
+	   &lt;whitehost&gt;
+	      &lt;host host="1*7.0.0.*" user="root"/&gt;
+	   &lt;/whitehost&gt;
+       &lt;blacklist check="false"&gt;
+       &lt;/blacklist&gt;
+	&lt;/firewall&gt;
+	--&gt;
+    &lt;!--主要是这里的user部分，设定好密码和schema的逻辑库，逻辑库要与schema.xml的逻辑库对应--&gt;
+	&lt;user name="root" defaultAccount="true"&gt;
+		&lt;property name="password"&gt;Ckc_123123&lt;/property&gt;
+		&lt;property name="schemas"&gt;TESTDB&lt;/property&gt;
+
+		&lt;!-- 表级 DML 权限设置 --&gt;
+		&lt;!--
+		&lt;privileges check="false"&gt;
+			&lt;schema name="TESTDB" dml="0110" &gt;
+				&lt;table name="tb01" dml="0000"&gt;&lt;/table&gt;
+				&lt;table name="tb02" dml="1111"&gt;&lt;/table&gt;
+			&lt;/schema&gt;
+		&lt;/privileges&gt;
+		 --&gt;
+	&lt;/user&gt;
+    &lt;!--这里我不要监控用户，所以注释了--&gt;
+		&lt;!--
+	&lt;user name="user"&gt;
+		&lt;property name="password"&gt;user&lt;/property&gt;
+		&lt;property name="schemas"&gt;TESTDB&lt;/property&gt;
+		&lt;property name="readOnly"&gt;true&lt;/property&gt;
+	&lt;/user&gt;
+		 --&gt;
+&lt;/mycat:server&gt;
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<h5 id="schemaxml">schema.xml</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#mycat的schema.xml文件</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /opt/mycat/conf/schema.xml <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE mycat:schema SYSTEM "schema.dtd"&gt;
+&lt;mycat:schema xmlns:mycat="http://io.mycat/"&gt;
+        &lt;!--name为逻辑库，checkSQLschema不进行检查，没有进行分库分表就指定好dataNode--&gt;
+        &lt;schema name="TESTDB" checkSQLschema="false" sqlMaxLimit="100" dataNode="dn153"&gt;&lt;/schema&gt;
+        &lt;!--name为schema的dataNode名字，database为真实存在的库--&gt;
+        &lt;dataNode name="dn153" dataHost="192.168.25.153" database="testbookdb" /&gt;
+        &lt;!--这里要注意balance的4种用法和swithType的4种用法--&gt;
+        &lt;dataHost name="192.168.25.153" maxCon="1000" minCon="10" balance="3"
+                          writeType="0" dbType="mysql" dbDriver="native" switchType="1"  slaveThreshold="100"&gt;
+                &lt;!--心跳检查--&gt;
+                &lt;heartbeat&gt;select user()&lt;/heartbeat&gt;
+                &lt;!--写操作由mysqlmaster执行--&gt;
+                &lt;writeHost host="192.168.25.153" url="192.168.25.153:3306" user="root"
+                                   password="Ckc_123123"&gt;
+                        &lt;!--读操作由mysqlslave执行--&gt;
+                        &lt;readHost host="192.168.25.152" url="192.168.25.152:3306" user="root" password="Ckc_123123" /&gt;
+                &lt;/writeHost&gt;
+        &lt;/dataHost&gt;
+&lt;/mycat:schema&gt;
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<p>balance指的负载均衡类型，目前的取值有4种：</p>
+
+<ol>
+  <li>
+    <p>balance=”0”, 不开启读写分离机制，所有读操作都发送到当前可用的writeHost上。</p>
+  </li>
+  <li>
+    <p>balance=”1”，全部的readHost与stand by writeHost参与select语句的负载均衡，简单的说，当双主双从模式(M1-&gt;S1，M2-&gt;S2，并且M1与 M2互为主备)，正常情况下，M2,S1,S2都参与select语句的负载均衡。</p>
+  </li>
+  <li>
+    <p>balance=”2”，所有读操作都随机的在writeHost、readhost上分发。</p>
+  </li>
+  <li>
+    <p>balance=”3”，所有读请求随机的分发到wiriterHost对应的readhost执行，writerHost不负担读压力</p>
+  </li>
+</ol>
+
+<p>switchType指的是切换的模式，目前的取值也有4种：</p>
+
+<ol>
+  <li>
+    <p>switchType=’-1’ 表示不自动切换</p>
+  </li>
+  <li>
+    <p>switchType=’1’ 默认值，表示自动切换</p>
+  </li>
+  <li>
+    <p>switchType=’2’ 基于MySQL主从同步的状态决定是否切换,心跳语句为 show slave status</p>
+  </li>
+  <li>
+    <p>switchType=’3’基于MySQL galary cluster的切换机制（适合集群）（1.4.1），心跳语句为 show status like ‘wsrep%’。</p>
+  </li>
+</ol>
+
+<h5 id="log4j2xml">log4j2.xml</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#mycat的log4j2.xml</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> /opt/mycat/conf/log4j2.xml <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;Configuration status="WARN"&gt;
+    &lt;Appenders&gt;
+        &lt;Console name="Console" target="SYSTEM_OUT"&gt;
+            &lt;PatternLayout pattern="%d [%-5p][%t] %m %throwable{full} (%C:%F:%L) %n"/&gt;
+        &lt;/Console&gt;
+
+        &lt;RollingFile name="RollingFile" fileName="</span><span class="k">${</span><span class="nv">sys</span>:MYCAT_HOME<span class="k">}</span><span class="sh">/logs/mycat.log"
+                     filePattern="</span><span class="k">${</span><span class="nv">sys</span>:MYCAT_HOME<span class="k">}</span><span class="sh">/logs/</span><span class="nv">$$</span><span class="sh">{date:yyyy-MM}/mycat-%d{MM-dd}-%i.log.gz"&gt;
+        &lt;PatternLayout&gt;
+                &lt;Pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] (%l) - %m%n&lt;/Pattern&gt;
+            &lt;/PatternLayout&gt;
+            &lt;Policies&gt;
+                &lt;OnStartupTriggeringPolicy/&gt;
+                &lt;SizeBasedTriggeringPolicy size="250 MB"/&gt;
+                &lt;TimeBasedTriggeringPolicy/&gt;
+            &lt;/Policies&gt;
+        &lt;/RollingFile&gt;
+    &lt;/Appenders&gt;
+    &lt;Loggers&gt;
+        &lt;!--&lt;AsyncLogger name="io.mycat" level="info" includeLocation="true" additivity="false"&gt;--&gt;
+            &lt;!--&lt;AppenderRef ref="Console"/&gt;--&gt;
+            &lt;!--&lt;AppenderRef ref="RollingFile"/&gt;--&gt;
+        &lt;!--&lt;/AsyncLogger&gt;--&gt;
+        &lt;!--把level改成debug，可以通过日志看到更多的信息--&gt;
+        &lt;asyncRoot level="debug" includeLocation="true"&gt;
+
+            &lt;!--&lt;AppenderRef ref="Console" /&gt;--&gt;
+            &lt;AppenderRef ref="RollingFile"/&gt;
+
+        &lt;/asyncRoot&gt;
+    &lt;/Loggers&gt;
+&lt;/Configuration&gt;
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<h3 id="mysql安装与主从配置">MySQL安装与主从配置</h3>
+
+<h4 id="mysql安装">mysql安装</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#官网的yum源，我这里直接通过rpm安装了</span>
+rpm <span class="nt">-ivh</span> https://dev.mysql.com/get/mysql80-community-release-el7-11.noarch.rpm
+<span class="c">#去掉mysql8.0的repo</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'5s/0/1/g'</span> /etc/yum.repos.d/mysql-community.repo
+<span class="c">#开启mysql5.7的repo</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'14s/1/0/g'</span> /etc/yum.repos.d/mysql-community.repo
+<span class="c">#安装mysql5.7</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server mysql-community-libs-compat
+<span class="c">#设置跳过解析，加快MySQL的速度</span>
+<span class="nb">echo</span> <span class="s2">"skip-name-resolve"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="c">#跳过权限表的，方便等下第一次登录</span>
+<span class="nb">echo</span> <span class="s2">"skip-grant-tables"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="c">#重启MySQL使配置文件生效</span>
+systemctl restart mysqld
+<span class="c">#获取MySQL的初始密码</span>
+<span class="nv">PASSWORD</span><span class="o">=</span><span class="sb">`</span><span class="nb">grep</span> <span class="s1">'temporary password'</span> /var/log/mysqld.log |awk <span class="s1">'{print $11}'</span><span class="sb">`</span>
+<span class="c">#登录MySQL并修改成自己的密码</span>
+mysql <span class="nt">-uroot</span> <span class="nt">-p</span><span class="s2">"</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$PASSWORD</span><span class="sb">`</span><span class="s2">"</span> <span class="nt">--connect-expired-password</span> <span class="nt">-e</span> <span class="s2">"flush privileges;ALTER USER 'root'@'localhost' identified by 'Ckc_123123';flush privileges;"</span>
+<span class="c">#去掉配置文件中跳过权限表</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'$d'</span> /etc/my.cnf
+<span class="c">#重启MySQL使配置文件生效</span>
+systemctl restart mysqld
+<span class="c">#删除mysql的域名源</span>
+<span class="nb">rm</span> <span class="nt">-rf</span> /etc/yum.repo.d/mysql<span class="k">*</span>
+<span class="c">#使用更改好的密码登录MySQL</span>
+mysql <span class="nt">-uroot</span> <span class="nt">-pCkc_123123</span>
+</code></pre></div></div>
+
+<h4 id="mysql主从">mysql主从</h4>
+
+<h5 id="master">master</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#添加master的配置</span>
+<span class="nb">cat</span> <span class="o">&gt;&gt;</span> /etc/my.cnf <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+
+log-bin=mysql-bin-master
+server-id=1
+binlog-ignore-db=mysql
+lower_case_table_names=1
+</span><span class="no">EOF
+</span><span class="c">#重启MySQL使配置文件生效</span>
+systemctl restart mysqld
+<span class="c">#给slave用户授权</span>
+mysql <span class="nt">-uroot</span> <span class="nt">-pCkc_123123</span> <span class="nt">-e</span> <span class="s2">"grant replication slave on *.* to slave@'%' identified by 'Ckc_123123';flush privileges;"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h5 id="slave">slave</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#添加slave的配置</span>
+<span class="nb">cat</span> <span class="o">&gt;&gt;</span> /etc/my.cnf <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+
+server-id=2
+lower_case_table_names=1
+</span><span class="no">EOF
+</span><span class="c">#重启MySQL使配置文件生效</span>
+systemctl restart mysqld
+<span class="c">#主从搭建</span>
+mysql <span class="nt">-uroot</span> <span class="nt">-pCkc_123123</span> <span class="nt">-e</span> <span class="s2">"stop slave;change master to master_host='192.168.25.153',master_user='slave',master_password='Ckc_123123';start slave;"</span>
+<span class="c">#查看主从是否搭建成功</span>
+mysql <span class="nt">-uroot</span> <span class="nt">-pCkc_123123</span> <span class="nt">-e</span> <span class="s2">"show slave status</span><span class="se">\G</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>使用浏览器访问nginx配置的ip:port就可以看到java项目搭建成功</p>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/2023/02/05/CollectNginxLogs" title="收集nginx日志">收集nginx日志</a><a class="next" href="/jekyll-theme-yat/2023/04/15/LNMTLargeArchitecture" title="LNMT架构的Web应用项目">LNMT架构的Web应用项目</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li class="">
+          <a class="post-link" href="/jekyll-theme-yat/MySQL" title="MySQL基础">
+            MySQL基础<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/09/10/InstallRedis" title="源码安装redis">
+            源码安装redis<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/07/1/DockerBuildsMySQLMaster&amp;Slave" title="Docker搭建MySQL主从">
+            Docker搭建MySQL主从<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/09/25/DeployKubernetesCluster" title="使用kubeadm部署Kubernetes集群">
+            使用kubeadm部署Kubernetes集群<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2022-2024 FatGuy101</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

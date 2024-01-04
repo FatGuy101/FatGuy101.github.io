@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>CICD | Fattt blog</title>
+<meta name="generator" content="Jekyll v4.3.3">
+<meta property="og:title" content="CICD">
+<meta name="author" content="FatGuy010">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="gitlab安装部署">
+<meta property="og:description" content="gitlab安装部署">
+<link rel="canonical" href="https://fattt.org.edu.kg//jekyll-theme-yat/2023/05/15/CICD">
+<meta property="og:url" content="https://fattt.org.edu.kg//jekyll-theme-yat/2023/05/15/CICD">
+<meta property="og:site_name" content="Fattt blog">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-05-15T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="CICD">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"FatGuy010"},"dateModified":"2023-05-15T00:00:00+00:00","datePublished":"2023-05-15T00:00:00+00:00","description":"gitlab安装部署","headline":"CICD","mainEntityOfPage":{"@type":"WebPage","@id":"https://fattt.org.edu.kg//jekyll-theme-yat/2023/05/15/CICD"},"url":"https://fattt.org.edu.kg//jekyll-theme-yat/2023/05/15/CICD"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="">
+  <link rel="canonical" href="https://fattt.org.edu.kg/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://fattt.org.edu.kg//jekyll-theme-yat/feed.xml" title="Fattt blog">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js" async></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js" async></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css" rel="stylesheet">
+<style>
+  .pswp .pswp__container .pswp__img {
+    background-color: white;
+  }
+</style>
+
+<script>
+  function initPhotoSwipe() {
+    let customOptions = {};
+
+    try {
+      const data = ``.replaceAll("=>", ":");
+      customOptions = JSON.parse(data);
+    } catch (e) {
+      console.info("Invalid custom photo previewer options! " + e.message);
+    }
+
+    // Define object and gallery options
+    const options = Object.assign(
+      {
+        gallery: "section.main",
+        children: "a.photo-swipe",
+        photo_scale: 2,
+        // dynamic import is not supported in UMD version
+        pswpModule: PhotoSwipe,
+      },
+      customOptions
+    );
+
+    const galleryEl = document.querySelector(options.gallery);
+    if (!galleryEl) {
+      return;
+    }
+
+    const imgEls = [];
+    const els = galleryEl.querySelectorAll("img:not(.emoji)");
+    els.forEach((el) => {
+      if (el.src.trim() == "") {
+        return;
+      }
+      if (!imgEls.includes(el)) {
+        imgEls.push(el);
+      }
+    });
+
+    if (imgEls.length === 0) {
+      return;
+    }
+
+    imgEls.forEach((imgEl) => {
+      imgEl.outerHTML = `
+      <a class="photo-swipe"
+        href="${imgEl.src}"
+        data-pswp-width="${
+          Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
+        }"
+        data-pswp-height="${
+          Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
+        }"
+        data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
+        target="_blank">
+        ${imgEl.outerHTML}
+      </a>`;
+    });
+
+    // Initialize PhotoSwipe 5
+    var lightbox = new PhotoSwipeLightbox(options);
+
+    lightbox.init();
+  }
+
+  window.addEventListener("load", initPhotoSwipe);
+</script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Fattt blog" src="" onerror="this.style.display='none'">
+  Fattt blog
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">ABOUT</a><a class="page-link" href="/jekyll-theme-yat/archives.html">ARCHIVES</a><a class="page-link" href="/jekyll-theme-yat/categories.html">CATEGORIES</a><a class="page-link" href="/jekyll-theme-yat/">HOME</a><a class="page-link" href="/jekyll-theme-yat/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">CICD</h1>
+  <h2 class="post-subtitle">使用Jenkins+Gitlab</h2>
+
+  <div class="post-meta">
+    <time class="dt-published" datetime="2023-05-15T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> May 15, 2023
+    </time><span class="post-author left-vsplit"><i class="fa fa-pencil"></i> FatGuy010</span>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 4 mins</span>
+  </div>
+<div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#Linux">#Linux</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h3 id="gitlab安装部署">gitlab安装部署</h3>
+
+<p>配置依赖环境</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> curl policycoreutils-python openssh-server openssh-clirnts postfixcronie lokkit rpm git
+</code></pre></div></div>
+
+<p>安装gitlab</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> /tmp/gitlab-ce-16.0.0-ce.0.el7.x86_64.rpm
+</code></pre></div></div>
+
+<p>修改配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/gitlab/gitlab.rb 
+
+external_url <span class="s1">'http://192.168.25.130'</span>
+user[<span class="s1">'username'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"git"</span>
+user[<span class="s1">'group'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"git"</span>
+</code></pre></div></div>
+
+<p>修改配置文件后</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab-ctl reconfigure
+</code></pre></div></div>
+
+<p>成功后</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Notes:
+Default admin account has been configured with following details:
+Username: root
+Password: You didn<span class="s1">'t opt-in to print initial root password to STDOUT.
+Password stored to /etc/gitlab/initial_root_password. This file will be cleaned up in first reconfigure run after 24 hours.
+
+NOTE: Because these credentials might be present in your log files in plain text, it is highly recommended to reset the password following https://docs.gitlab.com/ee/security/reset_user_password.html#reset-your-root-password.
+
+gitlab Reconfigured!
+</span></code></pre></div></div>
+
+<p>查看初始密码</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/gitlab/initial_root_password
+
+<span class="c"># WARNING: This value is valid only in the following conditions</span>
+<span class="c">#          1. If provided manually (either via `GITLAB_ROOT_PASSWORD` environment variable or via `gitlab_rails['initial_root_password']` setting in `gitlab.rb`, it was provided before database was seeded for the first time (usually, the first reconfigure run).</span>
+<span class="c">#          2. Password hasn't been changed manually, either via UI or via command line.</span>
+<span class="c">#</span>
+<span class="c">#          If the password shown here doesn't work, you must reset the admin password following https://docs.gitlab.com/ee/security/reset_user_password.html#reset-your-root-password.</span>
+
+Password: 3+ZV2iUGZGUhtVXNvt40wD3z6Fwur/RSgBKGxZ/w6vk<span class="o">=</span>
+
+<span class="c"># NOTE: This file will be automatically deleted in the first reconfigure run after 24 hours.</span>
+
+</code></pre></div></div>
+
+<p>访问  http://192.168.25.130</p>
+
+<p>第一次登录使用初始密码进行登录，账号为 root</p>
+
+<p>进去后，修改密码，设置语言</p>
+
+<p>创建用户—&gt;创建群组—&gt;创建项目</p>
+
+<p><img src="https://picss.sunbangyan.cn/2023/11/27/9ef430ff9c39fd23452ea9b63c0c7c82.jpeg" alt=""></p>
+
+<p><img src="https://picst.sunbangyan.cn/2023/11/27/5b0e9d6372a7945507f143daaf16bffc.jpeg" alt=""></p>
+
+<p><img src="https://picdl.sunbangyan.cn/2023/11/27/099c9875446ffd1a0d653771c991b7cb.jpeg" alt=""></p>
+
+<p>修改ssh不进行指纹验证</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/ssh/ssh_config
+<span class="c"># 约35行改成 </span>
+StrictHostKeyChecking no
+</code></pre></div></div>
+
+<p>允许webhook</p>
+
+<p><img src="https://picdl.sunbangyan.cn/2023/11/27/b2ca3a9fefd07286de0bc8195225e1c1.jpeg" alt=""></p>
+
+<h3 id="jenkins安装部署">jenkins安装部署</h3>
+
+<h4 id="jdk17">jdk17</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /tmp
+wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.rpm
+rpm <span class="nt">-ivh</span> jdk-17_linux-x64_bin.rpm
+<span class="c"># java路径</span>
+<span class="c"># /usr/lib/jvm/jdk-17-oracle-x64/bin/java</span>
+</code></pre></div></div>
+
+<p>环境变量</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> /etc/profile.d/jdk.sh <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+#! /bin/bash
+JAVA_HOME=/usr/java/jdk-17
+JRE_HOME=</span><span class="nv">$JAVA_HOME</span><span class="sh">/jre
+PATH=</span><span class="nv">$PATH</span><span class="sh">:</span><span class="nv">$JAVA_HOME</span><span class="sh">/bin:</span><span class="nv">$JRE_HOME</span><span class="sh">/bin
+CLASSPATH=</span><span class="nv">$JAVA_HOME</span><span class="sh">/lib/dt.jar:</span><span class="nv">$JAVA_HOME</span><span class="sh">/lib/tools.jar:</span><span class="nv">$JRE_HOME</span><span class="sh">/lib
+export JAVA_HOME JRE_HOME CLASSPATH
+</span><span class="no">EOF
+</span><span class="nb">source</span> /etc/profile
+</code></pre></div></div>
+
+<h4 id="安装maven">安装maven</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#上传并解压maven源码包</span>
+<span class="nb">tar</span> <span class="nt">-xf</span> /tmp/apache-maven-3.9.4-bin.tar.gz <span class="nt">-C</span> /usr/local
+<span class="c">#更名便于操作</span>
+<span class="nb">mv</span> /usr/local/apache-maven-3.9.4 /usr/local/maven
+</code></pre></div></div>
+
+<p>配置环境变量</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> /etc/profile.d/maven.sh <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+#! /bin/bash
+export MAVEN_HOME=/usr/local/maven
+export PATH=</span><span class="nv">$MAVEN_HOME</span><span class="sh">/bin:</span><span class="nv">$PATH</span><span class="sh">
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> /etc/profile
+</code></pre></div></div>
+
+<p>查看maven版本</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn <span class="nt">-v</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Apache Maven 3.9.4 (dfbb324ad4a7c8fb0bf182e6d91b0ae20e3d2dd9)</code>
+<code class="language-plaintext highlighter-rouge">Maven home: /usr/local/maven</code>
+<code class="language-plaintext highlighter-rouge">Java version: 17.0.9, vendor: Oracle Corporation, runtime: /usr/lib/jvm/jdk-17-oracle-x64</code>
+<code class="language-plaintext highlighter-rouge">Default locale: en_US, platform encoding: UTF-8</code>
+<code class="language-plaintext highlighter-rouge">OS name: "linux", version: "3.10.0-1160.71.1.el7.x86_64", arch: "amd64", family: "unix"</code></p>
+
+<p>配置maven加速器</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#修改镜像</span>
+vim /usr/local/maven/conf/settings.xml 
+<span class="c">#源镜像在文件约160行</span>
+<span class="c">#注释掉或删掉原来的镜像并改成下面阿里的镜像</span>
+&lt;mirror&gt;
+    &lt;<span class="nb">id</span><span class="o">&gt;</span>aliyunmaven&lt;/id&gt;
+    &lt;mirrorOf&gt;<span class="k">*</span>&lt;/mirrorOf&gt;
+    &lt;name&gt;阿里云公共仓库&lt;/name&gt;
+    &lt;url&gt;https://maven.aliyun.com/repository/public&lt;/url&gt;
+&lt;/mirror&gt;
+</code></pre></div></div>
+
+<p>官网：https://pkg.jenkins.io/redhat-stable/</p>
+
+<h4 id="安装jenkins">安装jenkins</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget <span class="nt">-O</span> /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+rpm <span class="nt">--import</span> https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+yum <span class="nb">install</span> <span class="nt">-y</span> fontconfig java-17-openjdk jenkins git
+systemctl <span class="nb">enable</span> <span class="nt">--now</span> jenkins.service
+</code></pre></div></div>
+
+<p>查看初始密码</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /var/lib/jenkins/secrets/initialAdminPassword
+</code></pre></div></div>
+
+<p>系统配置</p>
+
+<p><img src="https://picst.sunbangyan.cn/2023/11/27/ad8d8057cf336dc32e2efae090b28bec.jpeg" alt=""></p>
+
+<p>全局配置</p>
+
+<p><img src="https://picss.sunbangyan.cn/2023/11/27/d31f0fe44a3c4d7e7d7d72982ab7939e.jpeg" alt=""></p>
+
+<p>安装插件</p>
+
+<p><img src="https://picss.sunbangyan.cn/2023/11/27/f721522006daa4bf5fe99195e126e180.jpeg" alt=""></p>
+
+<p>获取jenkins的ssh密钥</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>usermod <span class="nt">-s</span> /bin/bash jenkins
+su - jenkins
+<span class="nb">cat</span> .ssh/id_rsa.pub
+usermod <span class="nt">-s</span> /bin/false jenkins
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5G5XbbJ1QiU7qKBudyLgLKaCYJ2Y7/+o/WrjO++qUdbGbjz1cDizqXywVbt6Jm1QEES87K9isGhjSVffp36zfHOpa1RNdvgxc8QNjwVQ9M0IpTryn1UJMdOcFLpS62vpbC2jzZVc+KKdZ9Fya//HccIymB10YBQQX1yWYeYSz6+K/olDLa+qUqom1Ycs00xBShXTvzh84fdUbMh2Rr5sYhbu4sg1tqQOZsK4k+72FfkVy9qPF1HVaicxKeJ0dVR9juqOq1Tdgq0ae+CkpR//sUvPJd7RLZXo58BzYJQG8bbz0xvBjHa8IUjnmFY77ofrN82+iGkt8vDBu2jeMHIg9 jenkins@jenkins131</code></p>
+
+<p>获取的ssh密钥可以丢到gitlab</p>
+
+<p>进去后在最下面的 jenkins中文社区修改镜像</p>
+
+<p>升级站点的url填进 清华镜像</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
+</code></pre></div></div>
+
+<p>修改一下ssh配置</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/ssh/ssh_config
+<span class="c"># 约35行改成</span>
+StrictHostKeyChecking no
+</code></pre></div></div>
+
+<p>配置jenkins权限</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>visudo
+<span class="c"># 约100行添加下面内容</span>
+
+jenkins <span class="nv">ALL</span><span class="o">=(</span>ALL<span class="o">)</span>       NOPASSWD: ALL
+</code></pre></div></div>
+
+<h3 id="创建pipline流水线">创建pipline流水线</h3>
+
+<p><img src="https://picst.sunbangyan.cn/2023/11/27/1a39394267c13164c78d627f5b08afca.jpeg" alt=""></p>
+
+<p>配置job</p>
+
+<p><img src="https://picst.sunbangyan.cn/2023/11/27/7e9415f7d7b4fdd6eacd924801a97c19.jpeg" alt=""></p>
+
+<p>gitlab配置webhook</p>
+
+<p><img src="https://picdl.sunbangyan.cn/2023/11/27/133936b1bf02f6225049532c6685b16b.jpeg" alt=""></p>
+
+<p>pipeline流水线脚本</p>
+
+<pre><code class="language-pipeline">pipeline {
+    agent any
+
+    stages {
+        stage('git') {
+            steps {
+                sleep 1
+                git changelog: false, poll: false, url: 'git@192.168.25.130:myweb/myweb.git'
+            }
+        }
+        stage('test') {
+            steps {
+                sh  'mvn clean package -DskipTests'
+            }
+        }
+        stage('deploy') {
+            steps {
+                sh  'sudo sshpass  -p 123456 ssh  root@192.168.25.153 rm -rf /tmp/tomcatdata/*'
+                sh  'sudo sshpass  -p 123456 scp  -r  /var/lib/jenkins/workspace/myweb/target/myweb-0.0.1-SNAPSHOT.war   192.168.25.153:/tmp/tomcatdata/ROOT.war'
+            }
+        }
+    }
+}
+</code></pre>
+
+<p>触发Gitlab推送事件，Jenkins流水线也会被触发</p>
+
+<p><img src="https://picdm.sunbangyan.cn/2023/11/27/96741eef8f44b7c322c71f33aefd4a57.jpeg" alt=""></p>
+
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/2023/04/15/LNMTLargeArchitecture" title="LNMT架构的Web应用项目">LNMT架构的Web应用项目</a><a class="next" href="/jekyll-theme-yat/2023/07/1/DockerBuildsMySQLMaster&amp;Slave" title="Docker搭建MySQL主从">Docker搭建MySQL主从</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/02/05/CollectNginxLogs" title="收集nginx日志">
+            收集nginx日志<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/09/19/InstallPHP" title="源码安装php">
+            源码安装php<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/09/25/DeployKubernetesCluster" title="使用kubeadm部署Kubernetes集群">
+            使用kubeadm部署Kubernetes集群<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/05/15/CICD" title="CICD">
+            CICD<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2022-2024 FatGuy101</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

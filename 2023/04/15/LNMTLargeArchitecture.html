@@ -1,0 +1,3210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>LNMT架构的Web应用项目 | Fattt blog</title>
+<meta name="generator" content="Jekyll v4.3.3">
+<meta property="og:title" content="LNMT架构的Web应用项目">
+<meta name="author" content="FatGuy010">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="架构图">
+<meta property="og:description" content="架构图">
+<link rel="canonical" href="https://fattt.org.edu.kg//jekyll-theme-yat/2023/04/15/LNMTLargeArchitecture">
+<meta property="og:url" content="https://fattt.org.edu.kg//jekyll-theme-yat/2023/04/15/LNMTLargeArchitecture">
+<meta property="og:site_name" content="Fattt blog">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-04-15T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="LNMT架构的Web应用项目">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"FatGuy010"},"dateModified":"2023-04-15T00:00:00+00:00","datePublished":"2023-04-15T00:00:00+00:00","description":"架构图","headline":"LNMT架构的Web应用项目","mainEntityOfPage":{"@type":"WebPage","@id":"https://fattt.org.edu.kg//jekyll-theme-yat/2023/04/15/LNMTLargeArchitecture"},"url":"https://fattt.org.edu.kg//jekyll-theme-yat/2023/04/15/LNMTLargeArchitecture"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="">
+  <link rel="canonical" href="https://fattt.org.edu.kg/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://fattt.org.edu.kg//jekyll-theme-yat/feed.xml" title="Fattt blog">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js" async></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js" async></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css" rel="stylesheet">
+<style>
+  .pswp .pswp__container .pswp__img {
+    background-color: white;
+  }
+</style>
+
+<script>
+  function initPhotoSwipe() {
+    let customOptions = {};
+
+    try {
+      const data = ``.replaceAll("=>", ":");
+      customOptions = JSON.parse(data);
+    } catch (e) {
+      console.info("Invalid custom photo previewer options! " + e.message);
+    }
+
+    // Define object and gallery options
+    const options = Object.assign(
+      {
+        gallery: "section.main",
+        children: "a.photo-swipe",
+        photo_scale: 2,
+        // dynamic import is not supported in UMD version
+        pswpModule: PhotoSwipe,
+      },
+      customOptions
+    );
+
+    const galleryEl = document.querySelector(options.gallery);
+    if (!galleryEl) {
+      return;
+    }
+
+    const imgEls = [];
+    const els = galleryEl.querySelectorAll("img:not(.emoji)");
+    els.forEach((el) => {
+      if (el.src.trim() == "") {
+        return;
+      }
+      if (!imgEls.includes(el)) {
+        imgEls.push(el);
+      }
+    });
+
+    if (imgEls.length === 0) {
+      return;
+    }
+
+    imgEls.forEach((imgEl) => {
+      imgEl.outerHTML = `
+      <a class="photo-swipe"
+        href="${imgEl.src}"
+        data-pswp-width="${
+          Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
+        }"
+        data-pswp-height="${
+          Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
+        }"
+        data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
+        target="_blank">
+        ${imgEl.outerHTML}
+      </a>`;
+    });
+
+    // Initialize PhotoSwipe 5
+    var lightbox = new PhotoSwipeLightbox(options);
+
+    lightbox.init();
+  }
+
+  window.addEventListener("load", initPhotoSwipe);
+</script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Fattt blog" src="" onerror="this.style.display='none'">
+  Fattt blog
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">ABOUT</a><a class="page-link" href="/jekyll-theme-yat/archives.html">ARCHIVES</a><a class="page-link" href="/jekyll-theme-yat/categories.html">CATEGORIES</a><a class="page-link" href="/jekyll-theme-yat/">HOME</a><a class="page-link" href="/jekyll-theme-yat/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">LNMT架构的Web应用项目</h1>
+  <h2 class="post-subtitle">对所学知识做个总结</h2>
+
+  <div class="post-meta">
+    <time class="dt-published" datetime="2023-04-15T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Apr 15, 2023
+    </time><span class="post-author left-vsplit"><i class="fa fa-pencil"></i> FatGuy010</span>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 38 mins</span>
+  </div>
+<div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#Linux">#Linux</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h3 id="架构图">架构图</h3>
+
+<p><img src="\assets\images\LNMT.png" alt=""></p>
+
+<h3 id="环境说明">环境说明</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># cat /etc/centos-release</span>
+CentOS Linux release 7.9.2009 <span class="o">(</span>Core<span class="o">)</span>
+
+<span class="c"># cat /etc/os-release</span>
+<span class="nv">NAME</span><span class="o">=</span><span class="s2">"CentOS Linux"</span>
+<span class="nv">VERSION</span><span class="o">=</span><span class="s2">"7 (Core)"</span>
+<span class="nv">ID</span><span class="o">=</span><span class="s2">"centos"</span>
+<span class="nv">ID_LIKE</span><span class="o">=</span><span class="s2">"rhel fedora"</span>
+<span class="nv">VERSION_ID</span><span class="o">=</span><span class="s2">"7"</span>
+<span class="nv">PRETTY_NAME</span><span class="o">=</span><span class="s2">"CentOS Linux 7 (Core)"</span>
+<span class="nv">ANSI_COLOR</span><span class="o">=</span><span class="s2">"0;31"</span>
+<span class="nv">CPE_NAME</span><span class="o">=</span><span class="s2">"cpe:/o:centos:centos:7"</span>
+<span class="nv">HOME_URL</span><span class="o">=</span><span class="s2">"https://www.centos.org/"</span>
+<span class="nv">BUG_REPORT_URL</span><span class="o">=</span><span class="s2">"https://bugs.centos.org/"</span>
+
+<span class="nv">CENTOS_MANTISBT_PROJECT</span><span class="o">=</span><span class="s2">"CentOS-7"</span>
+<span class="nv">CENTOS_MANTISBT_PROJECT_VERSION</span><span class="o">=</span><span class="s2">"7"</span>
+<span class="nv">REDHAT_SUPPORT_PRODUCT</span><span class="o">=</span><span class="s2">"centos"</span>
+<span class="nv">REDHAT_SUPPORT_PRODUCT_VERSION</span><span class="o">=</span><span class="s2">"7"</span>
+
+<span class="c"># uname -a</span>
+Linux nginx134 3.10.0-1160.el7.x86_64 <span class="c">#1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">hostname</th>
+      <th style="text-align: center">ip</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">gitlab130        (gitlab)</td>
+      <td style="text-align: center">192.168.25.130</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">jenkins131     (jenkins+ansible)</td>
+      <td style="text-align: center">192.168.25.131</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">nginxDR132   (ipvsadm+nginx)</td>
+      <td style="text-align: center">192.168.25.132 —&gt;  VIP:192.168.25.100</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">nginx133         (nginx)</td>
+      <td style="text-align: center">192.168.25.133 —&gt;  VIP:192.168.25.100</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">tomcat134         (tomcat)</td>
+      <td style="text-align: center">192.168.25.134</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">tomcat135       (tomcat)</td>
+      <td style="text-align: center">192.168.25.135</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">tomcat136       (tomcat)</td>
+      <td style="text-align: center">192.168.25.136</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">mycatdr137    (ipvsamd+mycat)</td>
+      <td style="text-align: center">192.168.25.137 —&gt;  VIP:192.168.25.106</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">mycat138         (mycat)</td>
+      <td style="text-align: center">192.168.25.138</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">mysql139          (mysql)(master)</td>
+      <td style="text-align: center">192.168.25.139</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">mysql140          (mysql)(slave1)</td>
+      <td style="text-align: center">192.168.25.140</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">mysql141  (mysql)(slave2+manager)</td>
+      <td style="text-align: center">192.168.25.141  —&gt; VIP:192.168.25.199</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">zabbix142</td>
+      <td style="text-align: center">192.168.25.142</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">redis143</td>
+      <td style="text-align: center">192.168.25.143</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">logstash144</td>
+      <td style="text-align: center">192.168.25.144</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">elasticsearch145  (elasticsearch+kibana)</td>
+      <td style="text-align: center">192.168.25.145</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="a记录解析">A记录解析</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> /etc/hosts <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.25.130 gitlab130
+192.168.25.131 jenkins131
+192.168.25.132 nginxdr132
+192.168.25.133 nginx133
+192.168.25.134 tomcat134
+192.168.25.135 tomcat135
+192.168.25.136 tomcat136
+192.168.25.137 mycatdr137
+192.168.25.138 mycat138
+192.168.25.139 mysql139
+192.168.25.140 mysql140
+192.168.25.141 mysql141
+192.168.25.142 zabbix142
+192.168.25.143 redis143
+192.168.25.144 logstash144
+192.168.25.145 elasticsearch145
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<h3 id="gitlab安装部署">gitlab安装部署</h3>
+
+<p>配置依赖环境</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> curl policycoreutils-python openssh-server openssh-clirnts postfixcronie lokkit rpm
+</code></pre></div></div>
+
+<p>安装gitlab</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> /tmp/gitlab-ce-16.0.0-ce.0.el7.x86_64.rpm
+</code></pre></div></div>
+
+<p>修改配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/gitlab/gitlab.rb 
+
+external_url <span class="s1">'http://192.168.25.130'</span>
+user[<span class="s1">'username'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"git"</span>
+user[<span class="s1">'group'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"git"</span>
+</code></pre></div></div>
+
+<p>修改配置文件后</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab-ctl reconfigure
+</code></pre></div></div>
+
+<p>成功后</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Notes:
+Default admin account has been configured with following details:
+Username: root
+Password: You didn<span class="s1">'t opt-in to print initial root password to STDOUT.
+Password stored to /etc/gitlab/initial_root_password. This file will be cleaned up in first reconfigure run after 24 hours.
+
+NOTE: Because these credentials might be present in your log files in plain text, it is highly recommended to reset the password following https://docs.gitlab.com/ee/security/reset_user_password.html#reset-your-root-password.
+
+gitlab Reconfigured!
+[root@gitlab130 tmp]#
+</span></code></pre></div></div>
+
+<p>查看初始密码</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /etc/gitlab/initial_root_password
+
+<span class="c"># WARNING: This value is valid only in the following conditions</span>
+<span class="c">#          1. If provided manually (either via `GITLAB_ROOT_PASSWORD` environment variable or via `gitlab_rails['initial_root_password']` setting in `gitlab.rb`, it was provided before database was seeded for the first time (usually, the first reconfigure run).</span>
+<span class="c">#          2. Password hasn't been changed manually, either via UI or via command line.</span>
+<span class="c">#</span>
+<span class="c">#          If the password shown here doesn't work, you must reset the admin password following https://docs.gitlab.com/ee/security/reset_user_password.html#reset-your-root-password.</span>
+
+Password: 3+ZV2iUGZGUhtVXNvt40wD3z6Fwur/RSgBKGxZ/w6vk<span class="o">=</span>
+
+<span class="c"># NOTE: This file will be automatically deleted in the first reconfigure run after 24 hours.</span>
+
+</code></pre></div></div>
+
+<h3 id="jenkins安装部署">jenkins安装部署</h3>
+
+<p>安装jdk11</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xf</span> /tmp/jdk-11.0.18_linux-x64_bin.tar.gz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /usr/local/jdk-11.0.18/  /usr/local/jdk-11
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> dejavu-sans-fonts fontconfig xorg-x11-server-Xvfb
+</code></pre></div></div>
+
+<p>配置jdk环境变量</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim  /etc/profile.d/jdk.sh
+
+<span class="c">#! /bin/bash</span>
+<span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/local/jdk-11
+<span class="nv">JRE_HOME</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/jre
+<span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$JRE_HOME</span>/bin
+<span class="nv">CLASSPATH</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/lib/dt.jar:<span class="nv">$JAVA_HOME</span>/lib/tools.jar:<span class="nv">$JRE_HOME</span>/lib
+<span class="nb">export </span>JAVA_HOME JRE_HOME CLASSPATH
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./etc/profile
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">ln</span> <span class="nt">-s</span> /usr/local/jdk-11/bin/java   /usr/bin/
+</code></pre></div></div>
+
+<p>安装jenkins</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum localinstall <span class="nt">-y</span>  /tmp/jenkins-2.361.2-1.1.noarch.rpm
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl  daemon-reload 
+</code></pre></div></div>
+
+<p>配置jenkins</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim  /etc/init.d/jenkins
+
+把  /usr/bin/java  改成
+/usr/local/jdk-11/bin/java
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/sysconfig/jenkins
+
+把  <span class="nv">JENKINS_JAVA_CMD</span><span class="o">=</span><span class="s2">""</span> 改成
+<span class="nv">JENKINS_JAVA_CMD</span><span class="o">=</span><span class="s2">"/usr/local/jdk-11/bin/java"</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl  daemon-reload 
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start jenkins
+</code></pre></div></div>
+
+<p>查看jenkins初始密码</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /var/lib/jenkins/secrets/initialAdminPassword
+bab9d0fc39994a43ae30a5570b293832
+</code></pre></div></div>
+
+<p>进去后在最下面的 jenkins中文社区修改镜像</p>
+
+<p>升级站点的url填进 清华镜像</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json
+</code></pre></div></div>
+
+<h3 id="nginx-dr">nginx-DR</h3>
+
+<p>安装ipvsamd命令</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> ipvsadm
+</code></pre></div></div>
+
+<p>配置ens33:0 (VIP)</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span>  /etc/sysconfig/network-scripts/ifcfg-ens33  /etc/sysconfig/network-scripts/ifcfg-ens33:0
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim  /etc/sysconfig/network-scripts/ifcfg-ens33:0
+
+<span class="nv">TYPE</span><span class="o">=</span>Ethernet
+<span class="nv">BOOTPROTO</span><span class="o">=</span>static
+<span class="nv">DEFROUTE</span><span class="o">=</span><span class="nb">yes
+</span><span class="nv">NAME</span><span class="o">=</span>ens33:0
+<span class="nv">DEVICE</span><span class="o">=</span>ens33:0
+<span class="nv">ONBOOT</span><span class="o">=</span><span class="nb">yes
+</span><span class="nv">IPADDR</span><span class="o">=</span>192.168.25.100
+<span class="nv">PREFIX</span><span class="o">=</span>32
+<span class="nv">GATEWAY</span><span class="o">=</span>192.168.25.2
+<span class="nv">DNS1</span><span class="o">=</span>192.168.25.2
+<span class="nv">DNS2</span><span class="o">=</span>8.8.8.8
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart network
+</code></pre></div></div>
+
+<p>配置LVS-DR规则</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipvsadm <span class="nt">-C</span>  <span class="c">#清空所有规则</span>
+ipvsadm <span class="nt">-A</span> <span class="nt">-t</span> 192.168.25.100:80 <span class="nt">-s</span> rr  <span class="c">#定义LVS服务，并指定负责均衡策略为rr，即轮询</span>
+ipvsadm <span class="nt">-a</span> <span class="nt">-t</span> 192.168.25.100:80 <span class="nt">-r</span> 192.168.25.132:80 <span class="nt">-g</span>  <span class="c">#添加一台后端web服务器，作为负载均衡节点，并指定为DR模式</span>
+ipvsadm <span class="nt">-a</span> <span class="nt">-t</span> 192.168.25.100:80 <span class="nt">-r</span> 192.168.25.133:80 <span class="nt">-g</span>  <span class="c">#添加一台后端web服务器，作为负载均衡节点，并指定为DR模式</span>
+ipvsadm  <span class="nt">--save</span> <span class="o">&gt;</span>  /etc/sysconfig/ipvsadm  <span class="c">#保存负载均衡策略规则</span>
+systemctl restart ipvsadm.service
+ipvsadm <span class="nt">-Ln</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>route add <span class="nt">-host</span> 192.168.25.100 dev ens33:0
+</code></pre></div></div>
+
+<p>查看LVS-DR</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipvsadm <span class="nt">-Ln</span> <span class="nt">--stats</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipvsadm <span class="nt">-Ln</span> <span class="nt">--rate</span>
+</code></pre></div></div>
+
+<h3 id="nginx代理配置">nginx代理配置</h3>
+
+<p>配置nginx源</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/yum.repos.d/nginx.repo
+
+<span class="o">[</span>nginx-stable]
+<span class="nv">name</span><span class="o">=</span>nginx stable repo
+<span class="nv">baseurl</span><span class="o">=</span>http://nginx.org/packages/centos/<span class="nv">$releasever</span>/<span class="nv">$basearch</span>/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
+<span class="nv">gpgkey</span><span class="o">=</span>https://nginx.org/keys/nginx_signing.key
+<span class="nv">module_hotfixes</span><span class="o">=</span><span class="nb">true</span>
+</code></pre></div></div>
+
+<p>安装nginx</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> nginx
+</code></pre></div></div>
+
+<p>配置LVS-DR</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> /etc/sysconfig/network-scripts/ifcfg-lo /etc/sysconfig/network-scripts/ifcfg-lo:0
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/sysconfig/network-scripts/ifcfg-lo:0
+
+<span class="nv">DEVICE</span><span class="o">=</span>lo:0
+<span class="nv">IPADDR</span><span class="o">=</span>192.168.25.100
+<span class="nv">NETMASK</span><span class="o">=</span>255.255.255.255
+<span class="nv">ONBOOT</span><span class="o">=</span><span class="nb">yes
+</span><span class="nv">NAME</span><span class="o">=</span>lo:0
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart network
+</code></pre></div></div>
+
+<p>优化</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/sysctl.conf 
+ 
+net.ipv4.conf.lo.arp_ignore<span class="o">=</span>1
+net.ipv4.conf.ens33.arp_ignore<span class="o">=</span>1
+net.ipv4.conf.all.arp_ignore<span class="o">=</span>1
+net.ipv4.conf.all.arp_announce<span class="o">=</span>2
+net.ipv4.conf.ens33.arp_announce<span class="o">=</span>2
+net.ipv4.conf.lo.arp_announce<span class="o">=</span>2
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sysctl <span class="nt">-p</span>
+</code></pre></div></div>
+
+<p>添加路由</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>route add <span class="nt">-host</span> 192.168.25.100 dev lo:0
+</code></pre></div></div>
+
+<p>nginx主配值文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/nginx/nginx.conf
+
+user  nginx<span class="p">;</span>
+worker_processes  auto<span class="p">;</span>
+error_log  /var/log/nginx/error.log notice<span class="p">;</span>
+pid        /var/run/nginx.pid<span class="p">;</span>
+
+events <span class="o">{</span>
+    use epoll<span class="p">;</span>
+    worker_connections  1024<span class="p">;</span>
+<span class="o">}</span>
+
+http <span class="o">{</span>
+    include       /etc/nginx/mime.types<span class="p">;</span>
+    default_type  application/octet-stream<span class="p">;</span>
+
+<span class="c">#    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '</span>
+<span class="c">#                      '$status $body_bytes_sent "$http_referer" '</span>
+<span class="c">#                      '"$http_user_agent" "$http_x_forwarded_for"';</span>
+
+   log_format  main   <span class="s1">'{"remote_addr":"$remote_addr","remote_user":"$remote_user",'</span>
+                       <span class="s1">'"time_local":"$time_local","request":"$request_method","uri":"$uri","status":"$status",'</span>
+                      <span class="s1">'"body_size":"$body_bytes_sent","referer":"$http_referer","agent":"$http_user_agent",'</span>
+                       <span class="s1">'"x_forwarded":"$http_x_forwarded_for"}'</span><span class="p">;</span>
+
+    access_log  /var/log/nginx/access.log  main<span class="p">;</span>
+    sendfile        on<span class="p">;</span>
+    tcp_nopush     on<span class="p">;</span>
+    keepalive_timeout  65<span class="p">;</span>
+    <span class="nb">gzip  </span>on<span class="p">;</span>
+    include /etc/nginx/conf.d/<span class="k">*</span>.conf<span class="p">;</span>
+
+    upstream tomcat <span class="o">{</span>
+        server 192.168.25.134:8080 <span class="nv">weight</span><span class="o">=</span>1  <span class="nv">max_fails</span><span class="o">=</span>3  <span class="nv">fail_timeout</span><span class="o">=</span>10<span class="p">;</span>
+        server 192.168.25.135:8080 <span class="nv">weight</span><span class="o">=</span>1  <span class="nv">max_fails</span><span class="o">=</span>3  <span class="nv">fail_timeout</span><span class="o">=</span>10<span class="p">;</span>
+        server 192.168.25.136:8080 <span class="nv">weight</span><span class="o">=</span>1  <span class="nv">max_fails</span><span class="o">=</span>3  <span class="nv">fail_timeout</span><span class="o">=</span>10<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>nginx子配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/nginx/conf.d/default.conf
+
+roxy_cache_path /etc/nginx/zrlog_cache <span class="nv">levels</span><span class="o">=</span>1:2 <span class="nv">keys_zone</span><span class="o">=</span>zrlog_cache:100m <span class="nv">max_size</span><span class="o">=</span>10g <span class="nv">inactive</span><span class="o">=</span>1d <span class="nv">use_temp_path</span><span class="o">=</span>off<span class="p">;</span>
+proxy_headers_hash_max_size  2048<span class="p">;</span>
+proxy_headers_hash_bucket_size  512<span class="p">;</span>
+server <span class="o">{</span>
+    listen       80<span class="p">;</span>
+    server_name  localhost<span class="p">;</span>
+    access_log  /var/log/nginx/tomcat.access.log  main<span class="p">;</span>
+    charset utf-8<span class="p">;</span>
+    <span class="c">#proxy_bind  192.168.25.100;</span>
+    proxy_buffering on<span class="p">;</span>
+    proxy_buffer_size  128k<span class="p">;</span>
+    proxy_buffers  32  16k<span class="p">;</span>
+    proxy_send_timeout  30s<span class="p">;</span>
+    proxy_read_timeout  30s<span class="p">;</span>
+    proxy_connect_timeout  5s<span class="p">;</span>
+
+    location / <span class="o">{</span>
+        proxy_pass   http://tomcat<span class="p">;</span>
+        proxy_set_header Host    <span class="nv">$host</span><span class="p">;</span>
+        proxy_set_header X-Real-IP <span class="nv">$remote_addr</span><span class="p">;</span>
+    <span class="o">}</span>
+    
+    location <span class="o">=</span> /ngx_status <span class="o">{</span>
+        stub_status<span class="p">;</span>
+        allow 127.0.0.1<span class="p">;</span>
+        deny all<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>启动nginx</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart nginx
+systemctl <span class="nb">enable</span> <span class="nt">--now</span> nginx
+</code></pre></div></div>
+
+<h3 id="tomcat集群">tomcat集群</h3>
+
+<p>配置jdk环境</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar </span>xf /tmp/jdk-8u201-linux-x64.tar.gz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /usr/local/jdk1.8.0_201 /usr/local/jdk1.8
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/profile.d/jdk.sh
+
+<span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/local/jdk1.8
+<span class="nv">JRE_HOME</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/jre
+<span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/lib/dt.jar:<span class="nv">$JAVA_HOME</span>/lib/tools.jar:<span class="nv">$JRE_HOME</span>/lib
+<span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$JRE_HOME</span>/bin
+<span class="nb">export </span>JAVA_HOME JRE_HOME CLASSPATH
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">.</span> /etc/profile
+</code></pre></div></div>
+
+<p>部署tomcat</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xf</span> /tmp/apache-tomcat-8.5.93.tar.gz <span class="nt">-C</span> /opt/
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /opt/apache-tomcat-8.5.93 /opt/tomcat-8.5
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /usr/bin/tomcat
+
+<span class="c">#! /bin/bash</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span><span class="nt">-ne</span> 1 <span class="o">]</span>
+<span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"use error.  use : tomcat  start/stop/restart"</span> <span class="o">&gt;</span>&amp;2<span class="p">;</span>
+    <span class="nb">exit </span>1
+<span class="k">fi
+
+case</span> <span class="nv">$1</span> <span class="k">in
+    </span>start<span class="p">)</span>
+        /opt/tomcat-8.5/bin/startup.sh
+        <span class="p">;;</span>
+    stop<span class="p">)</span>
+        /opt/tomcat-8.5/bin/shutdown.sh 
+        <span class="p">;;</span>
+    restart<span class="p">)</span>
+        /opt/tomcat-8.5/bin/shutdown.sh
+        <span class="nb">sleep  </span>0.2
+        /opt/tomcat-8.5/bin/startup.sh
+        <span class="p">;;</span>
+    <span class="k">*</span><span class="p">)</span>
+        <span class="nb">echo</span>   <span class="s2">"tomcat  start/stop/restart"</span>
+        <span class="nb">exit </span>2
+        <span class="p">;;</span>
+<span class="k">esac</span>
+
+<span class="nb">exit </span>0
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod </span>a+x /usr/bin/tomcat
+</code></pre></div></div>
+
+<p>修改tomcat配置文件</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /opt/tomcat-8.5/conf/server.xml
+
+<span class="c">&lt;!--约173行，把下面这段注释起来--&gt;</span>
+<span class="nt">&lt;Valve</span> <span class="na">className=</span><span class="s">"org.apache.catalina.valves.AccessLogValve"</span> <span class="na">directory=</span><span class="s">"logs"</span>
+<span class="err">175</span>                <span class="na">prefix=</span><span class="s">"localhost_access_log"</span> <span class="na">suffix=</span><span class="s">".txt"</span>
+<span class="err">176</span>                <span class="na">pattern=</span><span class="s">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> <span class="nt">/&gt;</span>
+
+<span class="c">&lt;!--使用下面这段，这可以使tomcat生成的日志为json格式--&gt;</span>
+<span class="nt">&lt;Valve</span> <span class="na">className=</span><span class="s">"org.apache.catalina.valves.AccessLogValve"</span> <span class="na">directory=</span><span class="s">"logs"</span>
+                <span class="na">prefix=</span><span class="s">"localhost_access_log"</span> <span class="na">suffix=</span><span class="s">".txt"</span>
+                <span class="na">pattern=</span><span class="s">"{&amp;quot;clientip&amp;quot;:&amp;quot;%h&amp;quot;,&amp;quot;ClientUser&amp;quot;:&amp;quot;%l&amp;quot;,&amp;quot;authenticated&amp;quot;:&amp;quot;%u&amp;quot;,&amp;quot;AccessTime&amp;quot;:&amp;quo    t;%t&amp;quot;,&amp;quot;method&amp;quot;:&amp;quot;%r&amp;quot;,&amp;quot;status&amp;quot;:&amp;quot;%s&amp;quot;,&amp;quot;SendBytes&amp;quot;:&amp;quot;%b&amp;quot;,&amp;quot;Query?string&amp;quot;:&amp;quot;%q&amp;quot;,&amp;quot;partn    er&amp;quot;:&amp;quot;%{Referer}i&amp;quot;,&amp;quot;AgentVersion&amp;quot;:&amp;quot;%{User-Agent}i&amp;quot;}"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<p>启动tomcat</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tomcat start
+</code></pre></div></div>
+
+<h3 id="mycat-dr">mycat-DR</h3>
+
+<p>安装ipvsamd命令</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> ipvsadm
+</code></pre></div></div>
+
+<p>配置ens33:0 (VIP)</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span>  /etc/sysconfig/network-scripts/ifcfg-ens33  /etc/sysconfig/network-scripts/ifcfg-ens33:0
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim  /etc/sysconfig/network-scripts/ifcfg-ens33:0
+
+<span class="nv">TYPE</span><span class="o">=</span>Ethernet
+<span class="nv">BOOTPROTO</span><span class="o">=</span>static
+<span class="nv">DEFROUTE</span><span class="o">=</span><span class="nb">yes
+</span><span class="nv">NAME</span><span class="o">=</span>ens33:0
+<span class="nv">DEVICE</span><span class="o">=</span>ens33:0
+<span class="nv">ONBOOT</span><span class="o">=</span><span class="nb">yes
+</span><span class="nv">IPADDR</span><span class="o">=</span>192.168.25.106
+<span class="nv">PREFIX</span><span class="o">=</span>32
+<span class="nv">GATEWAY</span><span class="o">=</span>192.168.25.2
+<span class="nv">DNS1</span><span class="o">=</span>192.168.25.2
+<span class="nv">DNS2</span><span class="o">=</span>8.8.8.8
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart network
+</code></pre></div></div>
+
+<p>配置LVS-DR规则</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipvsadm <span class="nt">-C</span>  <span class="c">#清空所有规则</span>
+ipvsadm <span class="nt">-A</span> <span class="nt">-t</span> 192.168.25.106:8066 <span class="nt">-s</span> rr  <span class="c">#定义LVS服务，并指定负责均衡策略为rr，即轮询</span>
+ipvsadm <span class="nt">-a</span> <span class="nt">-t</span> 192.168.25.106:8066 <span class="nt">-r</span> 192.168.25.137:8066 <span class="nt">-g</span>  <span class="c">#添加一台后端web服务器，作为负载均衡节点，并指定为DR模式</span>
+ipvsadm <span class="nt">-a</span> <span class="nt">-t</span> 192.168.25.106:8066 <span class="nt">-r</span> 192.168.25.138:8066 <span class="nt">-g</span>  <span class="c">#添加一台后端web服务器，作为负载均衡节点，并指定为DR模式</span>
+ipvsadm  <span class="nt">--save</span> <span class="o">&gt;</span>  /etc/sysconfig/ipvsadm  <span class="c">#保存负载均衡策略规则</span>
+systemctl restart ipvsadm.service
+route add <span class="nt">-host</span> 192.168.25.106:8066 dev ens33:0
+ipvsadm <span class="nt">-Ln</span>
+</code></pre></div></div>
+
+<p>查看LVS-DR</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipvsadm <span class="nt">-Ln</span> <span class="nt">--stats</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ipvsadm <span class="nt">-Ln</span> <span class="nt">--rate</span>
+</code></pre></div></div>
+
+<h3 id="mycat">mycat</h3>
+
+<p>配置jdk环境</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar </span>xf /tmp/jdk-8u201-linux-x64.tar.gz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /usr/local/jdk1.8.0_201 /usr/local/jdk1.8
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/profile.d/jdk.sh
+
+<span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/local/jdk1.8
+<span class="nv">JRE_HOME</span><span class="o">=</span><span class="nv">$JAVA_HOME</span>/jre
+<span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/lib/dt.jar:<span class="nv">$JAVA_HOME</span>/lib/tools.jar:<span class="nv">$JRE_HOME</span>/lib
+<span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin:<span class="nv">$JRE_HOME</span>/bin
+<span class="nb">export </span>JAVA_HOME JRE_HOME CLASSPATH
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">.</span> /etc/profile
+</code></pre></div></div>
+
+<p>部署mycat</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar </span>xf /tmp/Mycat-server-1.6.5-release-20180122220033-linux.tar.gz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<p>添加mycat用户</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>groupadd mycat
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>useradd <span class="nt">-g</span> mycat mycat
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="se">\"</span>123456<span class="se">\"</span> | passwd <span class="nt">--stdin</span> mycat
+</code></pre></div></div>
+
+<p>配置systemctl启动服务</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chown</span> <span class="nt">-Rf</span> mycat:mycat /usr/local/mycat
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /usr/lib/systemd/system/mycat.service
+
+<span class="o">[</span>Unit]
+<span class="nv">Description</span><span class="o">=</span>mycat Database Proxy
+<span class="nv">Description</span><span class="o">=</span>mycat
+<span class="nv">After</span><span class="o">=</span>syslog.target
+<span class="nv">After</span><span class="o">=</span>network.target
+
+<span class="o">[</span>Service]
+<span class="nv">Type</span><span class="o">=</span>simple
+<span class="nv">Restart</span><span class="o">=</span>on-abort
+<span class="nv">PIDFile</span><span class="o">=</span>/usr/local/mycat/logs/mycat.pid
+<span class="nv">ExecStart</span><span class="o">=</span>/usr/local/mycat/bin/mycat start
+<span class="nv">PrivateTmp</span><span class="o">=</span><span class="nb">true</span>
+
+<span class="o">[</span>Install]
+<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</code></pre></div></div>
+
+<h4 id="schemaxml">schema.xml</h4>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE mycat:schema SYSTEM "schema.dtd"&gt;</span>
+<span class="nt">&lt;mycat:schema</span> <span class="na">xmlns:mycat=</span><span class="s">"http://io.mycat/"</span><span class="nt">&gt;</span>
+
+        <span class="nt">&lt;schema</span> <span class="na">name=</span><span class="s">"TESTDB1"</span> <span class="na">checkSQLschema=</span><span class="s">"false"</span> <span class="na">sqlMaxLimit=</span><span class="s">"100"</span> <span class="na">dataNode=</span><span class="s">"dn139"</span><span class="nt">&gt;&lt;/schema&gt;</span>
+        <span class="nt">&lt;dataNode</span> <span class="na">name=</span><span class="s">"dn139"</span> <span class="na">dataHost=</span><span class="s">"192.168.25.139"</span> <span class="na">database=</span><span class="s">"testbookdb"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;dataHost</span> <span class="na">name=</span><span class="s">"192.168.25.139"</span> <span class="na">maxCon=</span><span class="s">"1000"</span> <span class="na">minCon=</span><span class="s">"10"</span> <span class="na">balance=</span><span class="s">"3"</span>
+                          <span class="na">writeType=</span><span class="s">"0"</span> <span class="na">dbType=</span><span class="s">"mysql"</span> <span class="na">dbDriver=</span><span class="s">"native"</span> <span class="na">switchType=</span><span class="s">"1"</span>  <span class="na">slaveThreshold=</span><span class="s">"100"</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;heartbeat&gt;</span>select user()<span class="nt">&lt;/heartbeat&gt;</span>
+                <span class="nt">&lt;writeHost</span> <span class="na">host=</span><span class="s">"192.168.25.139"</span> <span class="na">url=</span><span class="s">"192.168.25.139:3306"</span> <span class="na">user=</span><span class="s">"root"</span>
+                                   <span class="na">password=</span><span class="s">"Ckc_123123"</span><span class="nt">&gt;</span>
+                        <span class="nt">&lt;readHost</span> <span class="na">host=</span><span class="s">"192.168.25.140"</span> <span class="na">url=</span><span class="s">"192.168.25.140:3306"</span> <span class="na">user=</span><span class="s">"root"</span> <span class="na">password=</span><span class="s">"Ckc_123123"</span> <span class="nt">/&gt;</span>
+                        <span class="nt">&lt;readHost</span> <span class="na">host=</span><span class="s">"192.168.25.141"</span> <span class="na">url=</span><span class="s">"192.168.25.141:3306"</span> <span class="na">user=</span><span class="s">"root"</span> <span class="na">password=</span><span class="s">"Ckc_123123"</span> <span class="nt">/&gt;</span>
+                <span class="nt">&lt;/writeHost&gt;</span>
+        <span class="nt">&lt;/dataHost&gt;</span>
+<span class="nt">&lt;/mycat:schema&gt;</span>
+</code></pre></div></div>
+
+<h4 id="serverxml">server.xml</h4>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE mycat:server SYSTEM "server.dtd"&gt;</span>
+<span class="nt">&lt;mycat:server</span> <span class="na">xmlns:mycat=</span><span class="s">"http://io.mycat/"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;system&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"nonePasswordLogin"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/property&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"useHandshakeV10"</span><span class="nt">&gt;</span>1<span class="nt">&lt;/property&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"useSqlStat"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/property&gt;</span>  
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"useGlobleTableCheck"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/property&gt;</span>
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"sequnceHandlerType"</span><span class="nt">&gt;</span>2<span class="nt">&lt;/property&gt;</span>
+	<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"subqueryRelationshipCheck"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/property&gt;</span> 
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"processorBufferPoolType"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/property&gt;</span>
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"handleDistributedTransactions"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/property&gt;</span>
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"useOffHeapForMerge"</span><span class="nt">&gt;</span>1<span class="nt">&lt;/property&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"memoryPageSize"</span><span class="nt">&gt;</span>64k<span class="nt">&lt;/property&gt;</span>
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"spillsFileBufferSize"</span><span class="nt">&gt;</span>1k<span class="nt">&lt;/property&gt;</span>
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"useStreamOutput"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/property&gt;</span>
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"systemReserveMemorySize"</span><span class="nt">&gt;</span>384m<span class="nt">&lt;/property&gt;</span>
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"useZKSwitch"</span><span class="nt">&gt;</span>false<span class="nt">&lt;/property&gt;</span>
+	<span class="nt">&lt;/system&gt;</span>
+	<span class="nt">&lt;user</span> <span class="na">name=</span><span class="s">"root"</span> <span class="na">defaultAccount=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"password"</span><span class="nt">&gt;</span>Ckc_123123<span class="nt">&lt;/property&gt;</span>
+		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">"schemas"</span><span class="nt">&gt;</span>TESTDB1<span class="nt">&lt;/property&gt;</span>
+	<span class="nt">&lt;/user&gt;</span>
+<span class="nt">&lt;/mycat:server&gt;</span>
+</code></pre></div></div>
+
+<h4 id="log4j2xml">log4j2.xml</h4>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;Configuration</span> <span class="na">status=</span><span class="s">"WARN"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;Appenders&gt;</span>
+        <span class="nt">&lt;Console</span> <span class="na">name=</span><span class="s">"Console"</span> <span class="na">target=</span><span class="s">"SYSTEM_OUT"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;PatternLayout</span> <span class="na">pattern=</span><span class="s">"%d [%-5p][%t] %m %throwable{full} (%C:%F:%L) %n"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Console&gt;</span>
+
+        <span class="nt">&lt;RollingFile</span> <span class="na">name=</span><span class="s">"RollingFile"</span> <span class="na">fileName=</span><span class="s">"${sys:MYCAT_HOME}/logs/mycat.log"</span>
+                     <span class="na">filePattern=</span><span class="s">"${sys:MYCAT_HOME}/logs/$${date:yyyy-MM}/mycat-%d{MM-dd}-%i.log.gz"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;PatternLayout&gt;</span>
+                <span class="nt">&lt;Pattern&gt;</span>%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%t] (%l) - %m%n<span class="nt">&lt;/Pattern&gt;</span>
+            <span class="nt">&lt;/PatternLayout&gt;</span>
+            <span class="nt">&lt;Policies&gt;</span>
+                <span class="nt">&lt;OnStartupTriggeringPolicy/&gt;</span>
+                <span class="nt">&lt;SizeBasedTriggeringPolicy</span> <span class="na">size=</span><span class="s">"250 MB"</span><span class="nt">/&gt;</span>
+                <span class="nt">&lt;TimeBasedTriggeringPolicy/&gt;</span>
+            <span class="nt">&lt;/Policies&gt;</span>
+        <span class="nt">&lt;/RollingFile&gt;</span>
+    <span class="nt">&lt;/Appenders&gt;</span>
+    <span class="nt">&lt;Loggers&gt;</span>
+        <span class="nt">&lt;asyncRoot</span> <span class="na">level=</span><span class="s">"debug"</span> <span class="na">includeLocation=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;AppenderRef</span> <span class="na">ref=</span><span class="s">"RollingFile"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/asyncRoot&gt;</span>
+    <span class="nt">&lt;/Loggers&gt;</span>
+<span class="nt">&lt;/Configuration&gt;</span>
+</code></pre></div></div>
+
+<p>优化配置</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /usr/local/mycat/conf/wrapper.conf
+
+wrapper.java.command<span class="o">=</span>java  <span class="c">#修改第五行，改成以下内容</span>
+
+wrapper.java.command<span class="o">=</span>/usr/local/jdk1.8/bin/java
+</code></pre></div></div>
+
+<p>启动</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl daemon-reload
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart mycat
+</code></pre></div></div>
+
+<h3 id="mysql">MySQL</h3>
+
+<h4 id="安装mysql">安装MySQL</h4>
+
+<p>安装MySQL源并改成MySQL5.7</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> https://dev.mysql.com/get/mysql80-community-release-el7-11.noarch.rpm
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'5s/0/1/g'</span> /etc/yum.repos.d/mysql-community.repo
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'14s/1/0/g'</span> /etc/yum.repos.d/mysql-community.repo
+</code></pre></div></div>
+
+<p>安装MySQL5.7</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server mysql-community-libs-compat
+</code></pre></div></div>
+
+<p>删除MySQL源</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">rm</span> <span class="nt">-rf</span> /etc/yum.repos.d/mysql-community<span class="k">*</span>
+</code></pre></div></div>
+
+<p>跳过MySQL反向解析</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'$ a skip-name-resolve'</span> /etc/my.cnf
+<span class="c">#或者</span>
+<span class="nb">echo</span> <span class="s2">"skip-name-resolve"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+</code></pre></div></div>
+
+<p>跳过MySQL权限表</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'$ a skip-grant-tables'</span> /etc/my.cnf
+<span class="c">#或者</span>
+<span class="nb">echo</span> <span class="s2">"skip-grant-tables"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+</code></pre></div></div>
+
+<p>重启MySQL使配置生效</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart mysqld
+</code></pre></div></div>
+
+<p>获取MySQL密码</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">PASSWORD</span><span class="o">=</span><span class="sb">`</span><span class="nb">grep</span> <span class="s1">'temporary password'</span> /var/log/mysqld.log |awk <span class="s1">'{print $11}'</span><span class="sb">`</span>
+</code></pre></div></div>
+
+<p>修改MySQL用户root 的密码</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-uroot</span> <span class="nt">-p</span><span class="s2">"</span><span class="sb">`</span><span class="nb">echo</span> <span class="nv">$PASSWORD</span><span class="sb">`</span><span class="s2">"</span> <span class="nt">--connect-expired-password</span> <span class="nt">-e</span> <span class="s2">"flush privileges;ALTER USER 'root'@'localhost' identified by 'Ckc_123123';flush privileges;"</span>
+</code></pre></div></div>
+
+<p>去掉跳过MySQL权限表的配置</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'$d'</span> /etc/my.cnf
+</code></pre></div></div>
+
+<p>重启MySQL使配置生效</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart mysqld
+</code></pre></div></div>
+
+<p>尝试使用修改后的密码登录MySQL</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-uroot</span> <span class="nt">-pCkc_123123</span>
+</code></pre></div></div>
+
+<h4 id="mysql搭建主从">MySQL搭建主从</h4>
+
+<p>修改MySQL的配置文件</p>
+
+<p>master的配置文件添加一下内容</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"   "</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"log-bin=mysql-bin-master"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"server-id=1"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=mysql"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=sys"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=information_schema"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=performance_schema"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"lower_case_table_names=1"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+</code></pre></div></div>
+
+<p>slave1</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"   "</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"server-id=2"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"lower_case_table_names=1"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"log-bin=mysql-slave1"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=mysql"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=sys"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=information_schema"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=performance_schema"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"log_slave_updates=1"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+</code></pre></div></div>
+
+<p>slave2</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"   "</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"server-id=3"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"lower_case_table_names=1"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"log-bin=mysql-slave2"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=mysql"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=sys"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=information_schema"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"binlog-ignore-db=performance_schema"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+<span class="nb">echo</span> <span class="s2">"log_slave_updates=1"</span> <span class="o">&gt;&gt;</span> /etc/my.cnf
+</code></pre></div></div>
+
+<p>重启MySQL</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart mysqld
+</code></pre></div></div>
+
+<p><strong>若出现一下问题则是MySQL的server_uuid有问题，可能是两个从节点的MySQL server_uuid相同导致问题出现</strong></p>
+
+<pre><code class="language-mysql">Last_IO_Error: Got fatal error 1236 from master when reading data from binary log: 'A slave with the same server_uuid/server_id as this slave has connected to the master; the first event '' at 4, the last event read from './mysql-bin-master.000004' at 154, the last byte read from './mysql-bin-master.000004' at 154.'
+</code></pre>
+
+<p>查看MySQL server_uuid</p>
+
+<pre><code class="language-mysql">show global variables like '%uuid';
+</code></pre>
+
+<p>若相同则修改server_uuid</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /var/lib/mysql/auto.cnf
+</code></pre></div></div>
+
+<p>然后重启MySQL</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart mysqld
+</code></pre></div></div>
+
+<p>所有节点授权账号</p>
+
+<pre><code class="language-mysql">#主从账号
+grant replication slave on *.* to slave@"%" identified by "Ckc_123123";
+#监控账号
+grant all privileges on *.* to 'root'@'%' identified  by 'Ckc_123123';
+flush privileges;
+</code></pre>
+
+<p>查看master状态</p>
+
+<pre><code class="language-mysql">mysql&gt; show master status;
++-------------------------+----------+--------------+-------------------------------------------------+-------------------+
+| File                    | Position | Binlog\_Do\_DB | Binlog\_Ignore\_DB                                | Executed\_Gtid\_Set |
++-------------------------+----------+--------------+-------------------------------------------------+-------------------+
+| mysql-bin-master.000001 |      590 |              | mysql,sys,information\_schema,performance\_schema |                   |
++-------------------------+----------+--------------+-------------------------------------------------+-------------------+
+1 row in set (0.00 sec)
+
+</code></pre>
+
+<p>slave1</p>
+
+<p>配置主从</p>
+
+<pre><code class="language-mysql">#关闭GTID
+change master to master_auto_position=0;
+change master to master_host='192.168.25.139',master_user='slave',master_password='Ckc_123123',master_log_file='mysql-bin-master.000001',master_log_pos=590,master_port=3306;
+start slave;
+show slave status\G
+</code></pre>
+
+<p>slave2</p>
+
+<p>配置主从</p>
+
+<pre><code class="language-mysql">#关闭GTID
+change master to master_auto_position=0;
+change master to master_host='192.168.25.139',master_user='slave',master_password='Ckc_123123',master_log_file='mysql-bin-master.000001',master_log_pos=590,master_port=3306;
+start slave;
+show slave status\G
+</code></pre>
+
+<h5 id="快速建库建表">快速建库建表</h5>
+
+<pre><code class="language-mysql">CREATE DATABASE `testbookdb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+show databases;
+use testbookdb;
+CREATE TABLE book1 (bTypeId int,bName char(16),price int,publishing char(16));
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('1','《Linux从入门到精通》','66','电子工业出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('2','《云计算趋势》','68','人民邮电出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('3','《操作系统设计与实现》','90','机械工业出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('4','《高性能MySQL》','71','清华大学出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('5','《高性能MySQL2》','72','清华大学出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('6','《高性能MySQL3》','73','清华大学出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('7','《高性能MySQL4》','74','清华大学出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('8','《高性能MySQL5》','75','清华大学出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('9','《高性能MySQL6》','76','清华大学出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('10','《高性能MySQL7》','77','清华大学出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('11','《高性能MySQL8》','78','清华大学出版社');
+INSERT INTO book1(bTypeId,bName,price,publishing) VALUES('12','《高性能MySQL9》','79','清华大学出版社');
+ 
+CREATE TABLE book2(bTypeId int,bName char(16),price int,pages int);
+INSERT INTO book2(bTypeId,bName,price,pages) VALUES('1','《Linux从入门到精通》','30','666');
+INSERT INTO book2(bTypeId,bName,price,pages) VALUES('2','《云计算趋势》','60','666');
+INSERT INTO book2(bTypeId,bName,price,pages) VALUES('3','《操作系统设计与实现》','80','666');
+INSERT INTO book2(bTypeId,bName,price,pages) VALUES('4','《高性能MySQL》','166','666');
+ 
+show tables;
+select * from book1;
+select * from book2;
+</code></pre>
+
+<h4 id="mysql搭建mha高可用">MySQL搭建MHA高可用</h4>
+
+<p>安装依赖（配置好epel源）</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> perl-DBD-MySQL perl-Config-Tiny perl-Log-Dispatch perl-Parallel-ForkManager perl-Time-HiRes perl-ExtUtils-CBuilder perl-ExtUtils-MakeMaker perl-CPAN sshpass
+</code></pre></div></div>
+
+<p>所有的MySQL节点安装mha-node</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> /tmp/mha4mysql-node-0.58-0.el7.centos.noarch.rpm
+</code></pre></div></div>
+
+<p>manager节点安装mha-manager</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> /tmp/mha4mysql-manager-0.58-0.el7.centos.noarch.rpm
+</code></pre></div></div>
+
+<p>MySQL所有节点配置ssh-key</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-N</span> <span class="s1">''</span> <span class="nt">-f</span> /root/.ssh/id_rsa <span class="nt">-q</span>
+</code></pre></div></div>
+
+<p>MySQL所有节点配置ssh不需要指纹认证</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'/StrictHostKeyChecking/c StrictHostKeyChecking no'</span> /etc/ssh/ssh_config
+</code></pre></div></div>
+
+<p>MySQL所有节点配置互信</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshpass <span class="nt">-p</span> 123456 ssh-copy-id <span class="nt">-i</span> root@192.168.25.139
+sshpass <span class="nt">-p</span> 123456 ssh-copy-id <span class="nt">-i</span> root@192.168.25.140
+sshpass <span class="nt">-p</span> 123456 ssh-copy-id <span class="nt">-i</span> root@192.168.25.141
+</code></pre></div></div>
+
+<p>两台slave服务器设置read_only（从库对外提供读服务，之所以没有写进配置文件，是因为slave随时会提升为master）</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-uroot</span> <span class="nt">-pCkc_123123</span> <span class="nt">-e</span> <span class="s1">'set global read_only=1'</span>
+</code></pre></div></div>
+
+<p>配置MHA manager</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> /etc/masterha
+<span class="nb">mkdir</span> <span class="nt">-p</span> /var/log/masterha/app1
+</code></pre></div></div>
+
+<p>mha配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/masterha/app1.cnf
+
+<span class="o">[</span>server default]
+<span class="nv">manager_workdir</span><span class="o">=</span>/var/log/masterha/app1
+<span class="nv">manager_log</span><span class="o">=</span>/var/log/masterha/app1/manager.log
+<span class="nv">master_binlog_dir</span><span class="o">=</span>/var/lib/mysql
+<span class="nv">master_ip_failover_script</span><span class="o">=</span>/usr/local/bin/master_ip_failover
+<span class="c">#master_ip_online_change_script=/usr/local/bin/master_ip_online_change  </span>
+<span class="nv">password</span><span class="o">=</span>Ckc_123123
+<span class="nv">user</span><span class="o">=</span>root
+<span class="nv">ping_interval</span><span class="o">=</span>1
+<span class="nv">remote_workdir</span><span class="o">=</span>/tmp
+<span class="nv">repl_password</span><span class="o">=</span>Ckc_123123
+<span class="nv">repl_user</span><span class="o">=</span>slave
+<span class="c">#report_script=/usr/local/send_report</span>
+<span class="c">#shutdown_script=""</span>
+<span class="nv">ssh_user</span><span class="o">=</span>root
+
+<span class="o">[</span>server1]
+<span class="nb">hostname</span><span class="o">=</span>192.168.25.139
+<span class="nv">port</span><span class="o">=</span>3306
+
+<span class="o">[</span>server2]
+<span class="nb">hostname</span><span class="o">=</span>192.168.25.140
+<span class="nv">port</span><span class="o">=</span>3306
+<span class="nv">candidate_master</span><span class="o">=</span>1
+<span class="nv">check_repl_delay</span><span class="o">=</span>0
+
+<span class="o">[</span>server3]
+<span class="nb">hostname</span><span class="o">=</span>192.168.25.141
+<span class="nv">port</span><span class="o">=</span>3306
+</code></pre></div></div>
+
+<p>设置relay log的清除方式（在每个slave节点上）</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-uroot</span> <span class="nt">-pCkc_123123</span> <span class="nt">-e</span> <span class="s1">'set global relay_log_purge=0'</span>
+</code></pre></div></div>
+
+<p>在manager结点上检查ssh配置</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>masterha_check_ssh <span class="nt">--conf</span><span class="o">=</span>/etc/masterha/app1.cnf
+</code></pre></div></div>
+
+<p>给master配置VIP</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ip addr add 192.168.25.199/24 brd 192.168.25.255 dev ens33 label ens33:1
+arping <span class="nt">-c</span> 1 192.168.25.199
+</code></pre></div></div>
+
+<p>在manager创建自动切换脚本</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /usr/local/bin/master_ip_failover
+
+<span class="c">#!/usr/bin/env perl</span>
+use strict<span class="p">;</span>
+use warnings FATAL <span class="o">=&gt;</span> <span class="s1">'all'</span><span class="p">;</span>
+ 
+use Getopt::Long<span class="p">;</span>
+ 
+my <span class="o">(</span>
+    <span class="nv">$command</span>,          <span class="nv">$ssh_user</span>,        <span class="nv">$orig_master_host</span>, <span class="nv">$orig_master_ip</span>,
+    <span class="nv">$orig_master_port</span>, <span class="nv">$new_master_host</span>, <span class="nv">$new_master_ip</span>,    <span class="nv">$new_master_port</span>
+<span class="o">)</span><span class="p">;</span>
+ 
+my <span class="nv">$vip</span> <span class="o">=</span> <span class="s1">'192.168.25.199'</span><span class="p">;</span>
+my <span class="nv">$brdc</span> <span class="o">=</span> <span class="s1">'192.168.25.255'</span><span class="p">;</span>
+my <span class="nv">$ifdev</span> <span class="o">=</span> <span class="s1">'ens33'</span><span class="p">;</span>
+my <span class="nv">$key</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>
+my <span class="nv">$ssh_start_vip</span> <span class="o">=</span> <span class="s2">"/usr/sbin/ip addr add </span><span class="nv">$vip</span><span class="s2">/24 brd </span><span class="nv">$brdc</span><span class="s2"> dev </span><span class="nv">$ifdev</span><span class="s2"> label </span><span class="nv">$ifdev</span><span class="s2">:</span><span class="nv">$key</span><span class="s2">;/usr/sbin/arping -q -A -c 1 -I </span><span class="nv">$ifdev</span><span class="s2">:</span><span class="nv">$key</span><span class="s2"> </span><span class="nv">$vip</span><span class="s2">;iptables -F;"</span><span class="p">;</span>
+my <span class="nv">$ssh_stop_vip</span> <span class="o">=</span> <span class="s2">"/usr/sbin/ip addr del </span><span class="nv">$vip</span><span class="s2">/24 dev </span><span class="nv">$ifdev</span><span class="s2"> label </span><span class="nv">$ifdev</span><span class="s2">:</span><span class="nv">$key</span><span class="s2">"</span><span class="p">;</span>
+ 
+GetOptions<span class="o">(</span>
+    <span class="s1">'command=s'</span>          <span class="o">=&gt;</span> <span class="se">\$</span><span class="nb">command</span>,
+    <span class="s1">'ssh_user=s'</span>         <span class="o">=&gt;</span> <span class="se">\$</span>ssh_user,
+    <span class="s1">'orig_master_host=s'</span> <span class="o">=&gt;</span> <span class="se">\$</span>orig_master_host,
+    <span class="s1">'orig_master_ip=s'</span>   <span class="o">=&gt;</span> <span class="se">\$</span>orig_master_ip,
+    <span class="s1">'orig_master_port=i'</span> <span class="o">=&gt;</span> <span class="se">\$</span>orig_master_port,
+    <span class="s1">'new_master_host=s'</span>  <span class="o">=&gt;</span> <span class="se">\$</span>new_master_host,
+    <span class="s1">'new_master_ip=s'</span>    <span class="o">=&gt;</span> <span class="se">\$</span>new_master_ip,
+    <span class="s1">'new_master_port=i'</span>  <span class="o">=&gt;</span> <span class="se">\$</span>new_master_port,
+<span class="o">)</span><span class="p">;</span>
+ 
+<span class="nb">exit</span> &amp;main<span class="o">()</span><span class="p">;</span>
+ 
+sub main <span class="o">{</span>
+ 
+    print <span class="s2">"</span><span class="se">\n\n</span><span class="s2">IN SCRIPT TEST====</span><span class="nv">$ssh_stop_vip</span><span class="s2">==</span><span class="nv">$ssh_start_vip</span><span class="s2">===</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">;</span>
+ 
+    <span class="k">if</span> <span class="o">(</span> <span class="nv">$command</span> eq <span class="s2">"stop"</span> <span class="se">\|</span>| <span class="nv">$command</span> eq <span class="s2">"stopssh"</span> <span class="o">)</span> <span class="o">{</span>
+ 
+        my <span class="nv">$exit_code</span> <span class="o">=</span> 1<span class="p">;</span>
+        <span class="nb">eval</span> <span class="o">{</span>
+            print <span class="s2">"Disabling the VIP on old master: </span><span class="nv">$orig_master_host</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+            &amp;stop_vip<span class="o">()</span><span class="p">;</span>
+            <span class="nv">$exit_code</span> <span class="o">=</span> 0<span class="p">;</span>
+        <span class="o">}</span><span class="p">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nv">$@</span><span class="o">)</span> <span class="o">{</span>
+            warn <span class="s2">"Got Error: </span><span class="nv">$@</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+            <span class="nb">exit</span> <span class="nv">$exit_code</span><span class="p">;</span>
+        <span class="o">}</span>
+        <span class="nb">exit</span> <span class="nv">$exit_code</span><span class="p">;</span>
+    <span class="o">}</span>
+    elsif <span class="o">(</span> <span class="nv">$command</span> eq <span class="s2">"start"</span> <span class="o">)</span> <span class="o">{</span>
+ 
+        my <span class="nv">$exit_code</span> <span class="o">=</span> 10<span class="p">;</span>
+        <span class="nb">eval</span> <span class="o">{</span>
+            print <span class="s2">"Enabling the VIP - </span><span class="nv">$vip</span><span class="s2"> on the new master - </span><span class="nv">$new_master_host</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+            &amp;start_vip<span class="o">()</span><span class="p">;</span>
+            <span class="nv">$exit_code</span> <span class="o">=</span> 0<span class="p">;</span>
+        <span class="o">}</span><span class="p">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="nv">$@</span><span class="o">)</span> <span class="o">{</span>
+            warn <span class="nv">$@</span><span class="p">;</span>
+            <span class="nb">exit</span> <span class="nv">$exit_code</span><span class="p">;</span>
+        <span class="o">}</span>
+        <span class="nb">exit</span> <span class="nv">$exit_code</span><span class="p">;</span>
+    <span class="o">}</span>
+    elsif <span class="o">(</span> <span class="nv">$command</span> eq <span class="s2">"status"</span> <span class="o">)</span> <span class="o">{</span>
+        print <span class="s2">"Checking the Status of the script.. OK </span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+        <span class="nb">exit </span>0<span class="p">;</span>
+    <span class="o">}</span>
+    <span class="k">else</span> <span class="o">{</span>
+        &amp;usage<span class="o">()</span><span class="p">;</span>
+        <span class="nb">exit </span>1<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+sub start_vip<span class="o">()</span> <span class="o">{</span>
+    <span class="sb">`</span>ssh <span class="nv">$ssh_user</span><span class="se">\@</span><span class="nv">$new_master_host</span> <span class="se">\"</span> <span class="nv">$ssh_start_vip</span> <span class="se">\"</span><span class="sb">`</span><span class="p">;</span>
+<span class="o">}</span>
+<span class="c"># A simple system call that disable the VIP on the old_master</span>
+sub stop_vip<span class="o">()</span> <span class="o">{</span>
+    <span class="sb">`</span>ssh <span class="nv">$ssh_user</span><span class="se">\@</span><span class="nv">$orig_master_host</span> <span class="se">\"</span> <span class="nv">$ssh_stop_vip</span> <span class="se">\"</span><span class="sb">`</span><span class="p">;</span>
+<span class="o">}</span>
+ 
+sub usage <span class="o">{</span>
+    print
+    <span class="se">\"</span>Usage: master<span class="se">\_</span>ip<span class="se">\_</span>failover <span class="nt">--command</span><span class="o">=</span>start|stop|stopssh|status <span class="nt">--orig</span><span class="se">\_</span>master<span class="se">\_</span><span class="nv">host</span><span class="o">=</span>host <span class="nt">--orig</span><span class="se">\_</span>master<span class="se">\_</span><span class="nv">ip</span><span class="o">=</span>ip <span class="nt">--orig</span><span class="se">\_</span>master<span class="se">\_</span><span class="nv">port</span><span class="o">=</span>port <span class="nt">--new</span><span class="se">\_</span>master<span class="se">\_</span><span class="nv">host</span><span class="o">=</span>host <span class="nt">--new</span><span class="se">\_</span>master<span class="se">\_</span><span class="nv">ip</span><span class="o">=</span>ip <span class="nt">--new</span><span class="se">\_</span>master<span class="se">\_</span><span class="nv">port</span><span class="o">=</span>port<span class="se">\n\"</span><span class="p">;</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p>给自动切换脚本权限</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod </span>755 /usr/local/bin/master_ip_failover
+</code></pre></div></div>
+
+<p>通过masterha_check_repl脚本查看整个集群的状态，出现 MySQL Replication Health is OK. 则表示成功</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>masterha_check_repl <span class="nt">--conf</span><span class="o">=</span>/etc/masterha/app1.cnf
+</code></pre></div></div>
+
+<p>检查MHA Manager的状态  ，如果正常，会显示”PING_OK”，否则会显示”NOT_RUNNING”，这代表MHA监控没有开启</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>masterha_check_status <span class="nt">--conf</span><span class="o">=</span>/etc/masterha/app1.cnf
+</code></pre></div></div>
+
+<p>开启MHA Manager监控</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">nohup </span>masterha_manager <span class="nt">--conf</span><span class="o">=</span>/etc/masterha/app1.cnf <span class="nt">--remove_dead_master_conf</span> <span class="nt">--ignore_last_failover</span> &lt; /dev/null <span class="o">&gt;</span> /var/log/masterha/app1/manager.log 2&gt;&amp;1 &amp;
+</code></pre></div></div>
+
+<p>启动参数解释：</p>
+
+<p>–remove_dead_master_conf   该参数代表当发生主从切换后，老的主库的IP将会从配置文件中移除</p>
+
+<p>–manger_log         日志存放位置</p>
+
+<p>–ignore_last_failover      在缺省情况下，如果MHA检测到连续发生宕机，且两次宕机间隔不足8小时的话，则不会进行Failover，之所以这样限制是为了避免ping-pong效应。该参数代表忽略上次MHA触发切换产生的文件，默认情况下，MHA发生切换后会在日志目录，也就是上面我设置的/data产生app1.failover.complete文件，下次再次切换的时候如果发现该目录下存在该文件将不允许触发切换，除非在第一次切换后删除该文件，为了方便，这里设置为–ignore_last_failover</p>
+
+<p>检查MHA Manager的状态 ，出现 app1 (pid:3381) is running(0:PING_OK), master:192.168.25.139  表示成功</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>masterha_check_status <span class="nt">--conf</span><span class="o">=</span>/etc/masterha/app1.cnf
+</code></pre></div></div>
+
+<p>关闭MHA Manage监控</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>masterha_stop <span class="nt">--conf</span><span class="o">=</span>/etc/masterha/app1.cnf
+</code></pre></div></div>
+
+<h3 id="部署java项目">部署java项目</h3>
+
+<h4 id="安装maven">安装maven</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#上传并解压maven源码包</span>
+<span class="nb">tar</span> <span class="nt">-xf</span> /tmp/apache-maven-3.9.4-bin.tar.gz <span class="nt">-C</span> /usr/local
+<span class="c">#更名便于操作</span>
+<span class="nb">mv</span> /usr/local/apache-maven-3.9.4 /usr/local/maven
+</code></pre></div></div>
+
+<p>配置环境变量</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/profile.d/maven.sh
+
+<span class="c">#! /bin/bash</span>
+<span class="nb">export </span><span class="nv">MAVEN_HOME</span><span class="o">=</span>/usr/local/maven
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$MAVEN_HOME</span>/bin:<span class="nv">$PATH</span>
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> /etc/profile
+</code></pre></div></div>
+
+<p>查看maven版本</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn <span class="nt">-v</span>
+
+Apache Maven 3.9.4 <span class="o">(</span>dfbb324ad4a7c8fb0bf182e6d91b0ae20e3d2dd9<span class="o">)</span>
+Maven home: /usr/local/maven-3.9.4
+Java version: 1.8.0_201, vendor: Oracle Corporation, runtime: /opt/jdk1.8/jre
+Default locale: en_US, platform encoding: UTF-8
+OS name: <span class="s2">"linux"</span>, version: <span class="s2">"3.10.0-693.el7.x86_64"</span>, <span class="nb">arch</span>: <span class="s2">"amd64"</span>, family: <span class="s2">"unix"</span>
+</code></pre></div></div>
+
+<p>配置maven加速器</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#修改镜像</span>
+vim /usr/local/maven/conf/settings.xml 
+<span class="c">#源镜像在文件约160行</span>
+<span class="c">#注释掉或删掉原来的镜像并改成下面阿里的镜像</span>
+&lt;mirror&gt;
+    &lt;<span class="nb">id</span><span class="o">&gt;</span>aliyunmaven&lt;/id&gt;
+    &lt;mirrorOf&gt;<span class="k">*</span>&lt;/mirrorOf&gt;
+    &lt;name&gt;阿里云公共仓库&lt;/name&gt;
+    &lt;url&gt;https://maven.aliyun.com/repository/public&lt;/url&gt;
+&lt;/mirror&gt;
+</code></pre></div></div>
+
+<h4 id="配置java项目">配置java项目</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xf</span> /tmp/myweb.tar.gz
+<span class="nb">cd </span>mybeb
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim pom.xml
+
+<span class="c">#在&lt;project&gt;&lt;/project&gt;里添加</span>
+&lt;packaging&gt;war&lt;/packaging&gt;
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /tmp/myweb/src/main/resources/application.properties
+
+spring.datasource.driver-class-name<span class="o">=</span>com.mysql.jdbc.Driver
+spring.datasource.url<span class="o">=</span>jdbc:mysql://192.168.25.106:8066/TESTDB1?characterEncoding<span class="o">=</span>UTF-8
+spring.datasource.username<span class="o">=</span>root
+spring.datasource.password<span class="o">=</span>Ckc_123123
+
+spring.jpa.hibernate.ddl-auto<span class="o">=</span>update
+spring.jpa.show-sql<span class="o">=</span><span class="nb">true</span>
+</code></pre></div></div>
+
+<p>使用maven将java项目打成war包</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /tmp/myweb
+mvn clean package <span class="nt">-DskipTests</span>
+</code></pre></div></div>
+
+<p>将war包分配到集群</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> /tmp/myweb/targetmyweb-0.0.1-SNAPSHOT.war /opt/tomcat-8.5/webapps/ROOT.war
+scp /opt/tomcat-8.5/webapps/ROOT.war root@192.168.25.135:/opt/tomcat-8.5/webapps
+scp /opt/tomcat-8.5/webapps/ROOT.war root@192.168.25.136:/opt/tomcat-8.5/webapps
+</code></pre></div></div>
+
+<p>重启tomcat集群</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tomcat restart
+</code></pre></div></div>
+
+<h3 id="zabbix监控">zabbix监控</h3>
+
+<p>zabbix的yum源</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
+<span class="c">#打开前端仓库</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'11s/0/1/'</span> /etc/yum.repos.d/zabbix.repo
+</code></pre></div></div>
+
+<p>安装zabbix前端和zabbix-server</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> centos-release-scl
+yum <span class="nb">install</span> <span class="nt">-y</span> zabbix-server-mysql zabbix-web-mysql-scl zabbix-apache-conf-scl
+</code></pre></div></div>
+
+<p>传sql到mysql139</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scp /usr/share/doc/zabbix-server-mysql-5.0.39/create.sql.gz 192.168.25.139:/tmp
+</code></pre></div></div>
+
+<p>创建mysql用户</p>
+
+<pre><code class="language-mysql">mysql -uroot -puplooking_123
+create database zabbix character set utf8 collate utf8_bin;
+grant all on zabbix.* to 'zbx'@'%' identified by "Ckc_123123";
+flush privileges;
+#设置全局 运行创建函数
+set global log_bin_trust_function_creators = 1;
+</code></pre>
+
+<p>导入数据</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /tmp
+zcat create.sql.gz | mysql <span class="nt">-uzbx</span>  <span class="nt">-pCkc</span><span class="se">\_</span>123123 zabbix
+</code></pre></div></div>
+
+<p>还原MySQL设置</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#关闭全局 不运行创建函数</span>
+mysql <span class="nt">-uroot</span> <span class="nt">-pCkc_123123</span> <span class="nt">-e</span> <span class="s2">"set global log_bin_trust_function_creators = 0;"</span>
+</code></pre></div></div>
+
+<p>配置zabbix</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/zabbix/zabbix_server.conf
+
+<span class="nv">LogFile</span><span class="o">=</span>/var/log/zabbix/zabbix_server.log
+<span class="nv">LogFileSize</span><span class="o">=</span>0
+<span class="nv">PidFile</span><span class="o">=</span>/var/run/zabbix/zabbix_server.pid
+<span class="nv">SocketDir</span><span class="o">=</span>/var/run/zabbix
+<span class="nv">DBHost</span><span class="o">=</span>192.168.25.139
+<span class="nv">DBName</span><span class="o">=</span>zabbix
+<span class="nv">DBUser</span><span class="o">=</span>zbx
+<span class="nv">DBPassword</span><span class="o">=</span>Ckc_123123
+<span class="nv">SNMPTrapperFile</span><span class="o">=</span>/var/log/snmptrap/snmptrap.log
+<span class="nv">Timeout</span><span class="o">=</span>4
+<span class="nv">AlertScriptsPath</span><span class="o">=</span>/usr/lib/zabbix/alertscripts
+<span class="nv">ExternalScripts</span><span class="o">=</span>/usr/lib/zabbix/externalscripts
+<span class="nv">LogSlowQueries</span><span class="o">=</span>3000
+<span class="nv">StatsAllowedIP</span><span class="o">=</span>0.0.0.0
+<span class="c">#监控JMX</span>
+<span class="nv">JavaGateway</span><span class="o">=</span>192.168.25.142
+<span class="nv">JavaGatewayPort</span><span class="o">=</span>10052
+<span class="nv">StartJavaPollers</span><span class="o">=</span>5
+</code></pre></div></div>
+
+<p>为Zabbix前端配置PHP 修改时区</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> ntpdate
+ntpdate ntp.aliyun.com
+</code></pre></div></div>
+
+<p>修改php配置</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/; php_value\[date.timezone\] = Europe\/Riga/php_value\[date.timezone\] = Asia\/Shanghai/g'</span> /etc/opt/rh/rh-php72/php-fpm.d/zabbix.conf
+</code></pre></div></div>
+
+<p>启动zabbix相关服务</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart zabbix-server httpd rh-php72-php-fpm
+systemctl <span class="nb">enable </span>zabbix-server httpd rh-php72-php-fpm
+</code></pre></div></div>
+
+<p>访问zabbix页面进行初始化</p>
+
+<p>http://192.168.25.142/zabbix</p>
+
+<p>初始化完成后使用默认的账号密码进行登录</p>
+
+<p>账号：Admin</p>
+
+<p>密码：zabbix</p>
+
+<p>登陆后在页面的左下角点击user settings，然后更改成中文</p>
+
+<h4 id="监控主机">监控主机</h4>
+
+<p>这里监控的主机均为<strong>被动模式</strong></p>
+
+<p>安装zabbix-agent监控自己</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> zabbix-agent
+</code></pre></div></div>
+
+<p>配置agent</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/zabbix/zabbix_agentd.conf
+
+<span class="nv">PidFile</span><span class="o">=</span>/var/run/zabbix/zabbix_agentd.pid
+<span class="nv">LogFile</span><span class="o">=</span>/var/log/zabbix/zabbix_agentd.log
+<span class="nv">LogFileSize</span><span class="o">=</span>0
+<span class="nv">Server</span><span class="o">=</span>127.0.0.1
+<span class="nv">ListenPort</span><span class="o">=</span>10050
+<span class="nv">ListenIP</span><span class="o">=</span>0.0.0.0
+<span class="nv">ServerActive</span><span class="o">=</span>127.0.0.1
+<span class="nv">Hostname</span><span class="o">=</span>zabbix142
+<span class="nv">Include</span><span class="o">=</span>/etc/zabbix/zabbix_agentd.d/<span class="k">*</span>.conf
+</code></pre></div></div>
+
+<p>启动agent</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start zabbix-agent.service
+</code></pre></div></div>
+
+<p>进到zabbix页面配置监控自己的agent</p>
+
+<p><img src="https://picdl.sunbangyan.cn/2023/11/18/51797e968956d74909f30a6392165faf.png" alt=""></p>
+
+<p>分别在nginx，tomcat，mysql主机上安装agent2并监控</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#同步时间</span>
+ntpdate ntp.aliyun.com 
+<span class="c">#安装zabbix源</span>
+rpm <span class="nt">-Uvh</span> https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-release-5.0-1.el7.noarch.rpm
+<span class="c">#安装agent2</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> zabbix-agent2.x86_64
+</code></pre></div></div>
+
+<p>配置agent2</p>
+
+<h5 id="监控nginx">监控nginx</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/zabbix/zabbix_agent2.conf
+
+<span class="nv">PidFile</span><span class="o">=</span>/var/run/zabbix/zabbix_agent2.pid
+<span class="nv">LogType</span><span class="o">=</span>file
+<span class="nv">LogFile</span><span class="o">=</span>/var/log/zabbix/zabbix_agent2.log
+<span class="nv">LogFileSize</span><span class="o">=</span>0
+<span class="nv">Server</span><span class="o">=</span>192.168.25.142
+<span class="nv">ListenPort</span><span class="o">=</span>10050
+<span class="nv">ListenIP</span><span class="o">=</span>0.0.0.0
+<span class="c">#注意这个改成对应的主机名</span>
+<span class="nv">Hostname</span><span class="o">=</span>nginx132
+<span class="nv">Include</span><span class="o">=</span>/etc/zabbix/zabbix_agent2.d/<span class="k">*</span>.conf
+<span class="nv">ControlSocket</span><span class="o">=</span>/tmp/agent.sock
+</code></pre></div></div>
+
+<h5 id="监控tomcat">监控tomcat</h5>
+
+<p>修改tomcat配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /opt/tomcat-8.5/bin/catalina.sh
+
+<span class="c">#在约335行处添加一下内容，hostname为tomcat主机的ip</span>
+<span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">"</span><span class="nv">$CATALINA_OPTS</span><span class="s2"> -Djava.rmi.server.hostname=192.168.25.134     -Dcom.sun.management.jmxremote.port=1099     -Dcom.sun.management.jmxr    emote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"</span>
+</code></pre></div></div>
+
+<p>重启tomcat</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tomcat restart
+</code></pre></div></div>
+
+<p>修改tomcat的agent配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/zabbix/zabbix_agent2.conf
+
+<span class="nv">PidFile</span><span class="o">=</span>/var/run/zabbix/zabbix_agent2.pid
+<span class="nv">LogType</span><span class="o">=</span>file
+<span class="nv">LogFile</span><span class="o">=</span>/var/log/zabbix/zabbix_agent2.log
+<span class="nv">LogFileSize</span><span class="o">=</span>0
+<span class="nv">Server</span><span class="o">=</span>192.168.25.142
+<span class="nv">ListenPort</span><span class="o">=</span>10050
+<span class="nv">ListenIP</span><span class="o">=</span>0.0.0.0
+<span class="c">#注意这个改成对应的主机名</span>
+<span class="nv">Hostname</span><span class="o">=</span>tomcat134
+<span class="nv">Include</span><span class="o">=</span>/etc/zabbix/zabbix_agent2.d/<span class="k">*</span>.conf
+<span class="nv">ControlSocket</span><span class="o">=</span>/tmp/agent.sock
+</code></pre></div></div>
+
+<p>zabbix142上安装 Zabbix-java-gateway组件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> java java-devel zabbix-java-gateway
+</code></pre></div></div>
+
+<p>重启服务zabbix142</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart zabbix-server.service zabbix-java-gateway.service
+systemctl <span class="nb">enable </span>zabbix-java-gateway.service
+</code></pre></div></div>
+
+<h5 id="监控mysql">监控MySQL</h5>
+
+<p>在MySQL master节点创建监控用户并授权权限</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -uroot -pCkc_123123 -e "CREATE USER 'zbx_monitor'@'%' IDENTIFIED BY 'Ckc_123123';GRANT REPLICATION CLIENT,PROCESS,SHOW DATABASES,SHOW VIEW ON *.* TO 'zbx_monitor'@'%';"
+</code></pre></div></div>
+
+<p>修改agent2配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/zabbix/zabbix_agent2.conf
+
+<span class="nv">PidFile</span><span class="o">=</span>/var/run/zabbix/zabbix_agent2.pid
+<span class="nv">LogType</span><span class="o">=</span>file
+<span class="nv">LogFile</span><span class="o">=</span>/var/log/zabbix/zabbix_agent2.log
+<span class="nv">LogFileSize</span><span class="o">=</span>0
+<span class="nv">Server</span><span class="o">=</span>192.168.25.142
+<span class="nv">ListenPort</span><span class="o">=</span>10050
+<span class="nv">ListenIP</span><span class="o">=</span>0.0.0.0
+<span class="c">#注意这个改成对应的主机名</span>
+<span class="nv">Hostname</span><span class="o">=</span>mysql139
+<span class="nv">Include</span><span class="o">=</span>/etc/zabbix/zabbix_agent2.d/<span class="k">*</span>.conf
+<span class="nv">ControlSocket</span><span class="o">=</span>/tmp/agent.sock
+</code></pre></div></div>
+
+<p>最后全部启动anget2，并配置开机自启动</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nb">enable</span> <span class="nt">--now</span> zabbix-agent2.service
+</code></pre></div></div>
+
+<p>所有主机都监控起来了</p>
+
+<p><img src="https://picss.sunbangyan.cn/2023/11/18/3e47bc42aacd4218b4a067004ac7365e.png" alt=""></p>
+
+<h3 id="redis">redis</h3>
+
+<p>下载redis源码包</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /tmp
+wget https://download.redis.io/releases/redis-7.0.13.tar.gz
+</code></pre></div></div>
+
+<p>解压源码包</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar </span>xf redis-7.0.13.tar.gz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<p>更名</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /usr/local/redis-7.0.13 /usr/local/redis7
+</code></pre></div></div>
+
+<p>进入到redis目录</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /usr/local/redis7
+</code></pre></div></div>
+
+<p>安装依赖</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> gcc
+</code></pre></div></div>
+
+<p>编译</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+</code></pre></div></div>
+
+<p>安装</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make <span class="nv">PREFIX</span><span class="o">=</span>/usr/local/redis7 <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>编辑配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'87s/bind 127.0.0.1 -::1/bind 0.0.0.0/'</span> /usr/local/redis7/redis.conf
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'111s/yes/no/'</span> /usr/local/redis7/redis.conf
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'309s/no/yes/'</span> /usr/local/redis7/redis.conf
+</code></pre></div></div>
+
+<p>使用systemd管理</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/systemd/system/redis.service
+
+<span class="o">[</span>unit]
+<span class="nv">Description</span><span class="o">=</span>redis-server
+<span class="nv">After</span><span class="o">=</span>network.target
+
+<span class="o">[</span>Service]
+<span class="nv">Type</span><span class="o">=</span>forking
+<span class="nv">ExecStart</span><span class="o">=</span>/usr/local/redis7/bin/redis-server /usr/local/redis7/redis.conf
+<span class="nv">PrivateTmp</span><span class="o">=</span><span class="nb">true</span>
+
+<span class="o">[</span>Install]
+<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</code></pre></div></div>
+
+<p>软链接</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ln</span> <span class="nt">-s</span> /usr/local/redis7/bin/redis-cli /usr/bin/redis
+</code></pre></div></div>
+
+<p>启动redis</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis
+</code></pre></div></div>
+
+<h3 id="日志搜集">日志搜集</h3>
+
+<p>使用filebeat6.8搜集主机的日志，并输出到redis</p>
+
+<p>所有节点都安装filebeat</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /tmp
+curl <span class="nt">-L</span> <span class="nt">-O</span> https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.8.23-x86_64.rpm
+rpm <span class="nt">-ivh</span> filebeat-6.8.22-x86_64.rpm
+systemctl daemon-reload
+</code></pre></div></div>
+
+<p>备份原来filebeat配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /etc/filebeat/filebeat.yml /etc/filebeat/filebeat.yml.bak
+</code></pre></div></div>
+
+<h5 id="nginx">nginx</h5>
+
+<p>编写nginx的filebeat配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> /etc/filebeat/filebeat.yml <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /var/log/nginx/*access.log*
+  tags: ["nginx_access132"]
+  exclude_files: ['.gz</span><span class="nv">$'</span><span class="sh">,'.zip','.bz2']
+  json.keys_under_root: true
+  json.overwrite_keys: true
+
+- type: log
+  enabled: true
+  paths:
+    - /var/log/nginx/*error.log*
+  tags: ["nginx_error132"]
+  exclude_files: ['.gz</span><span class="nv">$'</span><span class="sh">,'.zip','.bz2']
+
+output.redis:
+  hosts: ["192.168.25.143"]
+  #password: ""
+  port: 6379
+  db: 0
+  timeout: 5
+  #注意这里的key用hostname，为了好区分
+  key: "nginxdr132"
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<h5 id="tomcat">tomcat</h5>
+
+<p>编写tomcat的filebeat配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/filebeat/filebeat.yml
+
+filebeat.inputs:
+- <span class="nb">type</span>: log
+  enabled: <span class="nb">true
+  </span>paths:
+    - /opt/tomcat-8.5/logs/catalina.<span class="k">*</span>.log
+  tags: <span class="o">[</span><span class="s1">'java134'</span><span class="o">]</span>
+  exclude_files: <span class="o">[</span><span class="s1">'.gz$'</span><span class="o">]</span>
+
+  multiline.pattern: <span class="s1">'^([0-9]{2}-[a-zA-Z]{3}-[0-9]{4})'</span>
+  multiline.negate: <span class="nb">true
+  </span>multiline.match: after
+
+- <span class="nb">type</span>: log
+  enabled: <span class="nb">true
+  </span>paths:
+    - /opt/tomcat-8.5/logs/<span class="k">*</span>.txt
+  tags: <span class="o">[</span><span class="s1">'tomcat134'</span><span class="o">]</span>
+  json.keys_under_root: <span class="nb">true
+  </span>json.overwrite_keys: <span class="nb">true
+
+</span>output.redis:
+  hosts: <span class="o">[</span><span class="s2">"192.168.25.143"</span><span class="o">]</span>
+  <span class="c">#password: ""</span>
+  port: 6379
+  db: 0
+  <span class="nb">timeout</span>: 5
+  <span class="c">#注意这里的key用hostname，为了好区分</span>
+  key: <span class="s2">"tomcat134"</span>
+</code></pre></div></div>
+
+<h5 id="mycat-1">mycat</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/filebeat/filebeat.yml
+
+filebeat.inputs:
+- <span class="nb">type</span>: log
+  enabled: <span class="nb">true
+  </span>paths:
+    - /usr/local/mycat/logs/mycat.log
+  <span class="c">#注意这里的tags用hostname，为了好区分</span>
+  tags: <span class="o">[</span><span class="s1">'mycat137'</span><span class="o">]</span>
+
+- <span class="nb">type</span>: log
+  enabled: <span class="nb">true
+  </span>paths:
+    - /usr/local/mycat/logs/wrapper.log
+  <span class="c">#注意这里的tags用hostname，为了好区分</span>
+  tags: <span class="o">[</span><span class="s1">'wrapper137'</span><span class="o">]</span>
+
+output.redis:
+  hosts: <span class="o">[</span><span class="s2">"192.168.25.143"</span><span class="o">]</span>
+  <span class="c">#password: ""</span>
+  port: 6379
+  db: 0
+  <span class="nb">timeout</span>: 5
+  <span class="c">#注意这里的key用hostname，为了好区分</span>
+  key: <span class="s2">"mycat137"</span>
+</code></pre></div></div>
+
+<h5 id="mysql-1">mysql</h5>
+
+<p>编写mysql的filebeat配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/filebeat/filebeat.yml
+
+filebeat.inputs:
+- <span class="nb">type</span>: log
+  enabled: <span class="nb">true
+  </span>paths:
+    - /var/log/mysqld.log
+  <span class="c">#注意这里的tags用hostname，为了好区分</span>
+  tags: <span class="o">[</span><span class="s1">'mysql139'</span><span class="o">]</span>
+
+<span class="c">#output.file:</span>
+<span class="c">#  path: "/tmp"</span>
+<span class="c">#  filename: filebeat.txt</span>
+output.redis:
+  hosts: <span class="o">[</span><span class="s2">"192.168.25.143"</span><span class="o">]</span>
+  <span class="c">#password: ""</span>
+  port: 6379
+  db: 0
+  <span class="nb">timeout</span>: 5
+  <span class="c">#注意这里的key用hostname，为了好区分</span>
+  key: <span class="s2">"mysql139"</span>
+
+<span class="c"># 加载 module</span>
+<span class="c">#filebeat.config.modules:</span>
+<span class="c">#  path: ${path.config}/modules.d/*.yml</span>
+<span class="c">#  reload.enabled: true</span>
+<span class="c">#发现使用模块和直接读mysqld.log的内容是一致的</span>
+</code></pre></div></div>
+
+<p>启动filebeat</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl <span class="nb">enable</span> <span class="nt">--now</span> filebeat.servicce
+</code></pre></div></div>
+
+<h3 id="logstash">logstash</h3>
+
+<p>配置jdk环境</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar </span>xf /tmp/jdk-8u201-linux-x64.tar.gz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /usr/local/jdk1.8.0_201 /usr/local/jdk1.8
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> /etc/profile.d/jdk.sh <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+JAVA_HOME=/usr/local/jdk1.8
+JRE_HOME=</span><span class="nv">$JAVA_HOME</span><span class="sh">/jre
+CLASSPATH=.:</span><span class="nv">$JAVA_HOME</span><span class="sh">/lib/dt.jar:</span><span class="nv">$JAVA_HOME</span><span class="sh">/lib/tools.jar:</span><span class="nv">$JRE_HOME</span><span class="sh">/lib
+PATH=</span><span class="nv">$PATH</span><span class="sh">:</span><span class="nv">$JAVA_HOME</span><span class="sh">/bin:</span><span class="nv">$JRE_HOME</span><span class="sh">/bin
+export JAVA_HOME JRE_HOME CLASSPATH
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">.</span> /etc/profile
+</code></pre></div></div>
+
+<p>安装并配置logstash6.8.22</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> /tmp/logstash-6.8.22.rpm
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> /etc/profile.d/logstash.sh <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+#! /bin/bash
+PATH=</span><span class="k">${</span><span class="nv">PATH</span><span class="k">}</span><span class="sh">:/usr/share/logstash/bin/
+</span><span class="no">EOF
+</span><span class="nb">ln</span> <span class="nt">-s</span> /usr/share/logstash/bin/logstash /usr/bin/
+</code></pre></div></div>
+
+<p>编写配置文件</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> /etc/logstash/conf.d/frl.conf <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "nginxdr132"
+    port =&gt; 6379
+  }
+}
+
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "nginx133"
+    port =&gt; 6379
+  }
+}
+
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "tomcat134"
+    port =&gt; 6379
+  }
+}
+
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "tomcat135"
+    port =&gt; 6379
+  }
+}
+
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "tomcat136"
+    port =&gt; 6379
+  }
+}
+
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "mycat137"
+    port =&gt; 6379
+  }
+}
+
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "mycat138"
+    port =&gt; 6379
+  }
+}
+
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "mysql139"
+    port =&gt; 6379
+  }
+}
+
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "mysql140"
+    port =&gt; 6379
+  }
+}
+
+input {
+  redis {
+    data_type =&gt; "list"
+    db =&gt; 0
+    host =&gt; "192.168.25.143"
+    key =&gt; "mysql141"
+    port =&gt; 6379
+  }
+}
+
+
+filter {
+   grok {
+      match =&gt; {
+         "method" =&gt; "%{WORD:req} %{URIPATH:uri}"
+      }
+   }
+
+   geoip {
+       source =&gt; "cip"
+       target =&gt; ["geoip"]
+       fields =&gt; ["location","country_name","city_name"]
+   }
+
+   mutate {
+      gsub =&gt; ["timestamp","[</span><span class="se">\[\]</span><span class="sh">]",""]
+      remove_field =&gt; ["input","beat","log","@version","prospector","offset","method"]
+   }
+   date {
+      match =&gt; ["timestamp","dd/MMM/yyyy:HH:mm:ss Z"]
+      target=&gt; "@timestamp"
+   }
+}
+
+output {
+  stdout {}
+  if "nginx_access132" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "nginxdr132-access-%{+yyyy.MM}"
+      }
+  }
+    if "nginx_error132" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "nginxdr132-error-%{+yyyy.MM}"
+      }
+  }
+    if "nginx_access133" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "nginxdr133-access-%{+yyyy.MM}"
+      }
+  }
+    if "nginx_error133" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "nginxdr133-error-%{+yyyy.MM}"
+      }
+  }
+    if "java134" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "tomcat134-java-%{+yyyy.MM}"
+      }
+  }
+    if "tomcat134" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "tomcat134-tomcat-%{+yyyy.MM}"
+      }
+  }
+    if "java135" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "tomcat135-java-%{+yyyy.MM}"
+      }
+  }
+    if "tomcat135" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "tomcat135-tomcat-%{+yyyy.MM}"
+      }
+  }
+    if "java136" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "tomcat136-java-%{+yyyy.MM}"
+      }
+  }
+    if "tomcat136" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.146:9200"
+        index =&gt; "tomcat135-tomcat-%{+yyyy.MM}"
+      }
+  }
+    if "mycat137" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "mycat137-mycat-%{+yyyy.MM}"
+      }
+  }
+    if "wrapper137" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "mycat137-wrapper-%{+yyyy.MM}"
+      }
+  }
+    if "mycat138" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "mycat138-mycat-%{+yyyy.MM}"
+      }
+  }
+    if "wrapper138" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "mycat138-wrapper-%{+yyyy.MM}"
+      }
+  }
+    if "mysql139" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "mysql139-error--%{+yyyy.MM}"
+      }
+  }
+    if "mysql140" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "mysql140-error--%{+yyyy.MM}"
+      }
+  }
+    if "mysql141" in [tags]{
+     elasticsearch {
+        hosts =&gt; "192.168.25.145:9200"
+        index =&gt; "mysql141-error--%{+yyyy.MM}"
+      }
+  }
+}
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<p>启动logstash</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#手动启动，且可以看到日志信息的输出</span>
+logstash <span class="nt">-f</span> /etc/logstash/conf.d/frl.conf
+<span class="c">#后台启动</span>
+<span class="nb">nohup </span>logstash <span class="nt">-f</span> /etc/logstash/conf.d/frl.conf <span class="nv">$&gt;</span> /dev/null &amp;
+</code></pre></div></div>
+
+<h3 id="elasticsearch">elasticsearch</h3>
+
+<p>配置jdk环境</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar </span>xf /tmp/jdk-8u201-linux-x64.tar.gz <span class="nt">-C</span> /usr/local/
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /usr/local/jdk1.8.0_201 /usr/local/jdk1.8
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&gt;</span> /etc/profile.d/jdk.sh <span class="o">&lt;&lt;</span> <span class="no">EOF</span><span class="sh">
+JAVA_HOME=/usr/local/jdk1.8
+JRE_HOME=</span><span class="nv">$JAVA_HOME</span><span class="sh">/jre
+CLASSPATH=.:</span><span class="nv">$JAVA_HOME</span><span class="sh">/lib/dt.jar:</span><span class="nv">$JAVA_HOME</span><span class="sh">/lib/tools.jar:</span><span class="nv">$JRE_HOME</span><span class="sh">/lib
+PATH=</span><span class="nv">$PATH</span><span class="sh">:</span><span class="nv">$JAVA_HOME</span><span class="sh">/bin:</span><span class="nv">$JRE_HOME</span><span class="sh">/bin
+export JAVA_HOME JRE_HOME CLASSPATH
+</span><span class="no">EOF
+</span></code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">.</span> /etc/profile
+</code></pre></div></div>
+
+<p>安装elasticsearch和kibana</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> /tmp/elasticsearch-6.8.22.rpm
+rpm <span class="nt">-ivh</span> /tmp/kibana-6.8.22-x86_64.rpm
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl daemon-reload
+</code></pre></div></div>
+
+<h4 id="优化系统">优化系统</h4>
+
+<p>调整文件描述符限制</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/security/limits.conf
+
+elasticsearch   soft    nofile  65535
+elasticsearch   hard    nofile  65535
+</code></pre></div></div>
+
+<p>解除进程数限制</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/security/limits.d/20-nproc.conf
+
+*          soft    nproc     65535
+</code></pre></div></div>
+
+<p>设置一个进程最大可使用虚拟内存的size</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/sysctl.conf
+
+vm.max_map_count <span class="o">=</span> 655360
+</code></pre></div></div>
+
+<p>使优化系统生效</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> sysctl <span class="nt">-p</span>
+</code></pre></div></div>
+
+<p>配置elasticsearch</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/sysconfig/elasticsearch
+<span class="c">#约第9行</span>
+<span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/local/jdk1.8
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/elasticsearch/elasticsearch.yml
+
+node.name: elasticsearch145
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+network.host: 192.168.25.145
+http.port: 9200
+</code></pre></div></div>
+
+<p>JVM设置 内存限制</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/elasticsearch/jvm.options
+
+<span class="c">#看情况修改</span>
+<span class="nt">-Xms2g</span>
+<span class="nt">-Xmx2g</span>
+</code></pre></div></div>
+
+<p>配置kibana</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/kibana/kibana.yml
+server.port: 5601
+server.host: <span class="s2">"192.168.25.145"</span>
+server.name: <span class="s2">"elasticsearch145"</span>
+elasticsearch.hosts: <span class="o">[</span><span class="s2">"http://192.168.25.145:9200"</span><span class="o">]</span>
+kibana.index: <span class="s2">".kibana"</span>
+</code></pre></div></div>
+
+<p>启动elasticsearch和kibana</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start elasticsearch.service
+systemctl start kibana.service
+</code></pre></div></div>
+
+<p>kibana收集到的日志信息</p>
+
+<p><img src="https://picdl.sunbangyan.cn/2023/11/21/f0ad55ba6393dd1ed08f2ba9a909a3b6.jpeg" alt=""></p>
+
+<h3 id="总结">总结</h3>
+
+<p>​      原本还想使用Jenkins和Gitlab进行CI/CD的，但是奈何电脑内存顶不住，所有没有使用到CI/CD，后续应该会出一个Jenkins+Gitlab进行CI/CD。</p>
+
+<p>​      Mycat没有进行分库分表，只是进行读写分离而已。</p>
+
+<p>​      Logstash的日志过滤也还没有写全，只做了@timestamp日志收集时间替换成了日志生成时间。</p>
+
+<p>​      还有就是Nginx和Mycat应该做一个Keepalived以达到高可用的效果。</p>
+
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/2023/02/25/LNMTRead&amp;WriteSplitting" title="LNMT搭建使用Mycat进行读写分离">LNMT搭建使用Mycat进行读写分离</a><a class="next" href="/jekyll-theme-yat/2023/05/15/CICD" title="CICD">CICD</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/09/25/DeployKubernetesCluster" title="使用kubeadm部署Kubernetes集群">
+            使用kubeadm部署Kubernetes集群<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/09/10/InstallRedis" title="源码安装redis">
+            源码安装redis<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/MySQL" title="MySQL基础">
+            MySQL基础<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/07/1/DockerBuildsMySQLMaster&amp;Slave" title="Docker搭建MySQL主从">
+            Docker搭建MySQL主从<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2022-2024 FatGuy101</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

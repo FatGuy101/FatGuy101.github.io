@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>面试题 | Fattt blog</title>
+<meta name="generator" content="Jekyll v4.3.3">
+<meta property="og:title" content="面试题">
+<meta name="author" content="FatGuy010">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="容器 K8s面试题 https://fattt.org.edu.kg/K8sInterviewQuestions 容器与虚拟机的区别 容器和虚拟机都是提供隔离环境以运行应用程序的技术，但它们在架构和运行机制上有本质的不同。 虚拟机（VM） 虚拟机是一种基于硬件的虚拟化技术。每个虚拟机都包括完整的操作系统，以及运行在该操作系统之上的应用程序和必要的库。虚拟机由一个称为虚拟机监控器（Hypervisor）的软件组件管理，它负责在物理硬件和各个虚拟机之间进行调度。 特点： 完全隔离：每个虚拟机都是完全独立的。 资源消耗：因为每个虚拟机都运行一个完整的操作系统，所以相对占用更多的资源。 启动时间：虚拟机的启动通常需要几分钟，因为需要加载整个操作系统。 可移植性：虚拟机可以在不同的物理机器和虚拟化平台之间迁移，但通常体积较大，迁移速度较慢。 容器 容器是一种基于操作系统级别的虚拟化。与虚拟机不同，容器共享宿主机的操作系统内核，但在用户空间中为每个容器提供隔离的环境。容器内部包含应用程序和其依赖的库和设置，但不包括整个操作系统。 特点： 轻量级：容器共享宿主机的操作系统内核，因此占用的资源比虚拟机少得多。 快速启动：容器只需启动应用程序，而不是整个操作系统，因此启动通常在几秒钟内完成。 密度高：在同等硬件上，可以运行更多的容器实例。 可移植性：容器的体积小，易于快速迁移和扩展。 对比总结 隔离级别：虚拟机提供硬件级别的完全隔离，而容器提供的是操作系统级别的隔离。 性能开销：虚拟机包含完整的操作系统副本，导致更高的性能开销。容器由于共享宿主操作系统的内核，因此开销更小。 启动速度：虚拟机启动慢，容器启动快。 系统兼容性：虚拟机可以运行不同于宿主机的操作系统，而容器则受限于宿主机的操作系统内核。 管理工具：虚拟机通常使用VMware、Hyper-V等虚拟化平台管理，容器则使用Docker、Kubernetes等容器管理工具。 在实际应用中，虚拟机更适用于需要完全隔离和安全保障的环境，而容器则因其轻量级和快速部署的特性，适用于微服务架构和持续集成/持续部署（CI/CD）的环境。 数据库 结构和非结构化数据 结构化数据和非结构化数据是两种主要的数据类型，它们在存储、处理和分析时有着本质的不同。 结构化数据 结构化数据是指那些高度组织和格式化的数据，因此可以轻松地被搜索引擎和数据挖掘工具所读取、搜索和分析。它们通常存储在关系数据库（如 MySQL、PostgreSQL、Oracle）中，并且有严格定义的数据模型和关系，如表格中的行和列。每一列都有一个预定义的数据类型，所有的数据项都符合这个数据类型。 例子： 客户信息表格，包括姓名、地址、电话号码等。 销售数据，包括日期、销售额、客户ID等。 库存管理系统中的物品清单。 结构化数据的优点是易于查询和更新，支持通过SQL（结构化查询语言）等查询语言进行高效的数据操作和分析。 非结构化数据 非结构化数据是指没有预定义数据模型的数据，也不容易放入传统的关系数据库中。这类数据包括文本、图像、音频、视频等，通常存储在文件系统中或者使用专门的存储系统和数据仓库。 例子： 邮件、PDF文件、Word文档等文本文件。 数码照片、视频剪辑等多媒体文件。 社交媒体帖子、博客文章等网络内容。 非结构化数据的挑战在于它的多样性和复杂性，需要使用特定的工具和技术来处理和分析，例如文本分析、图像识别和自然语言处理。 半结构化数据 除了结构化和非结构化数据之外，还有一种被称为半结构化数据的类型，它是介于结构化和非结构化数据之间的数据。它们可能不符合严格的数据模型，但仍然包含标签或其他标记来分隔语义元素，并支持数据的层次化组织。 例子： XML和JSON文件，它们包含标记或键值对，用于描述数据，但不符合固定的模式或结构。 电子数据交换（EDI）文件，它们用于商业交易，并遵循特定的格式标准，但并非存储在关系数据库中。 在现代数据管理和分析中，能够有效地处理结构化和非结构化数据是非常重要的，因为它们可以提供不同的视角和洞察力。随着大数据技术的发展，非结构化数据的重要性日益增加，因为它构成了世界数据量的一个很大比例。 关系型数据和非关系型数据 关系型数据和非关系型数据是指存储在关系型数据库和非关系型数据库中的数据类型，它们具有不同的数据模型和用例。 关系型数据（Relational Data） 关系型数据基于关系模型，这种模型由数学家E.F. Codd在1970年提出。关系型数据库管理系统（RDBMS）如MySQL、PostgreSQL、Oracle和SQL Server等广泛采用这一模型。 特点： 结构化：数据以表格的形式存储，每个表都有固定的列（属性）和多行（记录）。 严格的模式：定义了数据的结构，包括数据类型、关系等，所有数据写入前都需要符合这个模式。 数据完整性：通过主键、外键、索引、约束等机制来维护数据的准确性和一致性。 支持复杂的查询：使用结构化查询语言（SQL）进行高度复杂的数据查询。 事务支持：具有事务处理的能力，遵循ACID原则（原子性、一致性、隔离性、持久性）。 非关系型数据（Non-Relational Data） 非关系型数据，也称为NoSQL数据，存储在非关系型数据库中，如MongoDB、Cassandra、Redis和Elasticsearch等。这些数据库不遵循传统的关系模型，而是采用了其他种类的数据模型。 特点： 灵活的模式：数据结构可以动态修改，不需要预先定义。 多样的数据模型：包括键值对（Key-Value）、文档（Document）、列族（Column-Family）和图（Graph）等。 可扩展性：通常设计为易于水平扩展，通过增加更多的服务器来提升性能和存储能力。 优化为特定类型的查询：每种NoSQL数据库可能针对特定模式的查询或存储需求进行了优化。 事务支持差异：NoSQL数据库通常不提供全面的ACID事务支持，尽管某些数据库开始提供类似功能。 使用场景 关系型数据库通常用于需要严格数据完整性和复杂查询的应用，例如金融服务、会计系统和其他需要复杂事务处理的应用程序。 非关系型数据库适用于数据模式不固定、需要水平扩展或对读写性能有特别要求的场景，如大数据分析、实时数据处理、内容管理系统等。 如何查看主从延时情况？ 在使用MySQL关系型数据库的主从复制架构中，”主从延时”指的是从服务器复制主服务器上的数据变化所经历的时间差。这个延时可能是由网络延迟、从服务器的负载或复制过程中的SQL执行时间等因素造成的。 1. SHOW SLAVE STATUS命令 在MySQL中，可以在从服务器上执行SHOW SLAVE STATUS\G命令来查看复制状态，包括延时情况。这个命令会返回一个包含复制状态信息的结果集，其中的Seconds_Behind_Master字段显示了从服务器落后于主服务器的秒数。 SHOW SLAVE STATUS\G 查看输出结果中的Seconds_Behind_Master值： 如果这个值是0，表示主从复制良好。 如果这个值是一个非零的数字，它表示从服务器落后于主服务器的秒数，数字越大表示从库延迟越严重。 如果这个值是NULL，表示io_thread或是sql_thread有任何一个发生故障。 2. Performance Schema 从MySQL 5.6开始，可以使用Performance Schema来监控复制延迟。首先，需要确保Performance Schema被启用，并且相关的复制表也被激活。然后，可以查询performance_schema.replication_applier_status_by_worker表来获取复制延迟的信息。 3. pt-heartbeat pt-heartbeat是Percona Toolkit工具套件中的一个工具，它可以更精确地测量复制延迟。它通过在主服务器上创建一个记录心跳时间的表，并定期更新这个表来工作。从服务器上的pt-heartbeat进程会监测这个表，并计算出主从同步的延迟时间。 4. 自定义脚本 可以编写自定义脚本来检测主从延迟。这些脚本通常在主服务器上插入时间戳记录，在从服务器上读取这些记录，并计算出时间差。 5. 第三方监控工具 还可以使用第三方监控工具，如Zabbix、Nagios、Prometheus等，配合相关插件来监控MySQL复制延迟。 6. MySQL Shell的复制报告 MySQL Shell是MySQL 8.0引入的一个高级客户端和代码编辑器。在MySQL Shell中，可以使用复制报告功能来检查复制状态，包括延迟。 解决数据丢失的问题 半同步复制 从MySQL5.5开始，MySQL已经支持半同步复制了，半同步复制介于异步复制和同步复制之间，主库在执行完事务后不立刻返回结果给客户端，需要等待至少一个从库接收到并写到relay log中才返回结果给客户端。相对于异步复制，半同步复制提高了数据的安全性，同时它也造成了一个TCP/IP往返耗时的延迟。 解决从库复制延迟的问题 优化网络 升级Slave硬件配置 Slave调整参数，关闭binlog，修改innodb_flush_log_at_trx_commit参数值 升级MySQL版本到5.7，使用并行复制 数据同步的主要优点包括以下几个方面 提高数据一致性 数据同步可以将不同位置或系统中的数据进行实时或定期的更新和匹配，从而保持数据的一致性。 提高数据可靠性 通过数据同步，可以将数据备份到不同的位置或系统中，提高数据的可靠性和安全性。 提高数据可用性 通过数据同步，可以将数据从一个系统同步到另一个系统中，提高数据的可用性和共享性，为业务决策和数据分析提供有力支持。 提高工作效率 数据同步可以自动化完成数据的更新和匹配过程，减少手动操作，提高工作效率。 降低成本 通过数据同步，可以减少数据的重复输入和错误，降低数据管理和维护的成本。 Mysql 基于gtid主从复制 GTID的工作原理 当一个事务在主库端执行并提交时，产生GTID，一同记录到binlog日志。 binlog传输到slave,并存储到slave的relaylog后，读取这个GTID的这个值设置GTID_next变量，即告诉Slave，下一个要执行的GTID值。 sql线程从relay log中获取GTID，然后对比slave端的binlog是否有该GTID。 如果有记录，说明该GTID的事务已经执行，slave会忽略。 如果没有记录，slave就会执行该GTID事务，并记录该GTID到自身的binlog，在读取执行事务前会先检查其他session持有该GTID，确保不被重复执行。 在解析过程中会判断是否有主键，如果没有就用二级索引，如果没有就用全部扫描。 GTID的优点 一个事务对应一个唯一ID，一个GTID在一个服务器上只会执行一次; GTID是用来代替传统复制的方法，GTID复制与普通复制模式的最大不同就是不需要指定二进制文件名和位置; 减少手工干预和降低服务故障时间，当主机挂了之后通过软件从众多的备机中提升一台备机为主 机; GTID 的缺点(限制) 不支持非事务引擎; 不允许一个SQL同时更新一个事务引擎表和非事务引擎表; 在一个复制组中，必须要求统一开启GTID或者是关闭GTID; 开启GTID需要重启 (mysql5.7除外); 开启GTID后，就不再使用原来的传统复制方式; Linux Linux 开机启动过程 开机BIOS自检 MBR引导 GRUB引导菜单 加载内核Kernel 初始化init/systemd 运行程序 提示登陆 Raid磁盘阵列 Raid 0：两块硬盘或者以上就可做 raid0优势：数据读取写入最快，最大优势提高硬盘容量，比如3快80G的硬盘做raid0 可用总容量为240G。速度是一样。 缺点：无冗余能力，一块硬盘损坏，数据全无。 建议：做raid0 可以提供更好的容量以及性能，推荐对数据安全性要求不高的使用。 Raid 1：至少2快硬盘可做 raid1优势：镜像，数据安全强，2快硬盘做raid一块正常运行，另外一块镜像备份数据，保障数据的安全。一块坏了，另外一块硬盘也有完整的数据，保障运行。 缺点：性能提示不明显，做raid1之后硬盘使用率为50%. 建议：对数据安全性比较看着，性能没有太高要求的人使用。 Raid5：至少需要3块硬盘 raid5优势：以上优势，raid5兼顾。任意N-1快硬盘都有完整的数据。 缺点：只允许单盘故障，一盘出现故障得尽快处理。有盘坏情况下，raid5 IO/CPU性能狂跌，此时性能烂到无以复加。 建议：盘不多，对数据安全性和性能提示都有要求，raid5是个不错选择，鉴于出问题的性能，盘多可考虑riad10 Raid10：至少需要4快硬盘。raid10是2快硬盘组成raid1,2组raid1z组成raid0,所以必须需要4块硬盘。 优势：兼顾安全性和速度。基础4盘的情况下，raid10允许对柜盘2块故障，随着硬盘数量的提示，容错量也会相对应提升。这是raid5无法做到的。 缺点：对盘的数量要求稍高，磁盘使用率为一半。 建议：硬盘数量足够的情况，建议riad10.不过raid最重要的指标是可靠性：4盘的raid5,只允许单盘故障，raid10,允许对柜盘2块g故障，可靠性高于raid5,且raid10 可随盘上升提高容错，raid就不行，而且IO和CPU的额外开销还涂增，从可靠性和冗余角度，达到同样的可靠性,raid10写能力高于raid5. 网络 一次域名请求经过的协议 一次域名请求通常会涉及到 DNS 解析、HTTP/HTTPS 请求、TCP连接、安全传输协议（如果是 HTTPS 请求的话），以及可能的其他应用层协议(例如：FTP、STMP)。 DNS解析过程是怎样的 递归查询 迭代查询 在实际应用中，递归查询通常用于从请求主机到本地 DNS 服务器的查询，而迭代查询则用于本地 DNS 服务器向根域名服务器或者顶级域名服务器发出查询请求。 网络七层协议 物理层： 解决两个硬件之间怎么通信的问题，常见的物理媒介有光纤、电缆、中继器等。它主要定义物理设备标准，如网线的接口类型、光纤的接口类型、各种传输介质的传输速率等。 它的主要作用是传输比特流（就是由1、0转化为电流强弱来进行传输，到达目的地后在转化为1、0，也就是我们常说的数模转换与模数转换）。这一层的数据叫做比特。 数据链路层： 在计算机网络中由于各种干扰的存在，物理链路是不可靠的。该层的主要功能就是：通过各种控制协议，将有差错的物理信道变为无差错的、能可靠传输数据帧的数据链路。 它的具体工作是接收来自物理层的位流形式的数据，并封装成帧，传送到上一层；同样，也将来自上层的数据帧，拆装为位流形式的数据转发到物理层。这一层的数据叫做帧。 网络层： 计算机网络中如果有多台计算机，怎么找到要发的那台？如果中间有多个节点，怎么选择路径？这就是路由要做的事。 该层的主要任务就是：通过路由选择算法，为报文（该层的数据单位，由上一层数据打包而来）通过通信子网选择最适当的路径。这一层定义的是IP地址，通过IP地址寻址，所以产生了IP协议。 传输层： 当发送大量数据时，很可能会出现丢包的情况，另一台电脑要告诉是否完整接收到全部的包。如果缺了，就告诉丢了哪些包，然后再发一次，直至全部接收为止。 简单来说，传输层的主要功能就是：监控数据传输服务的质量，保证报文的正确传输。 会话层： 虽然已经可以实现给正确的计算机，发送正确的封装过后的信息了。但我们总不可能每次都要调用传输层协议去打包，然后再调用IP协议去找路由，所以我们要建立一个自动收发包，自动寻址的功能。于是会话层出现了：它的作用就是建立和管理应用程序之间的通信。 表示层： 表示层负责数据格式的转换，将应用处理的信息转换为适合网络传输的格式，或者将来自下一层的数据转换为上层能处理的格式。 应用层： 应用层是计算机用户，以及各种应用程序和网络之间的接口，其功能是直接向用户提供服务，完成用户希望在网络上完成的各种工作。 OSI七层模型 TCP/IP4层模型、5层模型和OSI七层模型的差别 三次握手和四次挥手 https://www.cnblogs.com/zzjdbk/p/13028290.html 三次握手 第一次握手：客户端给服务器发送一个 SYN 报文。 第二次握手：服务器收到 SYN 报文之后，会应答一个 SYN+ACK 报文。 第三次握手：客户端收到 SYN+ACK 报文之后，会回应一个 ACK 报文。 四次挥手 第一次挥手：客户端发送一个 FIN 报文，报文中会指定一个序列号。此时客户端处于FIN_WAIT1状态。 第二次握手：服务端收到 FIN 之后，会发送 ACK 报文，且把客户端的序列号值 + 1 作为 ACK 报文的序列号值，表明已经收到客户端的报文了，此时服务端处于 CLOSE_WAIT状态。 第三次挥手：如果服务端也想断开连接了，和客户端的第一次挥手一样，发给 FIN 报文，且指定一个序列号。此时服务端处于 LAST_ACK 的状态。 第四次挥手：客户端收到 FIN 之后，一样发送一个 ACK 报文作为应答，且把服务端的序列号值 + 1 作为自己 ACK 报文的序列号值，此时客户端处于 TIME_WAIT 状态。需要过一阵子以确保服务端收到自己的 ACK 报文之后才会进入 CLOSED 状态 服务端收到 ACK 报文之后，就处于关闭连接了，处于 CLOSED 状态。 服务 Keepalived的本质 使用VRRP协议(虚拟路由器冗余协议)：通告：心跳，优先级等；周期性 工作方式： 抢占式：一旦有优先级高的路由器加入，立即成为Master 非抢占式：只要Master不挂掉，优先级高的路由器只能等待 vrrp协议的作用是提供了局域网上的设备备份机制。vrrp协议是一种容错协议，它保证当主机的下一跳路由器坏掉时，可以及时由另一台路由器来替代，从而保证通讯的连续性和可靠性 Keepalived高可用软件两个核心功能： 1.健康检测功能 2.VRRP冗余功能 Keepalived本质就是为ipvs服务的，它也不需要共享存储。IPVS其实就是一些规则，Keepalived主要的任务就是去调用ipvsadm命令，来生成规则，并自动实现将用户需要访问的地址转移到可用LVS节点实现。 Nginx获取真实的客户端IP地址(获取源IP) 方法一、通过 头部字段 传递 客户端Ip 到 上游服务器 在代理设置真实ip 到 X-Real-IP 头部字段，该字段不区分大小写,在 上游服务器日志中引用该变量即可 proxy_set_header X-Real-IP $remote_addr; 在游服务器日志中引用该字段变量,(注意引用变量时，要加$http_, 其次 ‘-‘ 变 ‘_’, 大小写忽略) ​ log_format main '$remote_addr - $remote_user [$time_local] &quot;$request&quot; ' ​ '$status $body_bytes_sent &quot;$http_referer&quot; ' ​ '&quot;$http_user_agent&quot; &quot;$http_X_Real_IP&quot;'; 对于多级代理 X-Forwarded-For 字段可以包含 客户端地址和代理地址 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; ​ log_format main '$remote_addr - $remote_user [$time_local] &quot;$request&quot; ' ​ '$status $body_bytes_sent &quot;$http_referer&quot; ' ​ '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;'; 方法二、 ngx_http_realip_module 通过模块获取客户端IP nginx 通过ngx_http_proxy_module模块 实现反向代理；在nginx 启动服务load conf时， 就会读取proxy_set_header 的配置项；来获取需要的变量。proxy_set_header 是用来设置请求的header的； 比如：设置上面的host X-Real-IP x-forwarded-for ELK如何进行日志切割 方法一：Filebeat的dissect 优点：简单快捷，在简单应用场景中效率更高 缺点：日志切割场景单一，功能单一 实现：在配置文件中processors下面加上dissect 对日志进行切割 processors: - dissect: tokenizer: &quot;%{date} %{time} %{s-ip} %{cs-method} %{cs-uri-stem} %{cs-uri-query} %{s-port} %{cs-username} %{c-ip} %{cs(User-Agent)} %{cs(Referer)} %{sc-status} %{sc-substatus} %{sc-win32-status} %{time-taken}&quot; field: &quot;message&quot; target_prefix: &quot;fields&quot; 方法二：Logstash的grok 优点：能灵活的切割各种日志，有很多功能加工日志 缺点：配置难度较dissect高出不少 实现：在Logstash配置文件中input和output之间的filter中进行配置 filter { grok { match =&gt; [ &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{IPORHOST:destination.address}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NOTSPACE:http.request.referrer}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{NOTSPACE:iis.access.site_name}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NOTSPACE:iis.access.cookie}) (?:-|%{NOTSPACE:http.request.referrer}) (?:-|%{NOTSPACE:destination.domain}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:http.response.body.bytes:long}) (?:-|%{NUMBER:http.request.body.bytes:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{NOTSPACE:iis.access.site_name}) (?:-|%{NOTSPACE:iis.access.server_name}) (?:-|%{IPORHOST:destination.address}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|HTTP/%{NUMBER:http.version}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NOTSPACE:iis.access.cookie}) (?:-|%{NOTSPACE:http.request.referrer}) (?:-|%{NOTSPACE:destination.domain}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:http.response.body.bytes:long}) (?:-|%{NUMBER:http.request.body.bytes:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} \\[%{IPORHOST:destination.address}\\]\\(http://%{IPORHOST:destination.address}\\) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) \\[%{IPORHOST:source.address}\\]\\(http://%{IPORHOST:source.address}\\) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{IPORHOST:destination.address}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:temp.duration:long})&quot; ] tag_on_failure =&gt; [&quot;fail_in_message&quot;] } } CICD CI/CD的几种发布方式 蓝绿部署（Blue-Green Deployment）： 在蓝绿部署中，有两套完全相同的生产环境，分别称为蓝环境和绿环境。在任何时刻，只有一套环境在向用户提供服务，而另一套环境则处于闲置状态。当新版本准备好发布时，流量被切换到处于闲置状态的环境，从而实现零停机时间的部署。 特点 蓝绿部署的目的是减少发布时的中断时间、能够快速撤回发布 发布策略简单 用户无感知，平滑过渡 升级/回滚速度快 缺点 需要准备正常业务使用资源的两倍以上服务器，防止升级期间单组无法承载业务突发 短时间内浪费一定资源成本 基础设施无改动，增大升级稳定性 金丝雀部署/灰度发布（Canary Deployment）： 金丝雀部署是一种逐步发布新版本的方式，它允许只向一小部分用户或流量引入新版本，以便在实际生产环境中进行测试。如果新版本没有引发问题，可以逐渐增加流量直至全部流量都使用新版本。 特点 保证整体系统稳定性，在初始灰度的时候就可以发现、调整问题，影响范围可控 新功能逐步评估性能，稳定性和健康状况，如果出问题影响范围很小，相对用户体验也少 用户无感知，平滑过渡 缺点 自动化要求高 滚动部署（Rolling Deployment）： 在滚动部署中，新版本逐步替换旧版本，通常是逐个节点或逐批节点地进行。这种方式可以确保系统的稳定性，因为在部署过程中，总是有一部分节点在提供服务。 特点 用户无感知，平滑过渡 节约资源 缺点 部署时间慢，取决于每阶段更新时间 发布策略较复杂 无法确定OK的环境，不易回滚 增量部署（Incremental Deployment）： 增量部署是一种将新功能逐步添加到生产环境中的方式。这种方式通常用于大型系统或对稳定性要求较高的系统，以确保新功能的逐步引入不会对整个系统造成过大的影响。">
+<meta property="og:description" content="容器 K8s面试题 https://fattt.org.edu.kg/K8sInterviewQuestions 容器与虚拟机的区别 容器和虚拟机都是提供隔离环境以运行应用程序的技术，但它们在架构和运行机制上有本质的不同。 虚拟机（VM） 虚拟机是一种基于硬件的虚拟化技术。每个虚拟机都包括完整的操作系统，以及运行在该操作系统之上的应用程序和必要的库。虚拟机由一个称为虚拟机监控器（Hypervisor）的软件组件管理，它负责在物理硬件和各个虚拟机之间进行调度。 特点： 完全隔离：每个虚拟机都是完全独立的。 资源消耗：因为每个虚拟机都运行一个完整的操作系统，所以相对占用更多的资源。 启动时间：虚拟机的启动通常需要几分钟，因为需要加载整个操作系统。 可移植性：虚拟机可以在不同的物理机器和虚拟化平台之间迁移，但通常体积较大，迁移速度较慢。 容器 容器是一种基于操作系统级别的虚拟化。与虚拟机不同，容器共享宿主机的操作系统内核，但在用户空间中为每个容器提供隔离的环境。容器内部包含应用程序和其依赖的库和设置，但不包括整个操作系统。 特点： 轻量级：容器共享宿主机的操作系统内核，因此占用的资源比虚拟机少得多。 快速启动：容器只需启动应用程序，而不是整个操作系统，因此启动通常在几秒钟内完成。 密度高：在同等硬件上，可以运行更多的容器实例。 可移植性：容器的体积小，易于快速迁移和扩展。 对比总结 隔离级别：虚拟机提供硬件级别的完全隔离，而容器提供的是操作系统级别的隔离。 性能开销：虚拟机包含完整的操作系统副本，导致更高的性能开销。容器由于共享宿主操作系统的内核，因此开销更小。 启动速度：虚拟机启动慢，容器启动快。 系统兼容性：虚拟机可以运行不同于宿主机的操作系统，而容器则受限于宿主机的操作系统内核。 管理工具：虚拟机通常使用VMware、Hyper-V等虚拟化平台管理，容器则使用Docker、Kubernetes等容器管理工具。 在实际应用中，虚拟机更适用于需要完全隔离和安全保障的环境，而容器则因其轻量级和快速部署的特性，适用于微服务架构和持续集成/持续部署（CI/CD）的环境。 数据库 结构和非结构化数据 结构化数据和非结构化数据是两种主要的数据类型，它们在存储、处理和分析时有着本质的不同。 结构化数据 结构化数据是指那些高度组织和格式化的数据，因此可以轻松地被搜索引擎和数据挖掘工具所读取、搜索和分析。它们通常存储在关系数据库（如 MySQL、PostgreSQL、Oracle）中，并且有严格定义的数据模型和关系，如表格中的行和列。每一列都有一个预定义的数据类型，所有的数据项都符合这个数据类型。 例子： 客户信息表格，包括姓名、地址、电话号码等。 销售数据，包括日期、销售额、客户ID等。 库存管理系统中的物品清单。 结构化数据的优点是易于查询和更新，支持通过SQL（结构化查询语言）等查询语言进行高效的数据操作和分析。 非结构化数据 非结构化数据是指没有预定义数据模型的数据，也不容易放入传统的关系数据库中。这类数据包括文本、图像、音频、视频等，通常存储在文件系统中或者使用专门的存储系统和数据仓库。 例子： 邮件、PDF文件、Word文档等文本文件。 数码照片、视频剪辑等多媒体文件。 社交媒体帖子、博客文章等网络内容。 非结构化数据的挑战在于它的多样性和复杂性，需要使用特定的工具和技术来处理和分析，例如文本分析、图像识别和自然语言处理。 半结构化数据 除了结构化和非结构化数据之外，还有一种被称为半结构化数据的类型，它是介于结构化和非结构化数据之间的数据。它们可能不符合严格的数据模型，但仍然包含标签或其他标记来分隔语义元素，并支持数据的层次化组织。 例子： XML和JSON文件，它们包含标记或键值对，用于描述数据，但不符合固定的模式或结构。 电子数据交换（EDI）文件，它们用于商业交易，并遵循特定的格式标准，但并非存储在关系数据库中。 在现代数据管理和分析中，能够有效地处理结构化和非结构化数据是非常重要的，因为它们可以提供不同的视角和洞察力。随着大数据技术的发展，非结构化数据的重要性日益增加，因为它构成了世界数据量的一个很大比例。 关系型数据和非关系型数据 关系型数据和非关系型数据是指存储在关系型数据库和非关系型数据库中的数据类型，它们具有不同的数据模型和用例。 关系型数据（Relational Data） 关系型数据基于关系模型，这种模型由数学家E.F. Codd在1970年提出。关系型数据库管理系统（RDBMS）如MySQL、PostgreSQL、Oracle和SQL Server等广泛采用这一模型。 特点： 结构化：数据以表格的形式存储，每个表都有固定的列（属性）和多行（记录）。 严格的模式：定义了数据的结构，包括数据类型、关系等，所有数据写入前都需要符合这个模式。 数据完整性：通过主键、外键、索引、约束等机制来维护数据的准确性和一致性。 支持复杂的查询：使用结构化查询语言（SQL）进行高度复杂的数据查询。 事务支持：具有事务处理的能力，遵循ACID原则（原子性、一致性、隔离性、持久性）。 非关系型数据（Non-Relational Data） 非关系型数据，也称为NoSQL数据，存储在非关系型数据库中，如MongoDB、Cassandra、Redis和Elasticsearch等。这些数据库不遵循传统的关系模型，而是采用了其他种类的数据模型。 特点： 灵活的模式：数据结构可以动态修改，不需要预先定义。 多样的数据模型：包括键值对（Key-Value）、文档（Document）、列族（Column-Family）和图（Graph）等。 可扩展性：通常设计为易于水平扩展，通过增加更多的服务器来提升性能和存储能力。 优化为特定类型的查询：每种NoSQL数据库可能针对特定模式的查询或存储需求进行了优化。 事务支持差异：NoSQL数据库通常不提供全面的ACID事务支持，尽管某些数据库开始提供类似功能。 使用场景 关系型数据库通常用于需要严格数据完整性和复杂查询的应用，例如金融服务、会计系统和其他需要复杂事务处理的应用程序。 非关系型数据库适用于数据模式不固定、需要水平扩展或对读写性能有特别要求的场景，如大数据分析、实时数据处理、内容管理系统等。 如何查看主从延时情况？ 在使用MySQL关系型数据库的主从复制架构中，”主从延时”指的是从服务器复制主服务器上的数据变化所经历的时间差。这个延时可能是由网络延迟、从服务器的负载或复制过程中的SQL执行时间等因素造成的。 1. SHOW SLAVE STATUS命令 在MySQL中，可以在从服务器上执行SHOW SLAVE STATUS\G命令来查看复制状态，包括延时情况。这个命令会返回一个包含复制状态信息的结果集，其中的Seconds_Behind_Master字段显示了从服务器落后于主服务器的秒数。 SHOW SLAVE STATUS\G 查看输出结果中的Seconds_Behind_Master值： 如果这个值是0，表示主从复制良好。 如果这个值是一个非零的数字，它表示从服务器落后于主服务器的秒数，数字越大表示从库延迟越严重。 如果这个值是NULL，表示io_thread或是sql_thread有任何一个发生故障。 2. Performance Schema 从MySQL 5.6开始，可以使用Performance Schema来监控复制延迟。首先，需要确保Performance Schema被启用，并且相关的复制表也被激活。然后，可以查询performance_schema.replication_applier_status_by_worker表来获取复制延迟的信息。 3. pt-heartbeat pt-heartbeat是Percona Toolkit工具套件中的一个工具，它可以更精确地测量复制延迟。它通过在主服务器上创建一个记录心跳时间的表，并定期更新这个表来工作。从服务器上的pt-heartbeat进程会监测这个表，并计算出主从同步的延迟时间。 4. 自定义脚本 可以编写自定义脚本来检测主从延迟。这些脚本通常在主服务器上插入时间戳记录，在从服务器上读取这些记录，并计算出时间差。 5. 第三方监控工具 还可以使用第三方监控工具，如Zabbix、Nagios、Prometheus等，配合相关插件来监控MySQL复制延迟。 6. MySQL Shell的复制报告 MySQL Shell是MySQL 8.0引入的一个高级客户端和代码编辑器。在MySQL Shell中，可以使用复制报告功能来检查复制状态，包括延迟。 解决数据丢失的问题 半同步复制 从MySQL5.5开始，MySQL已经支持半同步复制了，半同步复制介于异步复制和同步复制之间，主库在执行完事务后不立刻返回结果给客户端，需要等待至少一个从库接收到并写到relay log中才返回结果给客户端。相对于异步复制，半同步复制提高了数据的安全性，同时它也造成了一个TCP/IP往返耗时的延迟。 解决从库复制延迟的问题 优化网络 升级Slave硬件配置 Slave调整参数，关闭binlog，修改innodb_flush_log_at_trx_commit参数值 升级MySQL版本到5.7，使用并行复制 数据同步的主要优点包括以下几个方面 提高数据一致性 数据同步可以将不同位置或系统中的数据进行实时或定期的更新和匹配，从而保持数据的一致性。 提高数据可靠性 通过数据同步，可以将数据备份到不同的位置或系统中，提高数据的可靠性和安全性。 提高数据可用性 通过数据同步，可以将数据从一个系统同步到另一个系统中，提高数据的可用性和共享性，为业务决策和数据分析提供有力支持。 提高工作效率 数据同步可以自动化完成数据的更新和匹配过程，减少手动操作，提高工作效率。 降低成本 通过数据同步，可以减少数据的重复输入和错误，降低数据管理和维护的成本。 Mysql 基于gtid主从复制 GTID的工作原理 当一个事务在主库端执行并提交时，产生GTID，一同记录到binlog日志。 binlog传输到slave,并存储到slave的relaylog后，读取这个GTID的这个值设置GTID_next变量，即告诉Slave，下一个要执行的GTID值。 sql线程从relay log中获取GTID，然后对比slave端的binlog是否有该GTID。 如果有记录，说明该GTID的事务已经执行，slave会忽略。 如果没有记录，slave就会执行该GTID事务，并记录该GTID到自身的binlog，在读取执行事务前会先检查其他session持有该GTID，确保不被重复执行。 在解析过程中会判断是否有主键，如果没有就用二级索引，如果没有就用全部扫描。 GTID的优点 一个事务对应一个唯一ID，一个GTID在一个服务器上只会执行一次; GTID是用来代替传统复制的方法，GTID复制与普通复制模式的最大不同就是不需要指定二进制文件名和位置; 减少手工干预和降低服务故障时间，当主机挂了之后通过软件从众多的备机中提升一台备机为主 机; GTID 的缺点(限制) 不支持非事务引擎; 不允许一个SQL同时更新一个事务引擎表和非事务引擎表; 在一个复制组中，必须要求统一开启GTID或者是关闭GTID; 开启GTID需要重启 (mysql5.7除外); 开启GTID后，就不再使用原来的传统复制方式; Linux Linux 开机启动过程 开机BIOS自检 MBR引导 GRUB引导菜单 加载内核Kernel 初始化init/systemd 运行程序 提示登陆 Raid磁盘阵列 Raid 0：两块硬盘或者以上就可做 raid0优势：数据读取写入最快，最大优势提高硬盘容量，比如3快80G的硬盘做raid0 可用总容量为240G。速度是一样。 缺点：无冗余能力，一块硬盘损坏，数据全无。 建议：做raid0 可以提供更好的容量以及性能，推荐对数据安全性要求不高的使用。 Raid 1：至少2快硬盘可做 raid1优势：镜像，数据安全强，2快硬盘做raid一块正常运行，另外一块镜像备份数据，保障数据的安全。一块坏了，另外一块硬盘也有完整的数据，保障运行。 缺点：性能提示不明显，做raid1之后硬盘使用率为50%. 建议：对数据安全性比较看着，性能没有太高要求的人使用。 Raid5：至少需要3块硬盘 raid5优势：以上优势，raid5兼顾。任意N-1快硬盘都有完整的数据。 缺点：只允许单盘故障，一盘出现故障得尽快处理。有盘坏情况下，raid5 IO/CPU性能狂跌，此时性能烂到无以复加。 建议：盘不多，对数据安全性和性能提示都有要求，raid5是个不错选择，鉴于出问题的性能，盘多可考虑riad10 Raid10：至少需要4快硬盘。raid10是2快硬盘组成raid1,2组raid1z组成raid0,所以必须需要4块硬盘。 优势：兼顾安全性和速度。基础4盘的情况下，raid10允许对柜盘2块故障，随着硬盘数量的提示，容错量也会相对应提升。这是raid5无法做到的。 缺点：对盘的数量要求稍高，磁盘使用率为一半。 建议：硬盘数量足够的情况，建议riad10.不过raid最重要的指标是可靠性：4盘的raid5,只允许单盘故障，raid10,允许对柜盘2块g故障，可靠性高于raid5,且raid10 可随盘上升提高容错，raid就不行，而且IO和CPU的额外开销还涂增，从可靠性和冗余角度，达到同样的可靠性,raid10写能力高于raid5. 网络 一次域名请求经过的协议 一次域名请求通常会涉及到 DNS 解析、HTTP/HTTPS 请求、TCP连接、安全传输协议（如果是 HTTPS 请求的话），以及可能的其他应用层协议(例如：FTP、STMP)。 DNS解析过程是怎样的 递归查询 迭代查询 在实际应用中，递归查询通常用于从请求主机到本地 DNS 服务器的查询，而迭代查询则用于本地 DNS 服务器向根域名服务器或者顶级域名服务器发出查询请求。 网络七层协议 物理层： 解决两个硬件之间怎么通信的问题，常见的物理媒介有光纤、电缆、中继器等。它主要定义物理设备标准，如网线的接口类型、光纤的接口类型、各种传输介质的传输速率等。 它的主要作用是传输比特流（就是由1、0转化为电流强弱来进行传输，到达目的地后在转化为1、0，也就是我们常说的数模转换与模数转换）。这一层的数据叫做比特。 数据链路层： 在计算机网络中由于各种干扰的存在，物理链路是不可靠的。该层的主要功能就是：通过各种控制协议，将有差错的物理信道变为无差错的、能可靠传输数据帧的数据链路。 它的具体工作是接收来自物理层的位流形式的数据，并封装成帧，传送到上一层；同样，也将来自上层的数据帧，拆装为位流形式的数据转发到物理层。这一层的数据叫做帧。 网络层： 计算机网络中如果有多台计算机，怎么找到要发的那台？如果中间有多个节点，怎么选择路径？这就是路由要做的事。 该层的主要任务就是：通过路由选择算法，为报文（该层的数据单位，由上一层数据打包而来）通过通信子网选择最适当的路径。这一层定义的是IP地址，通过IP地址寻址，所以产生了IP协议。 传输层： 当发送大量数据时，很可能会出现丢包的情况，另一台电脑要告诉是否完整接收到全部的包。如果缺了，就告诉丢了哪些包，然后再发一次，直至全部接收为止。 简单来说，传输层的主要功能就是：监控数据传输服务的质量，保证报文的正确传输。 会话层： 虽然已经可以实现给正确的计算机，发送正确的封装过后的信息了。但我们总不可能每次都要调用传输层协议去打包，然后再调用IP协议去找路由，所以我们要建立一个自动收发包，自动寻址的功能。于是会话层出现了：它的作用就是建立和管理应用程序之间的通信。 表示层： 表示层负责数据格式的转换，将应用处理的信息转换为适合网络传输的格式，或者将来自下一层的数据转换为上层能处理的格式。 应用层： 应用层是计算机用户，以及各种应用程序和网络之间的接口，其功能是直接向用户提供服务，完成用户希望在网络上完成的各种工作。 OSI七层模型 TCP/IP4层模型、5层模型和OSI七层模型的差别 三次握手和四次挥手 https://www.cnblogs.com/zzjdbk/p/13028290.html 三次握手 第一次握手：客户端给服务器发送一个 SYN 报文。 第二次握手：服务器收到 SYN 报文之后，会应答一个 SYN+ACK 报文。 第三次握手：客户端收到 SYN+ACK 报文之后，会回应一个 ACK 报文。 四次挥手 第一次挥手：客户端发送一个 FIN 报文，报文中会指定一个序列号。此时客户端处于FIN_WAIT1状态。 第二次握手：服务端收到 FIN 之后，会发送 ACK 报文，且把客户端的序列号值 + 1 作为 ACK 报文的序列号值，表明已经收到客户端的报文了，此时服务端处于 CLOSE_WAIT状态。 第三次挥手：如果服务端也想断开连接了，和客户端的第一次挥手一样，发给 FIN 报文，且指定一个序列号。此时服务端处于 LAST_ACK 的状态。 第四次挥手：客户端收到 FIN 之后，一样发送一个 ACK 报文作为应答，且把服务端的序列号值 + 1 作为自己 ACK 报文的序列号值，此时客户端处于 TIME_WAIT 状态。需要过一阵子以确保服务端收到自己的 ACK 报文之后才会进入 CLOSED 状态 服务端收到 ACK 报文之后，就处于关闭连接了，处于 CLOSED 状态。 服务 Keepalived的本质 使用VRRP协议(虚拟路由器冗余协议)：通告：心跳，优先级等；周期性 工作方式： 抢占式：一旦有优先级高的路由器加入，立即成为Master 非抢占式：只要Master不挂掉，优先级高的路由器只能等待 vrrp协议的作用是提供了局域网上的设备备份机制。vrrp协议是一种容错协议，它保证当主机的下一跳路由器坏掉时，可以及时由另一台路由器来替代，从而保证通讯的连续性和可靠性 Keepalived高可用软件两个核心功能： 1.健康检测功能 2.VRRP冗余功能 Keepalived本质就是为ipvs服务的，它也不需要共享存储。IPVS其实就是一些规则，Keepalived主要的任务就是去调用ipvsadm命令，来生成规则，并自动实现将用户需要访问的地址转移到可用LVS节点实现。 Nginx获取真实的客户端IP地址(获取源IP) 方法一、通过 头部字段 传递 客户端Ip 到 上游服务器 在代理设置真实ip 到 X-Real-IP 头部字段，该字段不区分大小写,在 上游服务器日志中引用该变量即可 proxy_set_header X-Real-IP $remote_addr; 在游服务器日志中引用该字段变量,(注意引用变量时，要加$http_, 其次 ‘-‘ 变 ‘_’, 大小写忽略) ​ log_format main '$remote_addr - $remote_user [$time_local] &quot;$request&quot; ' ​ '$status $body_bytes_sent &quot;$http_referer&quot; ' ​ '&quot;$http_user_agent&quot; &quot;$http_X_Real_IP&quot;'; 对于多级代理 X-Forwarded-For 字段可以包含 客户端地址和代理地址 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; ​ log_format main '$remote_addr - $remote_user [$time_local] &quot;$request&quot; ' ​ '$status $body_bytes_sent &quot;$http_referer&quot; ' ​ '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;'; 方法二、 ngx_http_realip_module 通过模块获取客户端IP nginx 通过ngx_http_proxy_module模块 实现反向代理；在nginx 启动服务load conf时， 就会读取proxy_set_header 的配置项；来获取需要的变量。proxy_set_header 是用来设置请求的header的； 比如：设置上面的host X-Real-IP x-forwarded-for ELK如何进行日志切割 方法一：Filebeat的dissect 优点：简单快捷，在简单应用场景中效率更高 缺点：日志切割场景单一，功能单一 实现：在配置文件中processors下面加上dissect 对日志进行切割 processors: - dissect: tokenizer: &quot;%{date} %{time} %{s-ip} %{cs-method} %{cs-uri-stem} %{cs-uri-query} %{s-port} %{cs-username} %{c-ip} %{cs(User-Agent)} %{cs(Referer)} %{sc-status} %{sc-substatus} %{sc-win32-status} %{time-taken}&quot; field: &quot;message&quot; target_prefix: &quot;fields&quot; 方法二：Logstash的grok 优点：能灵活的切割各种日志，有很多功能加工日志 缺点：配置难度较dissect高出不少 实现：在Logstash配置文件中input和output之间的filter中进行配置 filter { grok { match =&gt; [ &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{IPORHOST:destination.address}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NOTSPACE:http.request.referrer}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{NOTSPACE:iis.access.site_name}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NOTSPACE:iis.access.cookie}) (?:-|%{NOTSPACE:http.request.referrer}) (?:-|%{NOTSPACE:destination.domain}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:http.response.body.bytes:long}) (?:-|%{NUMBER:http.request.body.bytes:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{NOTSPACE:iis.access.site_name}) (?:-|%{NOTSPACE:iis.access.server_name}) (?:-|%{IPORHOST:destination.address}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|HTTP/%{NUMBER:http.version}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NOTSPACE:iis.access.cookie}) (?:-|%{NOTSPACE:http.request.referrer}) (?:-|%{NOTSPACE:destination.domain}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:http.response.body.bytes:long}) (?:-|%{NUMBER:http.request.body.bytes:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} \\[%{IPORHOST:destination.address}\\]\\(http://%{IPORHOST:destination.address}\\) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) \\[%{IPORHOST:source.address}\\]\\(http://%{IPORHOST:source.address}\\) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{IPORHOST:destination.address}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:temp.duration:long})&quot; ] tag_on_failure =&gt; [&quot;fail_in_message&quot;] } } CICD CI/CD的几种发布方式 蓝绿部署（Blue-Green Deployment）： 在蓝绿部署中，有两套完全相同的生产环境，分别称为蓝环境和绿环境。在任何时刻，只有一套环境在向用户提供服务，而另一套环境则处于闲置状态。当新版本准备好发布时，流量被切换到处于闲置状态的环境，从而实现零停机时间的部署。 特点 蓝绿部署的目的是减少发布时的中断时间、能够快速撤回发布 发布策略简单 用户无感知，平滑过渡 升级/回滚速度快 缺点 需要准备正常业务使用资源的两倍以上服务器，防止升级期间单组无法承载业务突发 短时间内浪费一定资源成本 基础设施无改动，增大升级稳定性 金丝雀部署/灰度发布（Canary Deployment）： 金丝雀部署是一种逐步发布新版本的方式，它允许只向一小部分用户或流量引入新版本，以便在实际生产环境中进行测试。如果新版本没有引发问题，可以逐渐增加流量直至全部流量都使用新版本。 特点 保证整体系统稳定性，在初始灰度的时候就可以发现、调整问题，影响范围可控 新功能逐步评估性能，稳定性和健康状况，如果出问题影响范围很小，相对用户体验也少 用户无感知，平滑过渡 缺点 自动化要求高 滚动部署（Rolling Deployment）： 在滚动部署中，新版本逐步替换旧版本，通常是逐个节点或逐批节点地进行。这种方式可以确保系统的稳定性，因为在部署过程中，总是有一部分节点在提供服务。 特点 用户无感知，平滑过渡 节约资源 缺点 部署时间慢，取决于每阶段更新时间 发布策略较复杂 无法确定OK的环境，不易回滚 增量部署（Incremental Deployment）： 增量部署是一种将新功能逐步添加到生产环境中的方式。这种方式通常用于大型系统或对稳定性要求较高的系统，以确保新功能的逐步引入不会对整个系统造成过大的影响。">
+<link rel="canonical" href="https://fattt.org.edu.kg//jekyll-theme-yat/InterviewQuestions">
+<meta property="og:url" content="https://fattt.org.edu.kg//jekyll-theme-yat/InterviewQuestions">
+<meta property="og:site_name" content="Fattt blog">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2023-10-09T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="面试题">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"FatGuy010"},"dateModified":"2023-10-09T00:00:00+00:00","datePublished":"2023-10-09T00:00:00+00:00","description":"容器 K8s面试题 https://fattt.org.edu.kg/K8sInterviewQuestions 容器与虚拟机的区别 容器和虚拟机都是提供隔离环境以运行应用程序的技术，但它们在架构和运行机制上有本质的不同。 虚拟机（VM） 虚拟机是一种基于硬件的虚拟化技术。每个虚拟机都包括完整的操作系统，以及运行在该操作系统之上的应用程序和必要的库。虚拟机由一个称为虚拟机监控器（Hypervisor）的软件组件管理，它负责在物理硬件和各个虚拟机之间进行调度。 特点： 完全隔离：每个虚拟机都是完全独立的。 资源消耗：因为每个虚拟机都运行一个完整的操作系统，所以相对占用更多的资源。 启动时间：虚拟机的启动通常需要几分钟，因为需要加载整个操作系统。 可移植性：虚拟机可以在不同的物理机器和虚拟化平台之间迁移，但通常体积较大，迁移速度较慢。 容器 容器是一种基于操作系统级别的虚拟化。与虚拟机不同，容器共享宿主机的操作系统内核，但在用户空间中为每个容器提供隔离的环境。容器内部包含应用程序和其依赖的库和设置，但不包括整个操作系统。 特点： 轻量级：容器共享宿主机的操作系统内核，因此占用的资源比虚拟机少得多。 快速启动：容器只需启动应用程序，而不是整个操作系统，因此启动通常在几秒钟内完成。 密度高：在同等硬件上，可以运行更多的容器实例。 可移植性：容器的体积小，易于快速迁移和扩展。 对比总结 隔离级别：虚拟机提供硬件级别的完全隔离，而容器提供的是操作系统级别的隔离。 性能开销：虚拟机包含完整的操作系统副本，导致更高的性能开销。容器由于共享宿主操作系统的内核，因此开销更小。 启动速度：虚拟机启动慢，容器启动快。 系统兼容性：虚拟机可以运行不同于宿主机的操作系统，而容器则受限于宿主机的操作系统内核。 管理工具：虚拟机通常使用VMware、Hyper-V等虚拟化平台管理，容器则使用Docker、Kubernetes等容器管理工具。 在实际应用中，虚拟机更适用于需要完全隔离和安全保障的环境，而容器则因其轻量级和快速部署的特性，适用于微服务架构和持续集成/持续部署（CI/CD）的环境。 数据库 结构和非结构化数据 结构化数据和非结构化数据是两种主要的数据类型，它们在存储、处理和分析时有着本质的不同。 结构化数据 结构化数据是指那些高度组织和格式化的数据，因此可以轻松地被搜索引擎和数据挖掘工具所读取、搜索和分析。它们通常存储在关系数据库（如 MySQL、PostgreSQL、Oracle）中，并且有严格定义的数据模型和关系，如表格中的行和列。每一列都有一个预定义的数据类型，所有的数据项都符合这个数据类型。 例子： 客户信息表格，包括姓名、地址、电话号码等。 销售数据，包括日期、销售额、客户ID等。 库存管理系统中的物品清单。 结构化数据的优点是易于查询和更新，支持通过SQL（结构化查询语言）等查询语言进行高效的数据操作和分析。 非结构化数据 非结构化数据是指没有预定义数据模型的数据，也不容易放入传统的关系数据库中。这类数据包括文本、图像、音频、视频等，通常存储在文件系统中或者使用专门的存储系统和数据仓库。 例子： 邮件、PDF文件、Word文档等文本文件。 数码照片、视频剪辑等多媒体文件。 社交媒体帖子、博客文章等网络内容。 非结构化数据的挑战在于它的多样性和复杂性，需要使用特定的工具和技术来处理和分析，例如文本分析、图像识别和自然语言处理。 半结构化数据 除了结构化和非结构化数据之外，还有一种被称为半结构化数据的类型，它是介于结构化和非结构化数据之间的数据。它们可能不符合严格的数据模型，但仍然包含标签或其他标记来分隔语义元素，并支持数据的层次化组织。 例子： XML和JSON文件，它们包含标记或键值对，用于描述数据，但不符合固定的模式或结构。 电子数据交换（EDI）文件，它们用于商业交易，并遵循特定的格式标准，但并非存储在关系数据库中。 在现代数据管理和分析中，能够有效地处理结构化和非结构化数据是非常重要的，因为它们可以提供不同的视角和洞察力。随着大数据技术的发展，非结构化数据的重要性日益增加，因为它构成了世界数据量的一个很大比例。 关系型数据和非关系型数据 关系型数据和非关系型数据是指存储在关系型数据库和非关系型数据库中的数据类型，它们具有不同的数据模型和用例。 关系型数据（Relational Data） 关系型数据基于关系模型，这种模型由数学家E.F. Codd在1970年提出。关系型数据库管理系统（RDBMS）如MySQL、PostgreSQL、Oracle和SQL Server等广泛采用这一模型。 特点： 结构化：数据以表格的形式存储，每个表都有固定的列（属性）和多行（记录）。 严格的模式：定义了数据的结构，包括数据类型、关系等，所有数据写入前都需要符合这个模式。 数据完整性：通过主键、外键、索引、约束等机制来维护数据的准确性和一致性。 支持复杂的查询：使用结构化查询语言（SQL）进行高度复杂的数据查询。 事务支持：具有事务处理的能力，遵循ACID原则（原子性、一致性、隔离性、持久性）。 非关系型数据（Non-Relational Data） 非关系型数据，也称为NoSQL数据，存储在非关系型数据库中，如MongoDB、Cassandra、Redis和Elasticsearch等。这些数据库不遵循传统的关系模型，而是采用了其他种类的数据模型。 特点： 灵活的模式：数据结构可以动态修改，不需要预先定义。 多样的数据模型：包括键值对（Key-Value）、文档（Document）、列族（Column-Family）和图（Graph）等。 可扩展性：通常设计为易于水平扩展，通过增加更多的服务器来提升性能和存储能力。 优化为特定类型的查询：每种NoSQL数据库可能针对特定模式的查询或存储需求进行了优化。 事务支持差异：NoSQL数据库通常不提供全面的ACID事务支持，尽管某些数据库开始提供类似功能。 使用场景 关系型数据库通常用于需要严格数据完整性和复杂查询的应用，例如金融服务、会计系统和其他需要复杂事务处理的应用程序。 非关系型数据库适用于数据模式不固定、需要水平扩展或对读写性能有特别要求的场景，如大数据分析、实时数据处理、内容管理系统等。 如何查看主从延时情况？ 在使用MySQL关系型数据库的主从复制架构中，”主从延时”指的是从服务器复制主服务器上的数据变化所经历的时间差。这个延时可能是由网络延迟、从服务器的负载或复制过程中的SQL执行时间等因素造成的。 1. SHOW SLAVE STATUS命令 在MySQL中，可以在从服务器上执行SHOW SLAVE STATUS\\G命令来查看复制状态，包括延时情况。这个命令会返回一个包含复制状态信息的结果集，其中的Seconds_Behind_Master字段显示了从服务器落后于主服务器的秒数。 SHOW SLAVE STATUS\\G 查看输出结果中的Seconds_Behind_Master值： 如果这个值是0，表示主从复制良好。 如果这个值是一个非零的数字，它表示从服务器落后于主服务器的秒数，数字越大表示从库延迟越严重。 如果这个值是NULL，表示io_thread或是sql_thread有任何一个发生故障。 2. Performance Schema 从MySQL 5.6开始，可以使用Performance Schema来监控复制延迟。首先，需要确保Performance Schema被启用，并且相关的复制表也被激活。然后，可以查询performance_schema.replication_applier_status_by_worker表来获取复制延迟的信息。 3. pt-heartbeat pt-heartbeat是Percona Toolkit工具套件中的一个工具，它可以更精确地测量复制延迟。它通过在主服务器上创建一个记录心跳时间的表，并定期更新这个表来工作。从服务器上的pt-heartbeat进程会监测这个表，并计算出主从同步的延迟时间。 4. 自定义脚本 可以编写自定义脚本来检测主从延迟。这些脚本通常在主服务器上插入时间戳记录，在从服务器上读取这些记录，并计算出时间差。 5. 第三方监控工具 还可以使用第三方监控工具，如Zabbix、Nagios、Prometheus等，配合相关插件来监控MySQL复制延迟。 6. MySQL Shell的复制报告 MySQL Shell是MySQL 8.0引入的一个高级客户端和代码编辑器。在MySQL Shell中，可以使用复制报告功能来检查复制状态，包括延迟。 解决数据丢失的问题 半同步复制 从MySQL5.5开始，MySQL已经支持半同步复制了，半同步复制介于异步复制和同步复制之间，主库在执行完事务后不立刻返回结果给客户端，需要等待至少一个从库接收到并写到relay log中才返回结果给客户端。相对于异步复制，半同步复制提高了数据的安全性，同时它也造成了一个TCP/IP往返耗时的延迟。 解决从库复制延迟的问题 优化网络 升级Slave硬件配置 Slave调整参数，关闭binlog，修改innodb_flush_log_at_trx_commit参数值 升级MySQL版本到5.7，使用并行复制 数据同步的主要优点包括以下几个方面 提高数据一致性 数据同步可以将不同位置或系统中的数据进行实时或定期的更新和匹配，从而保持数据的一致性。 提高数据可靠性 通过数据同步，可以将数据备份到不同的位置或系统中，提高数据的可靠性和安全性。 提高数据可用性 通过数据同步，可以将数据从一个系统同步到另一个系统中，提高数据的可用性和共享性，为业务决策和数据分析提供有力支持。 提高工作效率 数据同步可以自动化完成数据的更新和匹配过程，减少手动操作，提高工作效率。 降低成本 通过数据同步，可以减少数据的重复输入和错误，降低数据管理和维护的成本。 Mysql 基于gtid主从复制 GTID的工作原理 当一个事务在主库端执行并提交时，产生GTID，一同记录到binlog日志。 binlog传输到slave,并存储到slave的relaylog后，读取这个GTID的这个值设置GTID_next变量，即告诉Slave，下一个要执行的GTID值。 sql线程从relay log中获取GTID，然后对比slave端的binlog是否有该GTID。 如果有记录，说明该GTID的事务已经执行，slave会忽略。 如果没有记录，slave就会执行该GTID事务，并记录该GTID到自身的binlog，在读取执行事务前会先检查其他session持有该GTID，确保不被重复执行。 在解析过程中会判断是否有主键，如果没有就用二级索引，如果没有就用全部扫描。 GTID的优点 一个事务对应一个唯一ID，一个GTID在一个服务器上只会执行一次; GTID是用来代替传统复制的方法，GTID复制与普通复制模式的最大不同就是不需要指定二进制文件名和位置; 减少手工干预和降低服务故障时间，当主机挂了之后通过软件从众多的备机中提升一台备机为主 机; GTID 的缺点(限制) 不支持非事务引擎; 不允许一个SQL同时更新一个事务引擎表和非事务引擎表; 在一个复制组中，必须要求统一开启GTID或者是关闭GTID; 开启GTID需要重启 (mysql5.7除外); 开启GTID后，就不再使用原来的传统复制方式; Linux Linux 开机启动过程 开机BIOS自检 MBR引导 GRUB引导菜单 加载内核Kernel 初始化init/systemd 运行程序 提示登陆 Raid磁盘阵列 Raid 0：两块硬盘或者以上就可做 raid0优势：数据读取写入最快，最大优势提高硬盘容量，比如3快80G的硬盘做raid0 可用总容量为240G。速度是一样。 缺点：无冗余能力，一块硬盘损坏，数据全无。 建议：做raid0 可以提供更好的容量以及性能，推荐对数据安全性要求不高的使用。 Raid 1：至少2快硬盘可做 raid1优势：镜像，数据安全强，2快硬盘做raid一块正常运行，另外一块镜像备份数据，保障数据的安全。一块坏了，另外一块硬盘也有完整的数据，保障运行。 缺点：性能提示不明显，做raid1之后硬盘使用率为50%. 建议：对数据安全性比较看着，性能没有太高要求的人使用。 Raid5：至少需要3块硬盘 raid5优势：以上优势，raid5兼顾。任意N-1快硬盘都有完整的数据。 缺点：只允许单盘故障，一盘出现故障得尽快处理。有盘坏情况下，raid5 IO/CPU性能狂跌，此时性能烂到无以复加。 建议：盘不多，对数据安全性和性能提示都有要求，raid5是个不错选择，鉴于出问题的性能，盘多可考虑riad10 Raid10：至少需要4快硬盘。raid10是2快硬盘组成raid1,2组raid1z组成raid0,所以必须需要4块硬盘。 优势：兼顾安全性和速度。基础4盘的情况下，raid10允许对柜盘2块故障，随着硬盘数量的提示，容错量也会相对应提升。这是raid5无法做到的。 缺点：对盘的数量要求稍高，磁盘使用率为一半。 建议：硬盘数量足够的情况，建议riad10.不过raid最重要的指标是可靠性：4盘的raid5,只允许单盘故障，raid10,允许对柜盘2块g故障，可靠性高于raid5,且raid10 可随盘上升提高容错，raid就不行，而且IO和CPU的额外开销还涂增，从可靠性和冗余角度，达到同样的可靠性,raid10写能力高于raid5. 网络 一次域名请求经过的协议 一次域名请求通常会涉及到 DNS 解析、HTTP/HTTPS 请求、TCP连接、安全传输协议（如果是 HTTPS 请求的话），以及可能的其他应用层协议(例如：FTP、STMP)。 DNS解析过程是怎样的 递归查询 迭代查询 在实际应用中，递归查询通常用于从请求主机到本地 DNS 服务器的查询，而迭代查询则用于本地 DNS 服务器向根域名服务器或者顶级域名服务器发出查询请求。 网络七层协议 物理层： 解决两个硬件之间怎么通信的问题，常见的物理媒介有光纤、电缆、中继器等。它主要定义物理设备标准，如网线的接口类型、光纤的接口类型、各种传输介质的传输速率等。 它的主要作用是传输比特流（就是由1、0转化为电流强弱来进行传输，到达目的地后在转化为1、0，也就是我们常说的数模转换与模数转换）。这一层的数据叫做比特。 数据链路层： 在计算机网络中由于各种干扰的存在，物理链路是不可靠的。该层的主要功能就是：通过各种控制协议，将有差错的物理信道变为无差错的、能可靠传输数据帧的数据链路。 它的具体工作是接收来自物理层的位流形式的数据，并封装成帧，传送到上一层；同样，也将来自上层的数据帧，拆装为位流形式的数据转发到物理层。这一层的数据叫做帧。 网络层： 计算机网络中如果有多台计算机，怎么找到要发的那台？如果中间有多个节点，怎么选择路径？这就是路由要做的事。 该层的主要任务就是：通过路由选择算法，为报文（该层的数据单位，由上一层数据打包而来）通过通信子网选择最适当的路径。这一层定义的是IP地址，通过IP地址寻址，所以产生了IP协议。 传输层： 当发送大量数据时，很可能会出现丢包的情况，另一台电脑要告诉是否完整接收到全部的包。如果缺了，就告诉丢了哪些包，然后再发一次，直至全部接收为止。 简单来说，传输层的主要功能就是：监控数据传输服务的质量，保证报文的正确传输。 会话层： 虽然已经可以实现给正确的计算机，发送正确的封装过后的信息了。但我们总不可能每次都要调用传输层协议去打包，然后再调用IP协议去找路由，所以我们要建立一个自动收发包，自动寻址的功能。于是会话层出现了：它的作用就是建立和管理应用程序之间的通信。 表示层： 表示层负责数据格式的转换，将应用处理的信息转换为适合网络传输的格式，或者将来自下一层的数据转换为上层能处理的格式。 应用层： 应用层是计算机用户，以及各种应用程序和网络之间的接口，其功能是直接向用户提供服务，完成用户希望在网络上完成的各种工作。 OSI七层模型 TCP/IP4层模型、5层模型和OSI七层模型的差别 三次握手和四次挥手 https://www.cnblogs.com/zzjdbk/p/13028290.html 三次握手 第一次握手：客户端给服务器发送一个 SYN 报文。 第二次握手：服务器收到 SYN 报文之后，会应答一个 SYN+ACK 报文。 第三次握手：客户端收到 SYN+ACK 报文之后，会回应一个 ACK 报文。 四次挥手 第一次挥手：客户端发送一个 FIN 报文，报文中会指定一个序列号。此时客户端处于FIN_WAIT1状态。 第二次握手：服务端收到 FIN 之后，会发送 ACK 报文，且把客户端的序列号值 + 1 作为 ACK 报文的序列号值，表明已经收到客户端的报文了，此时服务端处于 CLOSE_WAIT状态。 第三次挥手：如果服务端也想断开连接了，和客户端的第一次挥手一样，发给 FIN 报文，且指定一个序列号。此时服务端处于 LAST_ACK 的状态。 第四次挥手：客户端收到 FIN 之后，一样发送一个 ACK 报文作为应答，且把服务端的序列号值 + 1 作为自己 ACK 报文的序列号值，此时客户端处于 TIME_WAIT 状态。需要过一阵子以确保服务端收到自己的 ACK 报文之后才会进入 CLOSED 状态 服务端收到 ACK 报文之后，就处于关闭连接了，处于 CLOSED 状态。 服务 Keepalived的本质 使用VRRP协议(虚拟路由器冗余协议)：通告：心跳，优先级等；周期性 工作方式： 抢占式：一旦有优先级高的路由器加入，立即成为Master 非抢占式：只要Master不挂掉，优先级高的路由器只能等待 vrrp协议的作用是提供了局域网上的设备备份机制。vrrp协议是一种容错协议，它保证当主机的下一跳路由器坏掉时，可以及时由另一台路由器来替代，从而保证通讯的连续性和可靠性 Keepalived高可用软件两个核心功能： 1.健康检测功能 2.VRRP冗余功能 Keepalived本质就是为ipvs服务的，它也不需要共享存储。IPVS其实就是一些规则，Keepalived主要的任务就是去调用ipvsadm命令，来生成规则，并自动实现将用户需要访问的地址转移到可用LVS节点实现。 Nginx获取真实的客户端IP地址(获取源IP) 方法一、通过 头部字段 传递 客户端Ip 到 上游服务器 在代理设置真实ip 到 X-Real-IP 头部字段，该字段不区分大小写,在 上游服务器日志中引用该变量即可 proxy_set_header X-Real-IP $remote_addr; 在游服务器日志中引用该字段变量,(注意引用变量时，要加$http_, 其次 ‘-‘ 变 ‘_’, 大小写忽略) ​ log_format main &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39; ​ &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39; ​ &#39;&quot;$http_user_agent&quot; &quot;$http_X_Real_IP&quot;&#39;; 对于多级代理 X-Forwarded-For 字段可以包含 客户端地址和代理地址 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; ​ log_format main &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39; ​ &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39; ​ &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;; 方法二、 ngx_http_realip_module 通过模块获取客户端IP nginx 通过ngx_http_proxy_module模块 实现反向代理；在nginx 启动服务load conf时， 就会读取proxy_set_header 的配置项；来获取需要的变量。proxy_set_header 是用来设置请求的header的； 比如：设置上面的host X-Real-IP x-forwarded-for ELK如何进行日志切割 方法一：Filebeat的dissect 优点：简单快捷，在简单应用场景中效率更高 缺点：日志切割场景单一，功能单一 实现：在配置文件中processors下面加上dissect 对日志进行切割 processors: - dissect: tokenizer: &quot;%{date} %{time} %{s-ip} %{cs-method} %{cs-uri-stem} %{cs-uri-query} %{s-port} %{cs-username} %{c-ip} %{cs(User-Agent)} %{cs(Referer)} %{sc-status} %{sc-substatus} %{sc-win32-status} %{time-taken}&quot; field: &quot;message&quot; target_prefix: &quot;fields&quot; 方法二：Logstash的grok 优点：能灵活的切割各种日志，有很多功能加工日志 缺点：配置难度较dissect高出不少 实现：在Logstash配置文件中input和output之间的filter中进行配置 filter { grok { match =&gt; [ &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{IPORHOST:destination.address}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NOTSPACE:http.request.referrer}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{NOTSPACE:iis.access.site_name}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NOTSPACE:iis.access.cookie}) (?:-|%{NOTSPACE:http.request.referrer}) (?:-|%{NOTSPACE:destination.domain}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:http.response.body.bytes:long}) (?:-|%{NUMBER:http.request.body.bytes:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{NOTSPACE:iis.access.site_name}) (?:-|%{NOTSPACE:iis.access.server_name}) (?:-|%{IPORHOST:destination.address}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|HTTP/%{NUMBER:http.version}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NOTSPACE:iis.access.cookie}) (?:-|%{NOTSPACE:http.request.referrer}) (?:-|%{NOTSPACE:destination.domain}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:http.response.body.bytes:long}) (?:-|%{NUMBER:http.request.body.bytes:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} \\\\[%{IPORHOST:destination.address}\\\\]\\\\(http://%{IPORHOST:destination.address}\\\\) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) \\\\[%{IPORHOST:source.address}\\\\]\\\\(http://%{IPORHOST:source.address}\\\\) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:temp.duration:long})&quot;, &quot;message&quot;,&quot;%{TIMESTAMP_ISO8601:iis.access.time} (?:-|%{IPORHOST:destination.address}) (?:-|%{WORD:http.request.method}) (?:-|%{NOTSPACE:url.path}) (?:-|%{NOTSPACE:url.query}) (?:-|%{NUMBER:destination.port:long}) (?:-|%{NOTSPACE:user.name}) (?:-|%{IPORHOST:source.address}) (?:-|%{NOTSPACE:user_agent.original}) (?:-|%{NUMBER:http.response.status_code:long}) (?:-|%{NUMBER:iis.access.sub_status:long}) (?:-|%{NUMBER:iis.access.win32_status:long}) (?:-|%{NUMBER:temp.duration:long})&quot; ] tag_on_failure =&gt; [&quot;fail_in_message&quot;] } } CICD CI/CD的几种发布方式 蓝绿部署（Blue-Green Deployment）： 在蓝绿部署中，有两套完全相同的生产环境，分别称为蓝环境和绿环境。在任何时刻，只有一套环境在向用户提供服务，而另一套环境则处于闲置状态。当新版本准备好发布时，流量被切换到处于闲置状态的环境，从而实现零停机时间的部署。 特点 蓝绿部署的目的是减少发布时的中断时间、能够快速撤回发布 发布策略简单 用户无感知，平滑过渡 升级/回滚速度快 缺点 需要准备正常业务使用资源的两倍以上服务器，防止升级期间单组无法承载业务突发 短时间内浪费一定资源成本 基础设施无改动，增大升级稳定性 金丝雀部署/灰度发布（Canary Deployment）： 金丝雀部署是一种逐步发布新版本的方式，它允许只向一小部分用户或流量引入新版本，以便在实际生产环境中进行测试。如果新版本没有引发问题，可以逐渐增加流量直至全部流量都使用新版本。 特点 保证整体系统稳定性，在初始灰度的时候就可以发现、调整问题，影响范围可控 新功能逐步评估性能，稳定性和健康状况，如果出问题影响范围很小，相对用户体验也少 用户无感知，平滑过渡 缺点 自动化要求高 滚动部署（Rolling Deployment）： 在滚动部署中，新版本逐步替换旧版本，通常是逐个节点或逐批节点地进行。这种方式可以确保系统的稳定性，因为在部署过程中，总是有一部分节点在提供服务。 特点 用户无感知，平滑过渡 节约资源 缺点 部署时间慢，取决于每阶段更新时间 发布策略较复杂 无法确定OK的环境，不易回滚 增量部署（Incremental Deployment）： 增量部署是一种将新功能逐步添加到生产环境中的方式。这种方式通常用于大型系统或对稳定性要求较高的系统，以确保新功能的逐步引入不会对整个系统造成过大的影响。","headline":"面试题","mainEntityOfPage":{"@type":"WebPage","@id":"https://fattt.org.edu.kg//jekyll-theme-yat/InterviewQuestions"},"url":"https://fattt.org.edu.kg//jekyll-theme-yat/InterviewQuestions"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="icon" href="">
+  <link rel="canonical" href="https://fattt.org.edu.kg/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="https://fattt.org.edu.kg//jekyll-theme-yat/feed.xml" title="Fattt blog">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js" async></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js" async></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js" async></script>
+<link href="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css" rel="stylesheet">
+<style>
+  .pswp .pswp__container .pswp__img {
+    background-color: white;
+  }
+</style>
+
+<script>
+  function initPhotoSwipe() {
+    let customOptions = {};
+
+    try {
+      const data = ``.replaceAll("=>", ":");
+      customOptions = JSON.parse(data);
+    } catch (e) {
+      console.info("Invalid custom photo previewer options! " + e.message);
+    }
+
+    // Define object and gallery options
+    const options = Object.assign(
+      {
+        gallery: "section.main",
+        children: "a.photo-swipe",
+        photo_scale: 2,
+        // dynamic import is not supported in UMD version
+        pswpModule: PhotoSwipe,
+      },
+      customOptions
+    );
+
+    const galleryEl = document.querySelector(options.gallery);
+    if (!galleryEl) {
+      return;
+    }
+
+    const imgEls = [];
+    const els = galleryEl.querySelectorAll("img:not(.emoji)");
+    els.forEach((el) => {
+      if (el.src.trim() == "") {
+        return;
+      }
+      if (!imgEls.includes(el)) {
+        imgEls.push(el);
+      }
+    });
+
+    if (imgEls.length === 0) {
+      return;
+    }
+
+    imgEls.forEach((imgEl) => {
+      imgEl.outerHTML = `
+      <a class="photo-swipe"
+        href="${imgEl.src}"
+        data-pswp-width="${
+          Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
+        }"
+        data-pswp-height="${
+          Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
+        }"
+        data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
+        target="_blank">
+        ${imgEl.outerHTML}
+      </a>`;
+    });
+
+    // Initialize PhotoSwipe 5
+    var lightbox = new PhotoSwipeLightbox(options);
+
+    lightbox.init();
+  }
+
+  window.addEventListener("load", initPhotoSwipe);
+</script>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Fattt blog" src="" onerror="this.style.display='none'">
+  Fattt blog
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">ABOUT</a><a class="page-link" href="/jekyll-theme-yat/archives.html">ARCHIVES</a><a class="page-link" href="/jekyll-theme-yat/categories.html">CATEGORIES</a><a class="page-link" href="/jekyll-theme-yat/">HOME</a><a class="page-link" href="/jekyll-theme-yat/tags.html">TAGS</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">面试题</h1>
+  <h2 class="post-subtitle">面试可能会遇到的问题</h2>
+
+  <div class="post-meta">
+    <time class="dt-published" datetime="2023-10-09T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Oct 09, 2023
+    </time><span class="post-author left-vsplit"><i class="fa fa-pencil"></i> FatGuy010</span>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 6 mins</span>
+  </div>
+<div class="post-tags"><a class="post-tag" href="/jekyll-theme-yat/tags.html#%E9%9D%A2%E8%AF%95">#面试</a></div></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h1 id="容器">容器</h1>
+
+<h2 id="k8s面试题"><a href="https://blog.csdn.net/chongfa2008/article/details/121975552">K8s面试题</a></h2>
+
+<p><a href="https://fattt.org.edu.kg/K8sInterviewQuestions">https://fattt.org.edu.kg/K8sInterviewQuestions</a></p>
+
+<h2 id="容器与虚拟机的区别">容器与虚拟机的区别</h2>
+
+<p>容器和虚拟机都是提供隔离环境以运行应用程序的技术，但它们在架构和运行机制上有本质的不同。</p>
+
+<p><strong>虚拟机（VM）</strong></p>
+
+<p>虚拟机是一种基于硬件的虚拟化技术。每个虚拟机都包括完整的操作系统，以及运行在该操作系统之上的应用程序和必要的库。虚拟机由一个称为<strong>虚拟机监控器</strong>（Hypervisor）的软件组件管理，它负责在物理硬件和各个虚拟机之间进行调度。</p>
+
+<p><strong>特点</strong>：</p>
+
+<ul>
+  <li>
+<strong>完全隔离</strong>：每个虚拟机都是完全独立的。</li>
+  <li>
+<strong>资源消耗</strong>：因为每个虚拟机都运行一个完整的操作系统，所以相对占用更多的资源。</li>
+  <li>
+<strong>启动时间</strong>：虚拟机的启动通常需要几分钟，因为需要加载整个操作系统。</li>
+  <li>
+<strong>可移植性</strong>：虚拟机可以在不同的物理机器和虚拟化平台之间迁移，但通常体积较大，迁移速度较慢。</li>
+</ul>
+
+<p><strong>容器</strong></p>
+
+<p>容器是一种基于操作系统级别的虚拟化。与虚拟机不同，容器共享宿主机的操作系统内核，但在用户空间中为每个容器提供隔离的环境。容器内部包含应用程序和其依赖的库和设置，但不包括整个操作系统。</p>
+
+<p><strong>特点</strong>：</p>
+
+<ul>
+  <li>
+<strong>轻量级</strong>：容器共享宿主机的操作系统内核，因此占用的资源比虚拟机少得多。</li>
+  <li>
+<strong>快速启动</strong>：容器只需启动应用程序，而不是整个操作系统，因此启动通常在几秒钟内完成。</li>
+  <li>
+<strong>密度高</strong>：在同等硬件上，可以运行更多的容器实例。</li>
+  <li>
+<strong>可移植性</strong>：容器的体积小，易于快速迁移和扩展。</li>
+</ul>
+
+<p><strong>对比总结</strong></p>
+
+<ul>
+  <li>
+<strong>隔离级别</strong>：虚拟机提供硬件级别的完全隔离，而容器提供的是操作系统级别的隔离。</li>
+  <li>
+<strong>性能开销</strong>：虚拟机包含完整的操作系统副本，导致更高的性能开销。容器由于共享宿主操作系统的内核，因此开销更小。</li>
+  <li>
+<strong>启动速度</strong>：虚拟机启动慢，容器启动快。</li>
+  <li>
+<strong>系统兼容性</strong>：虚拟机可以运行不同于宿主机的操作系统，而容器则受限于宿主机的操作系统内核。</li>
+  <li>
+<strong>管理工具</strong>：虚拟机通常使用VMware、Hyper-V等虚拟化平台管理，容器则使用Docker、Kubernetes等容器管理工具。</li>
+</ul>
+
+<p>在实际应用中，虚拟机更适用于需要完全隔离和安全保障的环境，而容器则因其轻量级和快速部署的特性，适用于微服务架构和持续集成/持续部署（CI/CD）的环境。</p>
+
+<h1 id="数据库">数据库</h1>
+
+<h2 id="结构和非结构化数据">结构和非结构化数据</h2>
+
+<p>结构化数据和非结构化数据是两种主要的数据类型，它们在存储、处理和分析时有着本质的不同。</p>
+
+<p><strong>结构化数据</strong></p>
+
+<p>结构化数据是指那些高度组织和格式化的数据，因此可以轻松地被搜索引擎和数据挖掘工具所读取、搜索和分析。它们通常存储在关系数据库（如 MySQL、PostgreSQL、Oracle）中，并且有严格定义的数据模型和关系，如表格中的行和列。每一列都有一个预定义的数据类型，所有的数据项都符合这个数据类型。</p>
+
+<p><strong>例子</strong>：</p>
+<ul>
+  <li>客户信息表格，包括姓名、地址、电话号码等。</li>
+  <li>销售数据，包括日期、销售额、客户ID等。</li>
+  <li>库存管理系统中的物品清单。</li>
+</ul>
+
+<p>结构化数据的优点是易于查询和更新，支持通过SQL（结构化查询语言）等查询语言进行高效的数据操作和分析。</p>
+
+<p><strong>非结构化数据</strong></p>
+
+<p>非结构化数据是指没有预定义数据模型的数据，也不容易放入传统的关系数据库中。这类数据包括文本、图像、音频、视频等，通常存储在文件系统中或者使用专门的存储系统和数据仓库。</p>
+
+<p><strong>例子</strong>：</p>
+<ul>
+  <li>邮件、PDF文件、Word文档等文本文件。</li>
+  <li>数码照片、视频剪辑等多媒体文件。</li>
+  <li>社交媒体帖子、博客文章等网络内容。</li>
+</ul>
+
+<p>非结构化数据的挑战在于它的多样性和复杂性，需要使用特定的工具和技术来处理和分析，例如文本分析、图像识别和自然语言处理。</p>
+
+<p><strong>半结构化数据</strong></p>
+
+<p>除了结构化和非结构化数据之外，还有一种被称为半结构化数据的类型，它是介于结构化和非结构化数据之间的数据。它们可能不符合严格的数据模型，但仍然包含标签或其他标记来分隔语义元素，并支持数据的层次化组织。</p>
+
+<p><strong>例子</strong>：</p>
+<ul>
+  <li>XML和JSON文件，它们包含标记或键值对，用于描述数据，但不符合固定的模式或结构。</li>
+  <li>电子数据交换（EDI）文件，它们用于商业交易，并遵循特定的格式标准，但并非存储在关系数据库中。</li>
+</ul>
+
+<p>在现代数据管理和分析中，能够有效地处理结构化和非结构化数据是非常重要的，因为它们可以提供不同的视角和洞察力。随着大数据技术的发展，非结构化数据的重要性日益增加，因为它构成了世界数据量的一个很大比例。</p>
+
+<h2 id="关系型数据和非关系型数据">关系型数据和非关系型数据</h2>
+
+<p>关系型数据和非关系型数据是指存储在关系型数据库和非关系型数据库中的数据类型，它们具有不同的数据模型和用例。</p>
+
+<p><strong>关系型数据（Relational Data）</strong></p>
+
+<p>关系型数据基于关系模型，这种模型由数学家E.F. Codd在1970年提出。关系型数据库管理系统（RDBMS）如MySQL、PostgreSQL、Oracle和SQL Server等广泛采用这一模型。</p>
+
+<p><strong>特点</strong>：</p>
+
+<ul>
+  <li>
+<strong>结构化</strong>：数据以表格的形式存储，每个表都有固定的列（属性）和多行（记录）。</li>
+  <li>
+<strong>严格的模式</strong>：定义了数据的结构，包括数据类型、关系等，所有数据写入前都需要符合这个模式。</li>
+  <li>
+<strong>数据完整性</strong>：通过主键、外键、索引、约束等机制来维护数据的准确性和一致性。</li>
+  <li>
+<strong>支持复杂的查询</strong>：使用结构化查询语言（SQL）进行高度复杂的数据查询。</li>
+  <li>
+<strong>事务支持</strong>：具有事务处理的能力，遵循ACID原则（原子性、一致性、隔离性、持久性）。</li>
+</ul>
+
+<p><strong>非关系型数据（Non-Relational Data）</strong></p>
+
+<p>非关系型数据，也称为NoSQL数据，存储在非关系型数据库中，如MongoDB、Cassandra、Redis和Elasticsearch等。这些数据库不遵循传统的关系模型，而是采用了其他种类的数据模型。</p>
+
+<p><strong>特点</strong>：</p>
+
+<ul>
+  <li>
+<strong>灵活的模式</strong>：数据结构可以动态修改，不需要预先定义。</li>
+  <li>
+<strong>多样的数据模型</strong>：包括键值对（Key-Value）、文档（Document）、列族（Column-Family）和图（Graph）等。</li>
+  <li>
+<strong>可扩展性</strong>：通常设计为易于水平扩展，通过增加更多的服务器来提升性能和存储能力。</li>
+  <li>
+<strong>优化为特定类型的查询</strong>：每种NoSQL数据库可能针对特定模式的查询或存储需求进行了优化。</li>
+  <li>
+<strong>事务支持差异</strong>：NoSQL数据库通常不提供全面的ACID事务支持，尽管某些数据库开始提供类似功能。</li>
+</ul>
+
+<p><strong>使用场景</strong></p>
+
+<ul>
+  <li>
+<strong>关系型数据库</strong>通常用于需要严格数据完整性和复杂查询的应用，例如金融服务、会计系统和其他需要复杂事务处理的应用程序。</li>
+  <li>
+<strong>非关系型数据库</strong>适用于数据模式不固定、需要水平扩展或对读写性能有特别要求的场景，如大数据分析、实时数据处理、内容管理系统等。</li>
+</ul>
+
+<h2 id="如何查看主从延时情况">如何查看主从延时情况？</h2>
+
+<p>在使用MySQL关系型数据库的主从复制架构中，”主从延时”指的是从服务器复制主服务器上的数据变化所经历的时间差。这个延时可能是由网络延迟、从服务器的负载或复制过程中的SQL执行时间等因素造成的。</p>
+
+<p><strong>1. SHOW SLAVE STATUS命令</strong></p>
+
+<p>在MySQL中，可以在从服务器上执行<code class="language-plaintext highlighter-rouge">SHOW SLAVE STATUS\G</code>命令来查看复制状态，包括延时情况。这个命令会返回一个包含复制状态信息的结果集，其中的<code class="language-plaintext highlighter-rouge">Seconds_Behind_Master</code>字段显示了从服务器落后于主服务器的秒数。</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SHOW</span> <span class="n">SLAVE</span> <span class="n">STATUS</span><span class="err">\</span><span class="k">G</span>
+</code></pre></div></div>
+
+<p>查看输出结果中的<code class="language-plaintext highlighter-rouge">Seconds_Behind_Master</code>值：</p>
+
+<ul>
+  <li>
+    <p>如果这个值是<code class="language-plaintext highlighter-rouge">0</code>，表示主从复制良好。</p>
+  </li>
+  <li>
+    <p>如果这个值是一个非零的数字，它表示从服务器落后于主服务器的秒数，数字越大表示从库延迟越严重。</p>
+  </li>
+  <li>
+    <p>如果这个值是<code class="language-plaintext highlighter-rouge">NULL</code>，表示<code class="language-plaintext highlighter-rouge">io_thread</code>或是<code class="language-plaintext highlighter-rouge">sql_thread</code>有任何一个发生故障。</p>
+  </li>
+</ul>
+
+<p><strong>2. Performance Schema</strong></p>
+
+<p>从MySQL 5.6开始，可以使用Performance Schema来监控复制延迟。首先，需要确保Performance Schema被启用，并且相关的复制表也被激活。然后，可以查询<code class="language-plaintext highlighter-rouge">performance_schema.replication_applier_status_by_worker</code>表来获取复制延迟的信息。</p>
+
+<p><strong>3. pt-heartbeat</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">pt-heartbeat</code>是Percona Toolkit工具套件中的一个工具，它可以更精确地测量复制延迟。它通过在主服务器上创建一个记录心跳时间的表，并定期更新这个表来工作。从服务器上的<code class="language-plaintext highlighter-rouge">pt-heartbeat</code>进程会监测这个表，并计算出主从同步的延迟时间。</p>
+
+<p><strong>4. 自定义脚本</strong></p>
+
+<p>可以编写自定义脚本来检测主从延迟。这些脚本通常在主服务器上插入时间戳记录，在从服务器上读取这些记录，并计算出时间差。</p>
+
+<p><strong>5. 第三方监控工具</strong></p>
+
+<p>还可以使用第三方监控工具，如Zabbix、Nagios、Prometheus等，配合相关插件来监控MySQL复制延迟。</p>
+
+<p><strong>6. MySQL Shell的复制报告</strong></p>
+
+<p>MySQL Shell是MySQL 8.0引入的一个高级客户端和代码编辑器。在MySQL Shell中，可以使用复制报告功能来检查复制状态，包括延迟。</p>
+
+<h2 id="解决数据丢失的问题">解决数据丢失的问题</h2>
+
+<p><strong>半同步复制</strong></p>
+
+<p>从MySQL5.5开始，MySQL已经支持半同步复制了，半同步复制介于异步复制和同步复制之间，主库在执行完事务后不立刻返回结果给客户端，需要等待至少一个从库接收到并写到relay log中才返回结果给客户端。相对于异步复制，半同步复制提高了数据的安全性，同时它也造成了一个TCP/IP往返耗时的延迟。</p>
+
+<p><a href="https://imgse.com/i/picoplj"><img src="https://z1.ax1x.com/2023/12/06/picoplj.png" alt="picoplj.png"></a></p>
+
+<h2 id="解决从库复制延迟的问题">解决从库复制延迟的问题</h2>
+
+<p>优化网络</p>
+
+<p>升级Slave硬件配置</p>
+
+<p>Slave调整参数，关闭binlog，修改<code class="language-plaintext highlighter-rouge">innodb_flush_log_at_trx_commit</code>参数值</p>
+
+<p>升级MySQL版本到5.7，使用并行复制</p>
+
+<h2 id="数据同步的主要优点包括以下几个方面">数据同步的主要优点包括以下几个方面</h2>
+
+<p><strong>提高数据一致性</strong></p>
+
+<p>数据同步可以将不同位置或系统中的数据进行实时或定期的更新和匹配，从而保持数据的一致性。</p>
+
+<p><strong>提高数据可靠性</strong></p>
+
+<p>通过数据同步，可以将<a href="https://cloud.tencent.com/developer/techpedia/1725">数据备份</a>到不同的位置或系统中，提高数据的可靠性和安全性。</p>
+
+<p><strong>提高数据可用性</strong></p>
+
+<p>通过数据同步，可以将数据从一个系统同步到另一个系统中，提高数据的可用性和共享性，为业务决策和<a href="https://cloud.tencent.com/developer/techpedia/1580">数据分析</a>提供有力支持。</p>
+
+<p><strong>提高工作效率</strong></p>
+
+<p>数据同步可以自动化完成数据的更新和匹配过程，减少手动操作，提高工作效率。</p>
+
+<p><strong>降低成本</strong></p>
+
+<p>通过数据同步，可以减少数据的重复输入和错误，降低<a href="https://cloud.tencent.com/developer/techpedia/1723">数据管理</a>和维护的成本。</p>
+
+<h2 id="mysql-基于gtid主从复制">Mysql 基于gtid主从复制</h2>
+
+<p><strong>GTID的工作原理</strong></p>
+
+<ol>
+  <li>当一个事务在主库端执行并提交时，产生GTID，一同记录到binlog日志。</li>
+  <li>binlog传输到slave,并存储到slave的relaylog后，读取这个GTID的这个值设置GTID_next变量，即告诉Slave，下一个要执行的GTID值。</li>
+  <li>sql线程从relay log中获取GTID，然后对比slave端的binlog是否有该GTID。</li>
+  <li>如果有记录，说明该GTID的事务已经执行，slave会忽略。</li>
+  <li>如果没有记录，slave就会执行该GTID事务，并记录该GTID到自身的binlog，在读取执行事务前会先检查其他session持有该GTID，确保不被重复执行。</li>
+  <li>在解析过程中会判断是否有主键，如果没有就用二级索引，如果没有就用全部扫描。</li>
+</ol>
+
+<p><strong>GTID的优点</strong></p>
+
+<ol>
+  <li>一个事务对应一个唯一ID，一个GTID在一个服务器上只会执行一次;</li>
+  <li>GTID是用来代替传统复制的方法，GTID复制与普通复制模式的最大不同就是不需要指定二进制文件名和位置;</li>
+  <li>减少手工干预和降低服务故障时间，当主机挂了之后通过软件从众多的备机中提升一台备机为主 机;</li>
+</ol>
+
+<p><strong>GTID 的缺点(限制)</strong></p>
+
+<ol>
+  <li>不支持非事务引擎;</li>
+  <li>不允许一个SQL同时更新一个事务引擎表和非事务引擎表;</li>
+  <li>在一个复制组中，必须要求统一开启GTID或者是关闭GTID;</li>
+  <li>开启GTID需要重启 (mysql5.7除外);</li>
+  <li>开启GTID后，就不再使用原来的传统复制方式;</li>
+</ol>
+
+<h1 id="linux">Linux</h1>
+
+<h2 id="linux-开机启动过程">Linux 开机启动过程</h2>
+
+<ol>
+  <li>开机BIOS自检</li>
+  <li>MBR引导</li>
+  <li>GRUB引导菜单</li>
+  <li>加载内核Kernel</li>
+  <li>初始化init/systemd</li>
+  <li>运行程序</li>
+  <li>提示登陆</li>
+</ol>
+
+<h2 id="raid磁盘阵列">Raid磁盘阵列</h2>
+
+<p><a href="https://imgse.com/i/pic4g39"><img src="https://z1.ax1x.com/2023/12/06/pic4g39.png" alt="pic4g39.png"></a></p>
+
+<p><strong>Raid 0</strong>：两块硬盘或者以上就可做
+raid0优势：数据读取写入最快，最大优势提高硬盘容量，比如3快80G的硬盘做raid0 可用总容量为240G。速度是一样。
+缺点：无冗余能力，一块硬盘损坏，数据全无。
+建议：做raid0 可以提供更好的容量以及性能，推荐对数据安全性要求不高的使用。</p>
+
+<p><strong>Raid 1</strong>：至少2快硬盘可做
+raid1优势：镜像，数据安全强，2快硬盘做raid一块正常运行，另外一块镜像备份数据，保障数据的安全。一块坏了，另外一块硬盘也有完整的数据，保障运行。
+缺点：性能提示不明显，做raid1之后硬盘使用率为50%.
+建议：对数据安全性比较看着，性能没有太高要求的人使用。</p>
+
+<p><strong>Raid5</strong>：至少需要3块硬盘
+raid5优势：以上优势，raid5兼顾。任意N-1快硬盘都有完整的数据。
+缺点：只允许单盘故障，一盘出现故障得尽快处理。有盘坏情况下，raid5 IO/CPU性能狂跌，此时性能烂到无以复加。
+建议：盘不多，对数据安全性和性能提示都有要求，raid5是个不错选择，鉴于出问题的性能，盘多可考虑riad10</p>
+
+<p><strong>Raid10</strong>：至少需要4快硬盘。raid10是2快硬盘组成raid1,2组raid1z组成raid0,所以必须需要4块硬盘。</p>
+
+<p>优势：兼顾安全性和速度。基础4盘的情况下，raid10允许对柜盘2块故障，随着硬盘数量的提示，容错量也会相对应提升。这是raid5无法做到的。</p>
+
+<p>缺点：对盘的数量要求稍高，磁盘使用率为一半。</p>
+
+<p>建议：硬盘数量足够的情况，建议riad10.不过raid最重要的指标是可靠性：4盘的raid5,只允许单盘故障，raid10,允许对柜盘2块g故障，可靠性高于raid5,且raid10 可随盘上升提高容错，raid就不行，而且IO和CPU的额外开销还涂增，从可靠性和冗余角度，达到同样的可靠性,raid10写能力高于raid5.</p>
+
+<h1 id="网络">网络</h1>
+
+<h2 id="一次域名请求经过的协议">一次域名请求经过的协议</h2>
+
+<p>一次域名请求通常会涉及到 DNS 解析、HTTP/HTTPS 请求、TCP连接、安全传输协议（如果是 HTTPS 请求的话），以及可能的其他应用层协议(例如：FTP、STMP)。</p>
+
+<h2 id="dns解析过程是怎样的">DNS解析过程是怎样的</h2>
+
+<p><a href="https://imgse.com/i/pi2FcE6"><img src="https://z1.ax1x.com/2023/12/08/pi2FcE6.png" alt="pi2FcE6.png"></a></p>
+
+<p>递归查询</p>
+
+<p><a href="https://imgse.com/i/pi2FU4U"><img src="https://z1.ax1x.com/2023/12/08/pi2FU4U.png" alt="pi2FU4U.png"></a></p>
+
+<p>迭代查询</p>
+
+<p><a href="https://imgse.com/i/pi2F0gJ"><img src="https://z1.ax1x.com/2023/12/08/pi2F0gJ.png" alt="pi2F0gJ.png"></a></p>
+
+<p>在实际应用中，递归查询通常用于从请求主机到本地 DNS 服务器的查询，而迭代查询则用于本地 DNS 服务器向根域名服务器或者顶级域名服务器发出查询请求。</p>
+
+<h2 id="网络七层协议">网络七层协议</h2>
+
+<ul>
+  <li>
+<strong>物理层</strong>：</li>
+</ul>
+
+<p>解决两个硬件之间怎么通信的问题，常见的物理媒介有光纤、电缆、中继器等。它主要定义物理设备标准，如网线的接口类型、光纤的接口类型、各种传输介质的传输速率等。</p>
+
+<p>它的<strong>主要作用</strong>是传输<strong>比特流</strong>（就是由1、0转化为电流强弱来进行传输，到达目的地后在转化为1、0，也就是我们常说的数模转换与模数转换）。这一层的数据叫做<strong>比特</strong>。</p>
+
+<ul>
+  <li><strong>数据链路层：</strong></li>
+</ul>
+
+<p>在计算机网络中由于各种干扰的存在，物理链路是不可靠的。该层的主要功能就是：通过各种控制协议，将有差错的物理信道变为无差错的、能可靠传输数据帧的数据链路。</p>
+
+<p>它的具体工作是接收来自物理层的位流形式的数据，并<strong>封装成帧</strong>，传送到上一层；同样，也将来自上层的数据帧，拆装为位流形式的数据转发到物理层。这一层的数据叫做<strong>帧</strong>。</p>
+
+<ul>
+  <li><strong>网络层：</strong></li>
+</ul>
+
+<p>计算机网络中如果有多台计算机，怎么找到要发的那台？如果中间有多个节点，怎么选择路径？这就是路由要做的事。</p>
+
+<p>该层的主要任务就是：通过路由选择算法，为<strong>报文</strong>（该层的数据单位，由上一层数据打包而来）通过通信子网选择最适当的路径。这一层定义的是IP地址，通过IP地址寻址，所以产生了<strong>IP协议</strong>。</p>
+
+<ul>
+  <li><strong>传输层：</strong></li>
+</ul>
+
+<p>当发送大量数据时，很可能会出现丢包的情况，另一台电脑要告诉是否完整接收到全部的包。如果缺了，就告诉丢了哪些包，然后再发一次，直至全部接收为止。</p>
+
+<p>简单来说，传输层的主要功能就是：监控数据传输服务的质量，保证报文的正确传输。</p>
+
+<ul>
+  <li><strong>会话层：</strong></li>
+</ul>
+
+<p>虽然已经可以实现给正确的计算机，发送正确的封装过后的信息了。但我们总不可能每次都要调用传输层协议去打包，然后再调用IP协议去找路由，所以我们要建立一个自动收发包，自动寻址的功能。于是会话层出现了：它的作用就是<strong>建立和管理应用程序之间的通信</strong>。</p>
+
+<ul>
+  <li><strong>表示层：</strong></li>
+</ul>
+
+<p>表示层负责数据格式的转换，将应用处理的信息转换为适合网络传输的格式，或者将来自下一层的数据转换为上层能处理的格式。</p>
+
+<ul>
+  <li><strong>应用层：</strong></li>
+</ul>
+
+<p>应用层是计算机用户，以及各种应用程序和网络之间的接口，其功能是直接向用户提供服务，完成用户希望在网络上完成的各种工作。</p>
+
+<h2 id="osi七层模型">OSI七层模型</h2>
+
+<p><a href="https://imgse.com/i/pi2FzKs"><img src="https://z1.ax1x.com/2023/12/08/pi2FzKs.png" alt="pi2FzKs.png"></a></p>
+
+<h2 id="tcpip4层模型5层模型和osi七层模型的差别">TCP/IP4层模型、5层模型和OSI七层模型的差别</h2>
+
+<p><a href="https://imgse.com/i/pi2FoDI"><img src="https://z1.ax1x.com/2023/12/08/pi2FoDI.png" alt="pi2FoDI.png"></a></p>
+
+<h2 id="三次握手和四次挥手">三次握手和四次挥手</h2>
+
+<p><a href="https://www.cnblogs.com/zzjdbk/p/13028290.html">https://www.cnblogs.com/zzjdbk/p/13028290.html</a></p>
+
+<p><strong>三次握手</strong></p>
+
+<ol>
+  <li>
+    <p>第一次握手：客户端给服务器发送一个 SYN 报文。</p>
+  </li>
+  <li>
+    <p>第二次握手：服务器收到 SYN 报文之后，会应答一个 SYN+ACK 报文。</p>
+  </li>
+  <li>
+    <p>第三次握手：客户端收到 SYN+ACK 报文之后，会回应一个 ACK 报文。</p>
+
+    <p><a href="https://imgse.com/i/pi2Aa6J"><img src="https://z1.ax1x.com/2023/12/08/pi2Aa6J.png" alt="pi2Aa6J.png"></a></p>
+  </li>
+</ol>
+
+<p><strong>四次挥手</strong></p>
+
+<ol>
+  <li>第一次挥手：客户端发送一个 FIN 报文，报文中会指定一个序列号。此时客户端处于FIN_WAIT1状态。</li>
+  <li>第二次握手：服务端收到 FIN 之后，会发送 ACK 报文，且把客户端的序列号值 + 1 作为 ACK 报文的序列号值，表明已经收到客户端的报文了，此时服务端处于 CLOSE_WAIT状态。</li>
+  <li>第三次挥手：如果服务端也想断开连接了，和客户端的第一次挥手一样，发给 FIN 报文，且指定一个序列号。此时服务端处于 LAST_ACK 的状态。</li>
+  <li>第四次挥手：客户端收到 FIN 之后，一样发送一个 ACK 报文作为应答，且把服务端的序列号值 + 1 作为自己 ACK 报文的序列号值，此时客户端处于 TIME_WAIT 状态。需要过一阵子以确保服务端收到自己的 ACK 报文之后才会进入 CLOSED 状态</li>
+  <li>服务端收到 ACK 报文之后，就处于关闭连接了，处于 CLOSED 状态。</li>
+</ol>
+
+<p><a href="https://imgse.com/i/pi2AYfU"><img src="https://z1.ax1x.com/2023/12/08/pi2AYfU.png" alt="pi2AYfU.png"></a></p>
+
+<h1 id="服务">服务</h1>
+
+<h2 id="keepalived的本质">Keepalived的本质</h2>
+
+<p>使用VRRP协议(虚拟路由器冗余协议)：通告：心跳，优先级等；周期性
+工作方式：</p>
+
+<ul>
+  <li>
+<strong>抢占式</strong>：一旦有优先级高的路由器加入，立即成为Master</li>
+  <li>
+<strong>非抢占式</strong>：只要Master不挂掉，优先级高的路由器只能等待</li>
+</ul>
+
+<p>vrrp协议的作用是提供了局域网上的设备备份机制。vrrp协议是一种容错协议，它保证当主机的下一跳路由器坏掉时，可以及时由另一台路由器来替代，从而保证通讯的连续性和可靠性</p>
+
+<p>Keepalived高可用软件两个核心功能：
+ 1.健康检测功能
+ 2.VRRP冗余功能</p>
+
+<p>Keepalived本质就是为ipvs服务的，它也不需要共享存储。IPVS其实就是一些规则，Keepalived主要的任务就是去调用ipvsadm命令，来生成规则，并自动实现将用户需要访问的地址转移到可用LVS节点实现。</p>
+
+<h2 id="nginx获取真实的客户端ip地址获取源ip">Nginx获取真实的客户端IP地址(<strong>获取源IP</strong>)</h2>
+
+<p><strong>方法一、通过 头部字段 传递 客户端Ip 到 上游服务器</strong></p>
+
+<p>在代理设置真实ip  到  X-Real-IP  头部字段，该字段不区分大小写,在 上游服务器日志中引用该变量即可</p>
+
+<p><code class="language-plaintext highlighter-rouge">proxy_set_header X-Real-IP $remote_addr;</code></p>
+
+<p>在游服务器日志中引用该字段变量,(注意引用变量时，要加$http_, 其次 ‘-‘ 变 ‘_’, 大小写忽略)</p>
+
+<p>​    <code class="language-plaintext highlighter-rouge">log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '</code></p>
+
+<p>​                      <code class="language-plaintext highlighter-rouge">'$status $body_bytes_sent "$http_referer" '</code></p>
+
+<p>​                      <code class="language-plaintext highlighter-rouge">'"$http_user_agent" "$http_X_Real_IP"';</code></p>
+
+<p>对于多级代理 X-Forwarded-For 字段可以包含 客户端地址和代理地址</p>
+
+<p><code class="language-plaintext highlighter-rouge">proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;</code></p>
+
+<p>​    <code class="language-plaintext highlighter-rouge">log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '</code></p>
+
+<p>​                      <code class="language-plaintext highlighter-rouge">'$status $body_bytes_sent "$http_referer" '</code></p>
+
+<p>​                      <code class="language-plaintext highlighter-rouge">'"$http_user_agent" "$http_x_forwarded_for"';</code></p>
+
+<p><strong>方法二、 ngx_http_realip_module  通过模块获取客户端IP</strong></p>
+
+<p>nginx 通过<code class="language-plaintext highlighter-rouge">ngx_http_proxy_module</code>模块 实现反向代理；在nginx 启动服务load conf时， 就会读取<code class="language-plaintext highlighter-rouge">proxy_set_header</code> 的配置项；来获取需要的变量。<code class="language-plaintext highlighter-rouge">proxy_set_header</code> 是用来设置请求的header的； 比如：设置上面的<code class="language-plaintext highlighter-rouge">host X-Real-IP x-forwarded-for</code></p>
+
+<h2 id="elk如何进行日志切割">ELK如何进行日志切割</h2>
+
+<p><strong>方法一：Filebeat的dissect</strong></p>
+
+<p>优点：简单快捷，在简单应用场景中效率更高</p>
+
+<p>缺点：日志切割场景单一，功能单一</p>
+
+<p>实现：在配置文件中processors下面加上dissect 对日志进行切割</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">processors</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">dissect</span><span class="pi">:</span>
+      <span class="na">tokenizer</span><span class="pi">:</span> <span class="s2">"</span><span class="s">%{date}</span><span class="nv"> </span><span class="s">%{time}</span><span class="nv"> </span><span class="s">%{s-ip}</span><span class="nv"> </span><span class="s">%{cs-method}</span><span class="nv"> </span><span class="s">%{cs-uri-stem}</span><span class="nv"> </span><span class="s">%{cs-uri-query}</span><span class="nv"> </span><span class="s">%{s-port}</span><span class="nv"> </span><span class="s">%{cs-username}</span><span class="nv"> </span><span class="s">%{c-ip}</span><span class="nv"> </span><span class="s">%{cs(User-Agent)}</span><span class="nv"> </span><span class="s">%{cs(Referer)}</span><span class="nv"> </span><span class="s">%{sc-status}</span><span class="nv"> </span><span class="s">%{sc-substatus}</span><span class="nv"> </span><span class="s">%{sc-win32-status}</span><span class="nv"> </span><span class="s">%{time-taken}"</span>
+      <span class="na">field</span><span class="pi">:</span> <span class="s2">"</span><span class="s">message"</span>
+      <span class="na">target_prefix</span><span class="pi">:</span> <span class="s2">"</span><span class="s">fields"</span>
+</code></pre></div></div>
+
+<p><strong>方法二：Logstash的grok</strong></p>
+
+<p>优点：能灵活的切割各种日志，有很多功能加工日志</p>
+
+<p>缺点：配置难度较dissect高出不少</p>
+
+<p>实现：在Logstash配置文件中input和output之间的filter中进行配置</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filter</span> <span class="p">{</span>
+  <span class="n">grok</span> <span class="p">{</span>
+    <span class="n">match</span> <span class="o">=&gt;</span> <span class="p">[</span>
+         <span class="p">\</span><span class="s2">"message</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">%{TIMESTAMP</span><span class="se">\_</span><span class="s2">ISO8601:iis.access.time} </span><span class="se">\(</span><span class="s2">?:-|%{IPORHOST:destination.address}) </span><span class="se">\(</span><span class="s2">?:-|%{WORD:http.request.method}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.path}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.query}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:destination.port:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user.name}) </span><span class="se">\(</span><span class="s2">?:-|%{IPORHOST:source.address}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user</span><span class="se">\_</span><span class="s2">agent.original}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:http.request.referrer}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:http.response.status</span><span class="se">\_</span><span class="s2">code:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.sub</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.win32</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:temp.duration:long})</span><span class="se">\"</span><span class="s2">,
+         </span><span class="se">\"</span><span class="s2">message</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">%{TIMESTAMP</span><span class="se">\_</span><span class="s2">ISO8601:iis.access.time} </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:iis.access.site</span><span class="se">\_</span><span class="s2">name}) </span><span class="se">\(</span><span class="s2">?:-|%{WORD:http.request.method}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.path}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.query}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:destination.port:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user.name}) </span><span class="se">\(</span><span class="s2">?:-|%{IPORHOST:source.address}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user</span><span class="se">\_</span><span class="s2">agent.original}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:iis.access.cookie}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:http.request.referrer}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:destination.domain}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:http.response.status</span><span class="se">\_</span><span class="s2">code:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.sub</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.win32</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:http.response.body.bytes:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:http.request.body.bytes:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:temp.duration:long})</span><span class="se">\"</span><span class="s2">,
+         </span><span class="se">\"</span><span class="s2">message</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">%{TIMESTAMP</span><span class="se">\_</span><span class="s2">ISO8601:iis.access.time} </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:iis.access.site</span><span class="se">\_</span><span class="s2">name}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:iis.access.server</span><span class="se">\_</span><span class="s2">name}) </span><span class="se">\(</span><span class="s2">?:-|%{IPORHOST:destination.address}) </span><span class="se">\(</span><span class="s2">?:-|%{WORD:http.request.method}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.path}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.query}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:destination.port:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user.name}) </span><span class="se">\(</span><span class="s2">?:-|%{IPORHOST:source.address}) </span><span class="se">\(</span><span class="s2">?:-|HTTP/%{NUMBER:http.version}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user</span><span class="se">\_</span><span class="s2">agent.original}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:iis.access.cookie}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:http.request.referrer}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:destination.domain}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:http.response.status</span><span class="se">\_</span><span class="s2">code:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.sub</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.win32</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:http.response.body.bytes:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:http.request.body.bytes:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:temp.duration:long})</span><span class="se">\"</span><span class="s2">,
+         </span><span class="se">\"</span><span class="s2">message</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">%{TIMESTAMP</span><span class="se">\_</span><span class="s2">ISO8601:iis.access.time} </span><span class="se">\\</span><span class="s2">[%{IPORHOST:destination.address}</span><span class="se">\]\\</span><span class="s2">(http://%{IPORHOST:destination.address}</span><span class="se">\)</span><span class="s2"> </span><span class="se">\(</span><span class="s2">?:-|%{WORD:http.request.method}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.path}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.query}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:destination.port:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user.name}) </span><span class="se">\\</span><span class="s2">[%{IPORHOST:source.address}</span><span class="se">\]\\</span><span class="s2">(http://%{IPORHOST:source.address}</span><span class="se">\)</span><span class="s2"> </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user</span><span class="se">\_</span><span class="s2">agent.original}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:http.response.status</span><span class="se">\_</span><span class="s2">code:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.sub</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.win32</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:temp.duration:long})</span><span class="se">\"</span><span class="s2">,
+         </span><span class="se">\"</span><span class="s2">message</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">%{TIMESTAMP</span><span class="se">\_</span><span class="s2">ISO8601:iis.access.time} </span><span class="se">\(</span><span class="s2">?:-|%{IPORHOST:destination.address}) </span><span class="se">\(</span><span class="s2">?:-|%{WORD:http.request.method}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.path}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:url.query}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:destination.port:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user.name}) </span><span class="se">\(</span><span class="s2">?:-|%{IPORHOST:source.address}) </span><span class="se">\(</span><span class="s2">?:-|%{NOTSPACE:user</span><span class="se">\_</span><span class="s2">agent.original}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:http.response.status</span><span class="se">\_</span><span class="s2">code:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.sub</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:iis.access.win32</span><span class="se">\_</span><span class="s2">status:long}) </span><span class="se">\(</span><span class="s2">?:-|%{NUMBER:temp.duration:long})</span><span class="se">\"</span><span class="s2">
+    ]
+    tag_on_failure =&gt; ["</span><span class="n">fail_in_message</span><span class="s2">"]
+  }
+}
+</span></code></pre></div></div>
+
+<h1 id="cicd">CICD</h1>
+
+<h2 id="cicd的几种发布方式">CI/CD的几种发布方式</h2>
+
+<p><strong>蓝绿部署（Blue-Green Deployment）：</strong></p>
+
+<ul>
+  <li>
+    <p>在蓝绿部署中，有两套完全相同的生产环境，分别称为蓝环境和绿环境。在任何时刻，只有一套环境在向用户提供服务，而另一套环境则处于闲置状态。当新版本准备好发布时，流量被切换到处于闲置状态的环境，从而实现零停机时间的部署。</p>
+
+    <p><strong>特点</strong></p>
+
+    <ul>
+      <li>蓝绿部署的目的是减少发布时的中断时间、能够快速撤回发布</li>
+      <li>发布策略简单</li>
+      <li>用户无感知，平滑过渡</li>
+      <li>升级/回滚速度快</li>
+    </ul>
+
+    <p><strong>缺点</strong></p>
+
+    <ul>
+      <li>需要准备正常业务使用资源的两倍以上服务器，防止升级期间单组无法承载业务突发</li>
+      <li>短时间内浪费一定资源成本</li>
+      <li>基础设施无改动，增大升级稳定性</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>金丝雀部署/灰度发布（Canary Deployment）：</strong></p>
+
+<ul>
+  <li>
+    <p>金丝雀部署是一种逐步发布新版本的方式，它允许只向一小部分用户或流量引入新版本，以便在实际生产环境中进行测试。如果新版本没有引发问题，可以逐渐增加流量直至全部流量都使用新版本。</p>
+
+    <p><strong>特点</strong></p>
+
+    <ul>
+      <li>保证整体系统稳定性，在初始灰度的时候就可以发现、调整问题，影响范围可控</li>
+      <li>新功能逐步评估性能，稳定性和健康状况，如果出问题影响范围很小，相对用户体验也少</li>
+      <li>用户无感知，平滑过渡</li>
+    </ul>
+
+    <p><strong>缺点</strong></p>
+
+    <ul>
+      <li>自动化要求高</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>滚动部署（Rolling Deployment）：</strong></p>
+
+<ul>
+  <li>
+    <p>在滚动部署中，新版本逐步替换旧版本，通常是逐个节点或逐批节点地进行。这种方式可以确保系统的稳定性，因为在部署过程中，总是有一部分节点在提供服务。</p>
+
+    <p><strong>特点</strong></p>
+
+    <ul>
+      <li>用户无感知，平滑过渡</li>
+      <li>节约资源</li>
+    </ul>
+
+    <p><strong>缺点</strong></p>
+
+    <ul>
+      <li>部署时间慢，取决于每阶段更新时间</li>
+      <li>发布策略较复杂</li>
+      <li>无法确定OK的环境，不易回滚</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>增量部署（Incremental Deployment）：</strong></p>
+
+<ul>
+  <li>增量部署是一种将新功能逐步添加到生产环境中的方式。这种方式通常用于大型系统或对稳定性要求较高的系统，以确保新功能的逐步引入不会对整个系统造成过大的影响。</li>
+</ul>
+
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/2023/09/25/DeployKubernetesCluster" title="使用kubeadm部署Kubernetes集群">使用kubeadm部署Kubernetes集群</a><a class="next" href="/jekyll-theme-yat/2023/10/15/DeployPrometheusWithKubernetes" title="使用Prometheus监控Kubernetes集群">使用Prometheus监控Kubernetes集群</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li class="">
+          <a class="post-link" href="/jekyll-theme-yat/MySQL" title="MySQL基础">
+            MySQL基础<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/09/10/InstallRedis" title="源码安装redis">
+            源码安装redis<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2023/10/15/DeployPrometheusWithKubernetes" title="使用Prometheus监控Kubernetes集群">
+            使用Prometheus监控Kubernetes集群<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+<li class="">
+          <a class="post-link" href="/jekyll-theme-yat/2022/09/17/ExtensionCommand" title="扩展命令">
+            扩展命令<span class="post-badges">
+  <span class="post-badge badge-top">TOP</span>
+  <span class="post-badge badge-new">NEW</span>
+</span>
+</a>
+        </li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2022-2024 FatGuy101</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
