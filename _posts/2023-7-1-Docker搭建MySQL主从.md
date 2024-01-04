@@ -89,22 +89,27 @@ replicate-ignore-db=performance_schema
 
 ### 启动docker容器
 
+#### 创建Docker桥接网络
+~~~shell
+docker network create -d bridge mysql
+~~~
+
 #### 启动MySQL容器master
 
 ~~~shell
-docker run --name mysql-master -d -e MYSQL_ROOT_PASSWORD=123456 -v /mysql/master/data:/var/lib/mysql -v /mysql/master/conf/my.cnf:/etc/mysql/my.cnf mysql:5.7
+docker run --name mysql-master --network mysql -d -e MYSQL_ROOT_PASSWORD=123456 -v /mysql/master/data:/var/lib/mysql -v /mysql/master/conf/my.cnf:/etc/mysql/my.cnf mysql:5.7
 ~~~
 
 #### 启动MySQL容器slave1
 
 ~~~shell
-docker run --name mysql-slave1 -d -e MYSQL_ROOT_PASSWORD=123456 -v /mysql/slave1/data:/var/lib/mysql -v /mysql/slave1/conf/my.cnf:/etc/mysql/my.cnf mysql:5.7
+docker run --name mysql-slave1 --network mysql -d -e MYSQL_ROOT_PASSWORD=123456 -v /mysql/slave1/data:/var/lib/mysql -v /mysql/slave1/conf/my.cnf:/etc/mysql/my.cnf mysql:5.7
 ~~~
 
 #### 启动MySQL容器slave2
 
 ~~~shell
-docker run --name mysql-slave2 -d -e MYSQL_ROOT_PASSWORD=123456 -v /mysql/slave2/data:/var/lib/mysql -v /mysql/slave2/conf/my.cnf:/etc/mysql/my.cnf mysql:5.7
+docker run --name mysql-slave2 --network mysql -d -e MYSQL_ROOT_PASSWORD=123456 -v /mysql/slave2/data:/var/lib/mysql -v /mysql/slave2/conf/my.cnf:/etc/mysql/my.cnf mysql:5.7
 ~~~
 
 ### MySQL-master
@@ -162,7 +167,7 @@ mysql -uroot -p123456
 主从设置
 
 ~~~mysql
-change master to master_host='172.17.0.2',master_user='slave',master_password='123456',master_log_file='mysql-bin.000003',master_log_pos=590,master_port=3306;
+change master to master_host='mysql-master',master_user='slave',master_password='123456',master_log_file='mysql-bin.000003',master_log_pos=590,master_port=3306;
 ~~~
 
 ~~~mysql
@@ -192,7 +197,7 @@ mysql -uroot -p123456
 主从设置
 
 ~~~mysql
-change master to master_host='172.17.0.2',master_user='slave',master_password='123456',master_log_file='mysql-bin.000003',master_log_pos=590,master_port=3306;
+change master to master_host='mysql-master',master_user='slave',master_password='123456',master_log_file='mysql-bin.000003',master_log_pos=590,master_port=3306;
 ~~~
 
 ~~~mysql
